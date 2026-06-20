@@ -1,0 +1,70 @@
+/* Extraído de layouts/index.html (M3). Ordem da cascata preservada. */
+
+* {
+    box-sizing: border-box;
+}
+
+/* === Utilidades de acessibilidade (M1) === */
+
+/* Conteúdo só p/ leitor de tela: fora da tela, mas presente no fluxo de foco e no
+   a11y tree. Dá contexto a links cujo texto visível sozinho é ambíguo (datas de época,
+   "primeira/próxima") SEM reescrever o texto visível — mantém WCAG 2.5.3 (label-in-name):
+   o texto VISÍVEL continua contido no nome acessível. */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Skip-link: 1º elemento tabbável; salta pro #main. Fora da tela até receber foco
+   (NÃO display:none — senão sai do fluxo de foco e o Lighthouse não credita). */
+.skip-link {
+    position: absolute;
+    left: 0.5rem;
+    top: -3rem;
+    z-index: 100;
+    padding: 0.5rem 0.9rem;
+    background: var(--accent);
+    color: var(--background);
+    text-decoration: none;
+    border-radius: var(--radius);
+    transition: top 0.15s ease;
+}
+
+.skip-link:focus {
+    top: 0.5rem;
+}
+
+body {
+    margin: 0;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-body);
+    font-size: var(--font-size);
+    line-height: var(--line-height);
+}
+
+/* Tudo vive dentro de 1100px, centralizado. Padding horizontal zero
+       para que os blocos batam exatos nos 1100 (cada um traz seu próprio pad). */
+.container {
+    display: flex;
+    flex-direction: column;
+    max-width: var(--container-width);
+    min-height: 100vh;
+    margin: 0 auto;
+    gap: var(--gap-block);
+    /* respiro vertical entre os blocos */
+}
+
+/* header e footer = 100% da largura do container (1100px). */
+.site-header,
+.site-footer {
+    width: 100%;
+    padding: var(--pad);
+}

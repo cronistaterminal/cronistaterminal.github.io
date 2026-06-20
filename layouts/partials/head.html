@@ -1,0 +1,54 @@
+{{- /*
+  head.html — <head> do dablog.
+
+  CSS: bundle único, concatenado na ORDEM DA CASCATA documentada em
+  __layout/layouts/README.md. NÃO reordenar — há traps de especificidade
+  (ex.: .term-panel depois de .sidebar/.content; mobile.css por ÚLTIMO p/ as
+  @media sobrescreverem o desktop por ordem de fonte). A lista cresce conforme
+  os componentes chegam (layout/panels/posts/pagination/palette entram ANTES
+  de mobile.css). Concat -> minify -> fingerprint = um arquivo cache-busted.
+
+  JS: theme-init é INLINE e blocking (aplica tema+fonte de localStorage antes
+  do 1º paint p/ evitar flash; inline evita um round-trip blocking extra). O
+  resto (theme, mobile) vai no fim do <body> com defer.
+*/ -}}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} · {{ .Site.Title }}{{ end }}</title>
+{{ with .Site.Params.description }}<meta name="description" content="{{ . }}">{{ end }}
+
+{{- /* Favicons: PNGs com o wordmark "C.T" da fonte 3270 já queimado nos pixels.
+       Em static/ (paths absolutos estáveis) enquanto a 3270 não é web-served. */ -}}
+<link rel="icon" href="/logo/png/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/logo/png/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/logo/png/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/logo/png/favicon-180.png">
+
+{{- /* Modo CONVENCIONAL é o padrão -> preload das fontes críticas above-the-fold.
+       crossorigin é obrigatório p/ preload de fonte (fetch em modo CORS). */ -}}
+<link rel="preload" as="font" type="font/woff2" href="/fonts/ibm-plex-mono-400.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/space-mono-700.woff2" crossorigin>
+{{- /* Modo ACESSÍVEL (toggle Aa): prefetch idle aquece o cache p/ a troca ser instantânea. */ -}}
+<link rel="prefetch" as="font" type="font/woff2" href="/fonts/lexend-400.woff2" crossorigin>
+<link rel="prefetch" as="font" type="font/woff2" href="/fonts/comic-relief-700.woff2" crossorigin>
+
+{{- $order := slice
+  "css/fonts.css"
+  "css/tokens.css"
+  "css/themes.css"
+  "css/base.css"
+  "css/header.css"
+  "css/logo.css"
+  "css/mobile.css"
+-}}
+{{- $styles := slice -}}
+{{- range $order -}}
+  {{- with resources.Get . -}}{{ $styles = $styles | append . }}{{- end -}}
+{{- end -}}
+{{- $css := $styles | resources.Concat "css/bundle.css" | minify | fingerprint -}}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+
+{{- /* theme-init: BLOCKING e inline de propósito (anti-flash). */ -}}
+{{- with resources.Get "js/theme-init.js" -}}
+<script>{{ (. | minify).Content | safeJS }}</script>
+{{- end -}}

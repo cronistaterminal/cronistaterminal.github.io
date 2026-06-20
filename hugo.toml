@@ -1,3 +1,11 @@
+# baseURL fica como placeholder até o domínio sair (ver CLAUDE.md). Cloudflare
+# Pages fixa HUGO_VERSION na mesma versão do `hugo version` local.
 baseURL = 'https://example.org/'
-locale = 'en-us'
-title = 'My New Hugo Project'
+languageCode = 'pt-br'
+defaultContentLanguage = 'pt-br'
+title = 'dablog'
+
+# O blog é arquivo cronológico; sumários/listas vêm dos campos do front matter,
+# não do markdown bruto. Mantido enxuto por ora — cresce com os componentes.
+[params]
+  description = 'Crônicas de um terminal — histórias de computação, contadas por época.'

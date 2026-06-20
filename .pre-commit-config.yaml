@@ -1,10 +1,37 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
-    -   id: trailing-whitespace
-    -   id: end-of-file-fixer
-    -   id: check-yaml
-    -   id: check-added-large-files
+      # Hygiene — skip SVGs and minified assets where whitespace is significant.
+      - id: trailing-whitespace
+        exclude: '\.(svg|min\.(css|js))$'
+      - id: end-of-file-fixer
+        exclude: '\.(svg|min\.(css|js))$'
+      - id: mixed-line-ending
+        args: [--fix=lf]
+      - id: check-merge-conflict
+
+      # Config integrity — Hugo's config is TOML; data files may be YAML.
+      - id: check-toml
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+
+      # Safety nets.
+      - id: check-added-large-files
+        args: [--maxkb=2048]
+      - id: detect-private-key
+
+  # Hugo build gate — the high-value, Hugo-specific check.
+  # Compiles templates, SCSS (Extended pipeline) and front matter entirely in
+  # memory; a broken partial or an invalid hugo.toml fails the commit here,
+  # not in CI. --renderToMemory writes nothing to disk, so there is no cleanup.
+  - repo: local
+    hooks:
+      - id: hugo-build
+        name: hugo build (validate templates, config & SCSS)
+        entry: hugo --renderToMemory --gc --logLevel error
+        language: system
+        pass_filenames: false
+        files: '\.(html|toml|ya?ml|md|scss|css|js)$'

@@ -1,0 +1,136 @@
+/* === Logo (M2) ===
+   TV (6 faixas CRT) = SVG INLINE -> o CSS controla o fill de cada faixa, então ela
+   reage ao tema (var(--stripe-N)) e ao loading (anima esses mesmos tokens). O wordmark
+   "C.Term" (fonte 3270, não web-served) = PNG branco usado como CSS mask -> a cor vem do
+   background-color (foreground do tema), recolore sozinho. Layers SEPARADAS: a cor do
+   tema é o fill estático das faixas; a animação de loading é uma classe à parte que
+   sobrepõe o fill e some quando removida (não colidem). */
+
+.logo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    text-decoration: none;
+}
+
+/* TV: viewBox 17 5 100 100 (só a TV, sem o wordmark). Altura casa com o original (64px). */
+.logo-tv {
+    height: 64px;
+    width: auto;
+    display: block;
+    flex: none;
+}
+
+/* Cor de cada faixa = token do tema. DEFAULT = arco-íris; alto-contraste = cinzas.
+   Esta é a layer ESTÁTICA (cor do tema). */
+.logo-tv .stripe:nth-child(1) {
+    fill: var(--stripe-1);
+}
+
+.logo-tv .stripe:nth-child(2) {
+    fill: var(--stripe-2);
+}
+
+.logo-tv .stripe:nth-child(3) {
+    fill: var(--stripe-3);
+}
+
+.logo-tv .stripe:nth-child(4) {
+    fill: var(--stripe-4);
+}
+
+.logo-tv .stripe:nth-child(5) {
+    fill: var(--stripe-5);
+}
+
+.logo-tv .stripe:nth-child(6) {
+    fill: var(--stripe-6);
+}
+
+/* Wordmark: PNG branco -> mask; cor = foreground do tema (recolore). Aspect do PNG
+   aparado = 5.08:1; altura calibrada p/ casar com a TV. */
+.logo-wordmark {
+    height: 38px;
+    width: 193px;
+    /* 38 * 5.08 */
+    background-color: var(--foreground);
+    -webkit-mask: url(/logo/png/c-term-wordmark.png) left center / contain no-repeat;
+    mask: url(/logo/png/c-term-wordmark.png) left center / contain no-repeat;
+    flex: none;
+}
+
+/* === Ciclo de carregamento (layer TRANSITÓRIA) ===
+   .is-loading na TV: cada faixa cicla pelas 6 cores ATUAIS (var(--stripe-*) -> segue o
+   tema, arco-íris ou cinza). Offset por faixa faz o padrão "escorrer" de cima p/ baixo.
+   steps(1) = troca dura, sem fade (estética CRT/8-bit). */
+/* Keyframe em ordem DESCENDENTE (c1 -> c6 -> c5 ... -> c2 -> c1). Combinado com os
+   delays crescentes abaixo, dá: repouso = arco-íris c1..c6 E fluxo "de cima p/ baixo"
+   (cada faixa mostra o que a de cima mostrava um passo antes). Ver derivação no commit. */
+@keyframes stripe-cycle {
+    0% {
+        fill: var(--stripe-1);
+    }
+
+    16.667% {
+        fill: var(--stripe-6);
+    }
+
+    33.333% {
+        fill: var(--stripe-5);
+    }
+
+    50% {
+        fill: var(--stripe-4);
+    }
+
+    66.667% {
+        fill: var(--stripe-3);
+    }
+
+    83.333% {
+        fill: var(--stripe-2);
+    }
+
+    100% {
+        fill: var(--stripe-1);
+    }
+}
+
+.logo-tv.is-loading .stripe {
+    animation: stripe-cycle 1.2s steps(1) infinite;
+}
+
+/* Delays todos negativos (rodam desde t=0, sem hitch), crescentes de cima p/ baixo:
+   -1.2s (= 0, um ciclo inteiro) na faixa 1 até -0.2s na faixa 6. No t=0 cada faixa N
+   mostra a cor N (repouso = arco-íris); ao longo do tempo o padrão escorre p/ baixo. */
+.logo-tv.is-loading .stripe:nth-child(1) {
+    animation-delay: -1.2s;
+}
+
+.logo-tv.is-loading .stripe:nth-child(2) {
+    animation-delay: -1s;
+}
+
+.logo-tv.is-loading .stripe:nth-child(3) {
+    animation-delay: -0.8s;
+}
+
+.logo-tv.is-loading .stripe:nth-child(4) {
+    animation-delay: -0.6s;
+}
+
+.logo-tv.is-loading .stripe:nth-child(5) {
+    animation-delay: -0.4s;
+}
+
+.logo-tv.is-loading .stripe:nth-child(6) {
+    animation-delay: -0.2s;
+}
+
+/* prefers-reduced-motion: sem ciclo. O estado estático = o tema vigente (as faixas já
+   têm fill: var(--stripe-N) por padrão), então basta NÃO animar. */
+@media (prefers-reduced-motion: reduce) {
+    .logo-tv.is-loading .stripe {
+        animation: none;
+    }
+}

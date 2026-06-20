@@ -1,0 +1,70 @@
+/* Extraído de layouts/index.html (M3). Ordem da cascata preservada. */
+/* === Fontes self-hosted (woff2 em assets/fonts/) ===
+   Paths relativos ao protótipo em layouts/; na fase Hugo migram p/ static/.
+   font-display: swap -> texto visível na fonte fallback até a web font chegar.
+   Dois pares: CONVENCIONAL (IBM Plex Mono + Space Mono, padrão) e ACESSÍVEL
+   (Lexend + Comic Relief, via toggle Aa). Lexend/Comic são lazy (só baixam quando
+   o toggle as aplica), mas têm prefetch no <head> p/ a troca ser instantânea. */
+@font-face {
+    font-family: "IBM Plex Mono";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("/fonts/ibm-plex-mono-400.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "IBM Plex Mono";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url("/fonts/ibm-plex-mono-700.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Space Mono";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("/fonts/space-mono-400.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Space Mono";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url("/fonts/space-mono-700.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Lexend";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("/fonts/lexend-400.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Lexend";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url("/fonts/lexend-700.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Comic Relief";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("/fonts/comic-relief-400.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Comic Relief";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url("/fonts/comic-relief-700.woff2") format("woff2");
+}

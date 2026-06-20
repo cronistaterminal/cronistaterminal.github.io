@@ -1,0 +1,220 @@
+/* Extraído de layouts/index.html (M3). Ordem da cascata preservada. */
+
+/* Header: 2 colunas 50/50. Col 1 = logo. Col 2 = acessibilidade (topo, menor) + nav.
+   min-height reserva presença visual enquanto o logo não está definido. */
+.site-header {
+    display: flex;
+    min-height: 160px;
+    /* ajustável — só p/ o header não colapsar com pouco conteúdo */
+    padding: 0;
+    /* colunas preenchem largura E altura; o pad vai p/ dentro delas */
+}
+
+.header-logo {
+    flex: 1;
+    /* metade esquerda */
+    padding: var(--pad) var(--pad) var(--pad) 0;
+    /* sem inset à esquerda: a logo encosta na borda do container,
+       alinhada com a borda esquerda do painel #main abaixo (x=container) */
+    display: flex;
+    align-items: center;
+    /* logo centrado na altura da banda (160px) */
+}
+
+/* O logo (TV SVG inline + wordmark via mask) é estilizado em logo.css (M2). Aqui só a
+   coluna que o contém. O <img> PNG antigo foi removido na M2. */
+
+.header-right {
+    flex: 1;
+    /* metade direita */
+    display: flex;
+    flex-direction: column;
+    /* sem padding aqui: as linhas é que preenchem a coluna, cada uma com seu inset */
+}
+
+/* Linha superior: banda menor, controles de acessibilidade à direita. */
+.header-access {
+    display: flex;
+    flex-direction: column;
+    /* duas fileiras empilhadas: cores em cima, botão de fonte embaixo */
+    align-items: flex-end;
+    /* ambas as fileiras encostam à direita (flush, alinhado ao #sidebar) */
+    justify-content: flex-start;
+    /* ancora no topo: o grupo (2 fileiras) é mais alto que a banda; centrar
+       o colaria no topo do viewport. Top-align + padding restaura a distância. */
+    gap: 18px;
+    /* "pula uma linha" entre a fileira de cores e o botão de fonte */
+    min-height: 60px;
+    /* banda da acessibilidade (ajustável) */
+    padding-block-start: 21px;
+    /* mesma distância do topo de antes: (band 60 - swatch 18)/2 quando era 1 fileira */
+    padding-inline: var(--pad) 0;
+    /* sem inset à direita: os controles encostam na borda do container,
+       alinhados com a borda direita do painel #sidebar abaixo */
+    font-size: 0.8rem;
+}
+
+/* Swatches: caixas literais de cor (cores canônicas do logo). Sem moldura,
+   sem ação por enquanto — o que cada uma faz fica p/ "eventualmente aplicar". */
+.a11y-colors {
+    display: inline-flex;
+    gap: 6px;
+}
+
+/* Colapsado = quadrado 18px de cor pura (o nome fica em opacity 0, presente no
+   DOM p/ leitor de tela). Hover: a caixa expande até a largura do nome e o
+   texto aparece, com folga horizontal. --c = fundo, --tc = cor do texto (vem
+   do style inline; calibrada por-cor p/ legibilidade). */
+.swatch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 18px;
+    width: max-content;
+    /* "quer" a largura do nome... */
+    max-width: 18px;
+    /* ...mas colapsa em quadrado; a transição abre isto */
+    overflow: hidden;
+    background-color: var(--c);
+    color: var(--tc);
+    font-size: 11px;
+    line-height: 1;
+    white-space: nowrap;
+    padding-inline: 0;
+    cursor: default;
+    transition: max-width 0.22s ease, padding-inline 0.22s ease;
+}
+
+.swatch:hover {
+    max-width: 200px;
+    /* > qualquer nome; assenta na largura do conteúdo */
+    padding-inline: 8px;
+    /* folga esquerda/direita */
+}
+
+.swatch .name {
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.swatch:hover .name {
+    opacity: 1;
+}
+
+/* Radiogroup dos 2 swatches de TEMA (padrão | alto contraste): flex aninhado com o
+   MESMO gap do .a11y-colors -> a fileira lê como uma só, gap uniforme de 6px entre
+   todos os swatches (tema + decorativos), sem display:contents (que tem bugs de a11y). */
+.theme-swatches {
+    display: inline-flex;
+    gap: 6px;
+}
+
+/* Swatch de tema = <label> clicável (vs .swatch decorativo, cursor default). O radio
+   real (.theme-input) está escondido dentro; o label É o alvo visual/de clique. */
+.swatch-theme {
+    cursor: pointer;
+}
+
+/* Estado SELECIONADO (radio :checked): anel na cor do texto (foreground) marca qual
+   tema está ativo. box-shadow (não outline) p/ coexistir com o outline de foco abaixo. */
+.swatch-theme:has(.theme-input:checked) {
+    box-shadow: 0 0 0 2px var(--foreground);
+}
+
+/* Anel de FOCO só por teclado (:focus-visible), na cor accent + offset — distinto do
+   anel de selecionado. WCAG 2.4.7. Mesmo padrão do toggle Aa. */
+.swatch-theme:has(.theme-input:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Toggle de fonte "Aa": <label> com checkbox escondido + 2 spans de TEXTO
+   (sem imagem/SVG). Clicar (ou Space com foco) alterna convencional <-> acessível
+   na página inteira via #page:has(.aa-input:checked) (regra no fim do bloco). Zero JS.
+   - .aa-ab "Aa": sempre visível, na fonte ATUAL do corpo (--font-body) -> a própria
+     forma do glifo já é o feedback de estado (IBM Plex Mono <-> Lexend).
+   - .aa-hint "Trocar fonte": revelado no hover/foco, na fonte que VIRÁ após o
+     clique (preview do destino), mesma mecânica de expansão dos swatches. */
+.aa-toggle {
+    display: inline-flex;
+    align-items: baseline;
+    cursor: pointer;
+    color: var(--accent);
+    line-height: 1;
+}
+
+/* Input acessível mas invisível: 1px/opacity 0 mantém o foco por teclado
+   (melhor que display:none, que tiraria do tab order). Compartilhado entre o
+   checkbox do toggle Aa e os radios de tema (.theme-input). */
+.aa-input,
+.theme-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+    /* o clique vai pro label, que envolve o input */
+}
+
+/* "Aa" — controle primário da banda. var(--font-body) alterna sozinho com o modo
+   (IBM Plex Mono convencional -> Lexend acessível): mostra a fonte ATUAL do corpo. */
+.aa-ab {
+    font-family: var(--font-body);
+    font-size: 28px;
+    font-weight: 700;
+}
+
+/* "Trocar fonte" — escondido até hover/foco; expande à ESQUERDA do "Aa" (a banda é
+   flush à direita, então cresce p/ dentro). Renderizado na fonte de DESTINO (corpo do
+   modo p/ onde o clique leva): convencional -> mostra Lexend; acessível -> IBM Plex. */
+.aa-hint {
+    font-family: var(--font-lexend);
+    font-size: 15px;
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 0;
+    transition: max-width 0.22s ease, opacity 0.22s ease, margin-right 0.22s ease;
+}
+
+.aa-input:checked~.aa-hint {
+    font-family: var(--font-ibm);
+}
+
+.aa-toggle:hover .aa-hint,
+.aa-toggle:has(.aa-input:focus-visible) .aa-hint {
+    max-width: 16ch;
+    opacity: 1;
+    margin-right: 0.6ch;
+}
+
+/* Anel de foco SÓ no teclado (:focus-visible), não no clique de mouse: mantém o
+   foco visível p/ teclado (WCAG 2.4.7) sem borda grudada no clique de mouse. */
+.aa-toggle:has(.aa-input:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Modo acessível (toggle Aa): troca o PAR inteiro de uma vez — corpo IBM Plex Mono
+   -> Lexend e títulos Space Mono -> Comic Relief. A página toda muda (chrome, posts,
+   sidebar, footer), não só os posts: a11y vale p/ tudo. Os tokens estáveis
+   (--font-ibm/space/lexend/comic) não mudam -> o hint "Trocar fonte" segue mostrando
+   o destino certo. Só a logo (PNG) fica de fora. */
+/* Dois gatilhos p/ o modo acessível, setando a MESMA coisa (idempotentes):
+   - #page:has(.aa-input:checked): resposta instantânea ao clique (CSS-only, zero JS);
+   - :root[data-font="accessible"]: estado persistido, aplicado por theme-init.js ANTES
+     do render (sem flash de fonte). theme.js mantém os dois em sincronia. */
+#page:has(.aa-input:checked),
+:root[data-font="accessible"] {
+    --font-body: var(--font-lexend);
+    --font-head: var(--font-comic);
+}
+
+/* Linha inferior: ocupa o resto da coluna -> deixa a de cima menor. */
+.header-nav {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 0 var(--pad) var(--pad);
+    /* inset p/ quando tiver conteúdo */
+}

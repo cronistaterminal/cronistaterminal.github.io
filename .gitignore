@@ -4,8 +4,10 @@ __layout/
 
 # Estado local / sessão
 .claude/
+.serena/
 .remember/
 node_modules/
 public/
+.hugo_build.lock
 *.log
 session-report-*.html

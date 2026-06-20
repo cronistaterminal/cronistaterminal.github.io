@@ -1,0 +1,70 @@
+{{- /*
+  header.html — #header (componente). 2 colunas 50/50: logo | acessibilidade+nav.
+  - #logo          : partial próprio (logo.html).
+  - #accessibility : radiogroup dos 8 TEMAS (data-theme) + toggle Aa (fonte). Os
+                     swatches fosforo/alto-contraste são os únicos FIADOS hoje; os
+                     6 coloridos já têm CSS em themes.css. theme.js sincroniza +
+                     persiste. O toggle Aa troca o par de fontes (CSS-only via :has;
+                     theme.js só persiste).
+  - #nav           : vazio por hora.
+  - #menu-btn      : hambúrguer, só no mobile (mobile.css esconde no desktop).
+                     Controla o #sidebar quando ele existir (mobile.js no-op até lá).
+*/ -}}
+<header id="header" class="site-header">
+  {{ partial "logo.html" . }}
+
+  <div id="header-right" class="header-right">
+    <div id="accessibility" class="header-access">
+      <div class="a11y-colors">
+        <div class="theme-swatches" role="radiogroup" aria-label="Tema do site">
+          <label class="swatch swatch-theme" style="--c: #eec35e; --tc: #1a170f">
+            <input type="radio" class="theme-input" name="theme" value="default" checked>
+            <span class="name">[fosforo]</span>
+          </label>
+          <label class="swatch swatch-theme" style="--c: #ffffff; --tc: #0b0b0d">
+            <input type="radio" class="theme-input" name="theme" value="high-contrast">
+            <span class="name">[alto contraste]</span>
+          </label>
+          <label class="swatch swatch-theme" style="--c: #ff4b3e; --tc: #160a08">
+            <input type="radio" class="theme-input" name="theme" value="zuko">
+            <span class="name">[zuko]</span>
+          </label>
+          <label class="swatch swatch-theme" style="--c: #d24a9e; --tc: #120a14">
+            <input type="radio" class="theme-input" name="theme" value="jabuticaba">
+            <span class="name">[jabuticaba]</span>
+          </label>
+          <label class="swatch swatch-theme" style="--c: #b07bff; --tc: #140e1c">
+            <input type="radio" class="theme-input" name="theme" value="ametista">
+            <span class="name">[ametista]</span>
+          </label>
+          <label class="swatch swatch-theme" style="--c: #2b4cff; --tc: #ffffff">
+            <input type="radio" class="theme-input" name="theme" value="bsod">
+            <span class="name">[BSOD]</span>
+          </label>
+          <label class="swatch swatch-theme" style="--c: #8f84ec; --tc: #0a0a16">
+            <input type="radio" class="theme-input" name="theme" value="c64">
+            <span class="name">[C64]</span>
+          </label>
+          <label class="swatch swatch-theme" style="--c: #00ff41; --tc: #0d0208">
+            <input type="radio" class="theme-input" name="theme" value="hacker">
+            <span class="name">[hacker]</span>
+          </label>
+        </div>
+      </div>
+
+      <label class="aa-toggle" title="Trocar fonte de leitura">
+        <input type="checkbox" class="aa-input" aria-label="Trocar fontes: convencional / acessível">
+        <span class="aa-hint" aria-hidden="true">Trocar fonte</span>
+        <span class="aa-ab" aria-hidden="true">Aa</span>
+      </label>
+    </div>
+    <div id="nav" class="header-nav">
+      {{- /* vazio por hora */ -}}
+    </div>
+  </div>
+
+  <button type="button" id="menu-btn" class="menu-btn" aria-expanded="false" aria-controls="sidebar"
+    aria-label="Abrir menu">
+    <span class="menu-bars" aria-hidden="true"></span>
+  </button>
+</header>

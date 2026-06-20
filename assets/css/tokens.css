@@ -1,0 +1,111 @@
+/* Extraído de layouts/index.html (M3). Ordem da cascata preservada. */
+
+/* Tokens — espelham assets/sass/_colors.scss + docs/template/terminal-reference.md.
+       Standalone por enquanto: quando portar pro Hugo, viram o :root do head.html. */
+:root {
+    --background: #1a170f;
+    --foreground: #eceae5;
+    --accent: #eec35e;
+    /* MASTER do tema. Tudo abaixo deriva dele. */
+
+    /* Derivados do master (família --accent-*). Um tema futuro troca só o
+       master (e bg/fg) e estes recolorem juntos — por isso color-mix em
+       vez de hex fixo. OKLab mantém a matiz fiel ao misturar com o fundo
+       (sRGB passaria por tons lamacentos). % = quanto de accent sobra:
+       quanto menor, mais perto do fundo (mais quieto). */
+    --accent-dim: color-mix(in oklab, var(--accent) 70%, var(--background));
+    /* texto accent esmaecido (ex.: #1234) */
+    --accent-line: color-mix(in oklab, var(--accent) 45%, var(--background));
+    /* bordas/traços accent quietos (ex.: caixas de meta) */
+    --accent-mute: color-mix(in oklab, var(--accent) 35%, var(--background));
+    /* fundo chapado "morto" (ex.: chips de tag em repouso) */
+    --chip-text: color-mix(in oklab, var(--foreground) 82%, transparent);
+    /* texto dos chips (.tag/.page-chip) em repouso: apagado mas >= AA (4.5:1) sobre
+       --accent-mute. Era 72% inline (4.44:1 — reprovava por um fio no Lighthouse).
+       Token único: o tema alto-contraste sobrescreve a cor do chip num lugar só. */
+    --accent-dark: oklch(from var(--accent) calc(l * 0.6) c h);
+    /* versão DARK do master: derruba só a luminosidade (60%), preserva
+       matiz E croma -> ouro escuro vivo (não lamacento). Exceção proposital
+       à escada toward-bg acima: a régua decorativa quer croma, não mistura
+       com o fundo. Deriva do master -> recolore com o tema. */
+
+    --sidebar-bg: oklch(from var(--background) calc(l * 0.88) c h);
+    /* fundo da sidebar: levemente mais escuro que --background, MESMA técnica
+       do --accent-dark (derruba só a luminosidade, preserva matiz/croma ->
+       o marrom quente do tema permanece, não vira lama). Deriva de
+       --background -> trocar o tema reescurece junto. Sutil de propósito: a
+       separação do #main agora vem da BORDA própria + gap entre as colunas,
+       não do contraste de fundo. O 0.88 é o dial (menor = mais fundo). */
+
+    /* Faixas do logo (TV CRT), de cima p/ baixo (M2). A TV é SVG inline; cada faixa usa
+       fill: var(--stripe-N). No tema DEFAULT = arco-íris da identidade (atari/rosa/roxo/
+       azul/c64/hacker, ver logo-color-philosophy). Um tema sobrescreve estes 6 -> a TV
+       fica monocromática (ex.: alto-contraste = tons de cinza). O ciclo de loading anima
+       o fill por estes mesmos tokens, então segue o tema automaticamente. */
+    --stripe-1: #E5141E;
+    /* atari */
+    --stripe-2: #D60270;
+    /* rosa */
+    --stripe-3: #9B4F96;
+    /* roxo */
+    --stripe-4: #0038A8;
+    /* azul */
+    --stripe-5: #3E31A2;
+    /* c64 */
+    --stripe-6: #008F11;
+    /* hacker */
+
+    --font-size: 1rem;
+    --line-height: 1.54;
+
+    /* Famílias (família --font-*). Ver @font-face acima. DOIS MODOS, cada um com
+       seu par corpo+título; o toggle Aa (#page:has(.aa-input:checked)) alterna entre eles:
+         CONVENCIONAL (padrão): --font-body = IBM Plex Mono, --font-head = Space Mono
+         ACESSÍVEL    (toggle): --font-body = Lexend,        --font-head = Comic Relief
+       --font-body alimenta TUDO (chrome + corpo de texto); --font-head só os títulos.
+       Tokens estáveis (--font-ibm/space/lexend/comic) não mudam; só --font-body/head
+       alternam. O wordmark fica FORA disto (continua PNG da 3270). */
+    --font-ibm: "IBM Plex Mono", "Fira Code", monospace;
+    --font-space: "Space Mono", "IBM Plex Mono", monospace;
+    --font-lexend: "Lexend", system-ui, sans-serif;
+    --font-comic: "Comic Relief", "Comic Sans MS", cursive;
+    --font-body: var(--font-ibm);
+    --font-head: var(--font-space);
+
+    --radius: 0;
+
+    --content-width: 864px;
+    /* largura de leitura do main, herdada do tema */
+    --sidebar-width: 240px;
+    --meta-width: 8.5rem;
+    /* largura fixa da coluna de data/época -> datas normalizadas, títulos
+       alinhados na vertical. Calibrada p/ o mês mais largo ("Fevereiro"). */
+    --pad: 40px;
+    --container-width: 1100px;
+
+    /* gaps nomeados (família --gap-*) */
+    --gap-block: 40px;
+    /* vertical entre header / body / footer */
+    --gap-footer: calc(var(--line-height) * 0.1rem);
+    /* entre ícones · copyright no footer */
+    --gap-social: 14px;
+    /* entre os ícones sociais */
+    --gap-list: 2.6rem;
+    /* entre os itens da listagem de posts (cada lado da hairline) */
+    --gap-columns: 2rem;
+    /* respiro horizontal entre os 2 painéis do miolo (#main | #sidebar) —
+       largo o bastante pra lerem como componentes distintos. Dial. */
+    --gap-sidebar: 1.4rem;
+    /* respiro vertical entre os blocos da sidebar (busca / nav / tags /
+       posts). Menor que --gap-block: são widgets de UM painel, não regiões. */
+    --sidebar-pad: 1.5rem;
+    /* inset próprio da sidebar (24px), MENOR que --pad (40px): o painel só tem
+       240px de largura, herdar o inset dos painéis largos espremia o conteúdo.
+       Dial — sobe pra 40px se quiser o respiro dos outros painéis. */
+    --sidebar-sticky-top: 1.5rem;
+    /* a que distância do topo da viewport a sidebar "gruda" ao virar sticky.
+       Folga p/ não colar na borda. Dial — 0 = flush no topo. */
+
+    /* painel TUI (footer + #main): recuo do label que corta a borda superior */
+    --panel-label-inset: 1.5rem;
+}

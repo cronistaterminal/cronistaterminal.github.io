@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode | default "pt-br" }}">
+
+<head>
+  {{ partial "head.html" . }}
+</head>
+
+<body>
+  {{- /* Skip-link: 1º foco tabbável, salta a navegação e leva ao conteúdo (#main). */ -}}
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
+  <div id="page" class="container">
+    {{ partial "header.html" . }}
+    {{ block "main" . }}{{ end }}
+  </div>
+
+  {{- /* JS deferred: roda após o parse, em ordem. theme.js sincroniza os controles de
+         tema/fonte (no header) com o estado já aplicado; mobile.js liga o hambúrguer.
+         O prompt vivo e a palette entram com seus componentes (main/footer/sidebar). */ -}}
+  {{- $js := slice (resources.Get "js/theme.js") (resources.Get "js/mobile.js")
+        | resources.Concat "js/bundle.js" | minify | fingerprint -}}
+  <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+</body>
+
+</html>

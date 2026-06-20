@@ -1,0 +1,424 @@
+/* === Mobile (M4) ===
+   Primeira camada responsiva. Header + sidebar combinam num bar sticky no topo; o logo
+   vira o ícone TV+CT (encolhe no scroll); a sidebar vira menu colapsável (hambúrguer).
+   Linkado por ÚLTIMO p/ as regras @media sobrescreverem o desktop por ordem de fonte. */
+
+/* Padrão (desktop): ícone mobile e botão de menu escondidos. O @media os revela. */
+.logo-icon {
+    display: none;
+}
+
+.menu-btn {
+    display: none;
+}
+
+/* Botão de menu (hambúrguer): 3 barras via ::before/conteúdo. Cor = accent do tema. */
+.menu-btn {
+    box-sizing: border-box;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--accent);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+}
+
+.menu-bars,
+.menu-bars::before,
+.menu-bars::after {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: currentColor;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.menu-bars {
+    position: relative;
+}
+
+.menu-bars::before,
+.menu-bars::after {
+    content: "";
+    position: absolute;
+    left: 0;
+}
+
+.menu-bars::before {
+    top: -7px;
+}
+
+.menu-bars::after {
+    top: 7px;
+}
+
+/* Aberto: vira um "X". aria-expanded no botão é o estado canônico (mobile.js). */
+#menu-btn[aria-expanded="true"] .menu-bars {
+    background: transparent;
+}
+
+#menu-btn[aria-expanded="true"] .menu-bars::before {
+    top: 0;
+    transform: rotate(45deg);
+}
+
+#menu-btn[aria-expanded="true"] .menu-bars::after {
+    top: 0;
+    transform: rotate(-45deg);
+}
+
+.menu-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+
+    /* === Bar sticky: header + sidebar combinados === */
+    .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.6rem;
+        min-height: 64px;
+        /* --bar-h: altura fixa; o dropdown ancora aqui */
+        padding: 0.5rem 1rem;
+        background: var(--background);
+        border-bottom: 1px solid var(--accent);
+    }
+
+    /* Logo: só o ícone (TV+CT), encolhe no scroll (regra @supports abaixo). */
+    .logo-tv,
+    .logo-wordmark {
+        display: none;
+    }
+
+    .logo-icon {
+        display: block;
+        height: 48px;
+        width: auto;
+    }
+
+    .header-logo {
+        flex: 0 0 auto;
+        padding: 0;
+        min-height: 0;
+    }
+
+    /* Cor das faixas e do "C.T" = tema (recolore no alto-contraste, igual ao TV). */
+    .logo-icon .stripe:nth-child(1) {
+        fill: var(--stripe-1);
+    }
+
+    .logo-icon .stripe:nth-child(2) {
+        fill: var(--stripe-2);
+    }
+
+    .logo-icon .stripe:nth-child(3) {
+        fill: var(--stripe-3);
+    }
+
+    .logo-icon .stripe:nth-child(4) {
+        fill: var(--stripe-4);
+    }
+
+    .logo-icon .stripe:nth-child(5) {
+        fill: var(--stripe-5);
+    }
+
+    .logo-icon .stripe:nth-child(6) {
+        fill: var(--stripe-6);
+    }
+
+    .logo-icon-text {
+        fill: var(--foreground);
+        stroke: var(--foreground);
+    }
+
+    /* Controles de a11y compactos: esconde os 6 swatches decorativos; mantém os 2 de
+       tema + o toggle Aa. Fileira horizontal, encostada à direita antes do hambúrguer. */
+    .header-right {
+        flex: 1 1 auto;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.9rem;
+    }
+
+    .header-access {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+        min-height: 0;
+        padding: 0;
+        gap: 0.9rem;
+    }
+
+    .a11y-colors .swatch:not(.swatch-theme) {
+        display: none;
+    }
+
+    /* Tap targets >= 24x24 (WCAG 2.5.8): no touch não há hover, então o quadrado base
+       precisa ser tocável. Os swatches de tema sobem de 18 -> 24px; o name segue
+       escondido (overflow), revelado só no hover (desktop). */
+    .swatch-theme {
+        height: 24px;
+        min-width: 24px;
+        max-width: 24px;
+    }
+
+    .aa-toggle {
+        min-height: 24px;
+        align-items: center;
+    }
+
+    .aa-ab {
+        font-size: 22px;
+    }
+
+    /* Trava o scroll do body com o menu aberto (o #sidebar tem scroll próprio). */
+    body.menu-locked {
+        overflow: hidden;
+    }
+
+    .header-nav {
+        display: none;
+    }
+
+    .menu-btn {
+        display: inline-flex;
+    }
+
+    /* === Miolo: empilha === */
+    /* display: block (não flex): no Blink (Chrome), um flex container IRMÃO do header
+       `position: sticky` desestabiliza a COMPOSIÇÃO do sticky durante o fling — a barra
+       inteira "some pela metade" enquanto rola (geometria correta o tempo todo, top:0;
+       glitch só de paint, por isso invisível ao getBoundingClientRect). Diagnosticado no
+       Pixel 7; Firefox/Safari não exibem. No mobile a sidebar vira menu (display:none),
+       então só o .content fica no .body — flex aqui é supérfluo. O desktop mantém o flex
+       de 2 colunas (e lá o header é estático, não sticky, então o bug não ocorre). */
+    .body {
+        display: block;
+    }
+
+    .content {
+        max-width: none;
+    }
+
+    /* painéis com menos respiro lateral em telas estreitas */
+    .content,
+    .site-footer {
+        padding: 1.25rem;
+    }
+
+    /* === Sidebar = menu colapsável (dropdown sob a bar) === */
+    /* Fechado: fora do fluxo. id (1,0,0) bate o .sidebar.term-panel (0,2,0). */
+    #sidebar {
+        display: none;
+    }
+
+    /* Aberto (mobile.js seta #page.menu-open): dropdown full-width sob a bar de 64px.
+       display: FLEX (não block): mantém o flex-direction:column + gap da .sidebar —
+       com `block` o gap entre seções some e tudo gruda. gap aumentado p/ mais ar
+       entre os conjuntos (buscar · páginas · destaques · últimos posts). */
+    #page.menu-open #sidebar {
+        display: flex;
+        gap: 2.25rem;
+        position: fixed;
+        top: 64px;
+        left: 0;
+        right: 0;
+        width: auto;
+        max-height: calc(100dvh - 64px);
+        overflow-y: auto;
+        z-index: 49;
+        border: 0;
+        border-bottom: 1px solid var(--accent);
+        border-radius: 0;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    /* O label flutuante "$ cat…" é position:absolute encavalando a borda superior
+       do painel — no dropdown não há borda p/ ele assentar e ele some atrás do
+       header (z-index). Escondido só na sidebar (o do footer permanece). */
+    #sidebar .term-label {
+        display: none;
+    }
+
+    /* Destaques + últimos posts: no mobile o painel é full-width, então os
+       tamanhos calibrados p/ o desktop (240px) ficam miúdos. Sobem. */
+    #sidebar .sidebar-heading {
+        font-size: 0.95rem;
+    }
+
+    #sidebar .sidebar-tags,
+    #sidebar .sidebar-tags-all {
+        font-size: 1rem;
+    }
+
+    #sidebar .sidebar-post {
+        font-size: 1.05rem;
+    }
+
+    /* Backdrop sutil atrás do menu (clicável p/ fechar — mobile.js). */
+    #page.menu-open::after {
+        content: "";
+        position: fixed;
+        inset: 64px 0 0 0;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 48;
+    }
+
+    /* === Listagem: card de post reorganizado p/ mobile === */
+    /* Desktop: meta (data | época) é COLUNA à esquerda do conteúdo. Mobile: vira
+       um STACK vertical — [data | época] no topo, tags, título, excerpt, ações.
+       O .post-row é "achatado" via display:contents → meta e content sobem pra
+       irmãos diretos das tags no flex do .post; aí order:-1 sobe a meta pro topo.
+       Sem mexer no DOM (desktop intacto). */
+    .post-row {
+        display: contents;
+    }
+
+    .post-meta {
+        order: -1;
+        /* RESET do eixo: no desktop flex-basis (--meta-width) era LARGURA da coluna;
+           num .post agora-coluna o basis vira ALTURA — anula com auto. */
+        flex: 0 0 auto;
+        /* duas caixas lado a lado: data (cresce) | época (encolhe ao conteúdo) */
+        flex-direction: row;
+        align-items: stretch;
+        gap: 0.6rem;
+    }
+
+    /* Bordas das caixas no accent CHEIO (#eec35e) e um pouco mais grossas —
+       é o amarelo vivo do rascunho. (Desktop usa 1px --accent-line, mais quieto.) */
+    .post-date,
+    .post-era {
+        border: 2px solid var(--accent);
+    }
+
+    /* Data por extenso e horizontal ("18 de Julho de 1991"). A régua accent
+       MIGRA daqui pro título (regra mais abaixo), então some da data. */
+    .post-date::before {
+        display: none;
+    }
+
+    .post-date {
+        /* tamanho FIXO (uniforme entre posts). flex + justify p/ o <a> esticar à
+           altura cheia e centrar na largura fixa (o align-items:stretch da meta só
+           estica a .post-date; o <a> neto precisa deste flex próprio). */
+        flex: 0 0 auto;
+        width: 13rem;
+        height: 3.5rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    .post-date-link {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        /* gap 0: o espaçamento da data vem dos nbsp ao redor do "·" (regra abaixo) */
+        gap: 0;
+        color: var(--foreground);
+    }
+
+    /* Tamanho uniforme (o empilhado usava 1.6/1.1rem); só o dia mantém leve peso. */
+    .post-day,
+    .post-month,
+    .post-year {
+        font-size: 1rem;
+        font-weight: 400;
+    }
+
+    .post-day {
+        font-weight: 600;
+    }
+
+    /* Separador = ponto médio (U+00B7) com nbsp dos dois lados (não colapsa
+       entre os flex items). Resultado: "18 · Mar · 2018". */
+    .post-month::before,
+    .post-year::before {
+        content: "\00A0·\00A0";
+        font-size: 1rem;
+    }
+
+    /* Mês: esconde o nome cheio (font-size 0 — segue no DOM p/ leitor de tela e
+       no desktop) e mostra a abreviação de 3 letras do data-mon. */
+    .post-month {
+        font-size: 0;
+    }
+
+    .post-month::after {
+        content: attr(data-mon);
+        font-size: 1rem;
+        font-weight: 400;
+    }
+
+    /* Época: centrada vertical p/ casar com a altura da caixa de data; mesmo
+       respiro interno e texto branco. */
+    .post-era {
+        flex: 0 0 auto;
+        width: 7.5rem;
+        height: 3.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--foreground);
+    }
+
+    /* Régua accent agora acompanha o TÍTULO (não a data). Mesmo peso (5px) e
+       cor --bar (alterna por post, herdada do .post). */
+    .post-title {
+        border-left: 5px solid var(--bar);
+        padding-left: 0.85rem;
+    }
+
+    /* === Paginação: [«][2][3][4][>] numa linha + [buscar] embaixo === */
+    /* A ordem do DOM (« 2 3 4 > buscar) já dá as linhas certas: os 5 primeiros
+       cabem numa linha e o buscar é empurrado p/ a própria (flex-basis:100%). */
+
+    /* Botões um pouco maiores — alvo de toque ~44px (WCAG 2.5.5). */
+    .page-chip {
+        min-width: 2.75rem;
+        min-height: 2.75rem;
+        padding: 0.5rem 0.9rem;
+        font-size: 1rem;
+    }
+
+    .page-list {
+        gap: 0.6rem;
+    }
+
+    /* « primeira / próxima > perdem o RÓTULO (só o glifo): font-size:0 colapsa o
+       texto nu, mas ele segue no DOM — o leitor de tela ainda lê "primeira
+       página" / "Próxima página". O glifo (span aria-hidden) é restaurado. */
+    .page-list li:first-child .page-chip,
+    .page-chip[rel="next"] {
+        font-size: 0;
+    }
+
+    .page-list li:first-child .page-chip [aria-hidden="true"],
+    .page-chip[rel="next"] [aria-hidden="true"] {
+        font-size: 1.15rem;
+    }
+
+    /* "buscar" na própria linha, centralizado sob os números. */
+    .page-list li:last-child {
+        flex-basis: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+/* Logo mobile: tamanho fixo (48px, na regra .logo-icon acima). Não encolhe no scroll —
+   houve um scroll-shrink (animation-timeline: scroll()), removido por decisão de design:
+   animar só o logo, sem o resto do header acompanhar, ficava solto. Ícone fixo é uniforme
+   em todos os engines (Firefox/Safari iOS nem rodavam a scroll-animation) e zero JS. */

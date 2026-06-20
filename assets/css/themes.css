@@ -1,0 +1,147 @@
+/* === Temas (M1) ===
+   Um tema = override do MASTER (--background/--foreground/--accent) + dos derivados que
+   o color-mix/oklch toward-preto degradaria. data-theme mora no <html>, setado por
+   theme-init.js ANTES do render (sem flash). O seletor :root[data-theme=…] tem
+   especificidade (0,2,0), bate o :root (0,1,0) sem depender de ordem de fonte.
+
+   8 temas nomeados (decisão do Nilton, 2026-06-20). FIADOS hoje: `default`/fosforo
+   (amarelo âmbar, o :root base, sem atributo) e `high-contrast`/alto contraste (branco,
+   abaixo). PENDENTES (validar docs/themes/swatches.svg antes de fiar o CSS): zuko
+   (vermelho), jabuticaba (magenta), ametista (violeta), BSOD (azul Windows), C64 (azul
+   Commodore), hacker (verde Matrix). Cada tema novo = só o trio MASTER; os derivados caem
+   junto (ver tokens.css). Valores propostos + contraste: tools/theme-swatches.py. */
+
+/* Alto-contraste: fundo quase-preto, texto quase-branco, accent BRANCO.
+   Todos os pares de texto >= 7:1 (AAA). color-scheme: dark alinha scrollbars/controles
+   nativos ao fundo escuro. */
+:root[data-theme="high-contrast"] {
+    color-scheme: dark;
+    --background: #0a0a0b;
+    --foreground: #f4f4f5;
+    --accent: #ffffff;
+
+    /* Derivados FIXADOS (não derivar do master aqui): color-mix(accent branco, bg
+       quase-preto) cairia pra cinzas de baixo contraste — sobretudo o chip. */
+    --accent-dim: #e6e6e9;
+    /* post-num/datas dim: ~16:1 sobre o bg */
+    --accent-line: #8a8a91;
+    /* traços/bordas finas: componente de UI, alvo >=3:1 */
+    --accent-mute: #26262a;
+    /* fundo chapado dos chips (.tag/.page-chip em repouso) */
+    --chip-text: #f4f4f5;
+    /* texto do chip: ~12:1 sobre --accent-mute (era o ponto fraco do mix) */
+    --accent-dark: #cfcfd4;
+    /* régua de data (decorativa) */
+    --sidebar-bg: #050506;
+    /* sidebar um tom mais escura que o bg; painéis se separam pela borda */
+
+    /* As 6 faixas da TV não são fixadas aqui: viram um degradé na cor do accent pela
+       regra única :root[data-theme] (seção "Logo monocromático" no fim do arquivo).
+       Como o accent do alto-contraste é branco (croma ~0), o degradé cai em cinzas. */
+}
+
+/* === 6 temas coloridos (2026-06-20) ===
+   Ao contrário do alto-contraste, estes só sobrescrevem o trio MASTER — bg/fg/accent. Os
+   derivados (--accent-dim/line/mute/dark, --chip-text, --sidebar-bg) recalculam pelas
+   fórmulas do tokens.css (color-mix/oklch em var(--accent)/var(--background)), porque a
+   substituição de var() relê o accent vencedor neste seletor. Contraste de cada um
+   validado no swatch-sheet (tools/theme-swatches.py -> docs/themes/swatches.svg): fg/bg
+   AAA em todos; accent/bg AA-AAA. color-scheme: dark alinha scrollbars/controles nativos.
+   A TV do logo vira monocromática na cor do accent (seção "Logo monocromático" no fim do
+   arquivo) — uma regra única cobre todos os temas não-default, este incluso. */
+
+/* zuko — vermelho Nação do Fogo (Avatar). bg carvão quente, fg off-white morno. */
+:root[data-theme="zuko"] {
+    color-scheme: dark;
+    --background: #160a08;
+    --foreground: #f5e3da;
+    --accent: #ff4b3e;
+}
+
+/* jabuticaba — magenta da casca da fruta sobre roxo-quase-preto, fg off-white frio. */
+:root[data-theme="jabuticaba"] {
+    color-scheme: dark;
+    --background: #120a14;
+    --foreground: #f0e9ee;
+    --accent: #d24a9e;
+}
+
+/* ametista — violeta (Steven Universe). bg violeta-escuro, fg lilás-branco. */
+:root[data-theme="ametista"] {
+    color-scheme: dark;
+    --background: #140e1c;
+    --foreground: #ece6f5;
+    --accent: #b07bff;
+}
+
+/* BSOD — blue screen (Windows 9x). Único com FUNDO azul (#0000aa, a piada toda), texto
+   branco (13:1). accent azul-pálido ~= fg -> entra na regra de underline abaixo (1.4.1). */
+:root[data-theme="bsod"] {
+    color-scheme: dark;
+    --background: #0000aa;
+    --foreground: #ffffff;
+    --accent: #aecbff;
+}
+
+/* C64 — azul Commodore 64. fundo escuro + accent azul-lavanda. O azul autêntico (#7c70da)
+   dava ~2.3:1 (VIC-II era p/ CRT); clareado p/ #8f84ec (AA). */
+:root[data-theme="c64"] {
+    color-scheme: dark;
+    --background: #0a0a16;
+    --foreground: #e6e3f5;
+    --accent: #8f84ec;
+}
+
+/* hacker — verde Matrix (digital rain). fg verde-pálido legível, accent verde-código vivo.
+   accent verde ~= fg verde (mesma matiz) -> entra na regra de underline abaixo (1.4.1). */
+:root[data-theme="hacker"] {
+    color-scheme: dark;
+    --background: #0d0208;
+    --foreground: #bff5c8;
+    --accent: #00ff41;
+}
+
+/* === Logo monocromático por tema (2026-06-20) ===
+   Em QUALQUER tema não-default, as 6 faixas arco-íris da TV viram um degradé monocromático
+   na COR-ASSINATURA do tema (var(--accent)). O seletor :root[data-theme] casa só os 7 temas
+   nomeados — o `default` nunca seta o atributo (theme-init.js), então mantém o arco-íris.
+
+   Técnica = a mesma do --accent-dark/--sidebar-bg em tokens.css: oklch(from accent <L> c h)
+   FIXA a luminosidade e PRESERVA matiz+croma -> 6 tons do accent, claro->escuro de cima p/
+   baixo (imita a iluminação do CRT colorido). A rampa de L espelha os cinzas antes fixados
+   no alto-contraste; lá o accent é branco (croma ~0), então cai em cinzas de graça.
+
+   As faixas só lêem var(--accent), que cada bloco de tema acima já resolveu -> recoloração
+   automática por tema, zero duplicação. O ciclo de loading (theme.js) anima por estes
+   mesmos tokens, então segue o tema. Sem override = sem competição de cascata: nenhum bloco
+   de tema seta --stripe-N, só esta regra. */
+:root[data-theme] {
+    --stripe-1: oklch(from var(--accent) 0.96 c h);
+    --stripe-2: oklch(from var(--accent) 0.82 c h);
+    --stripe-3: oklch(from var(--accent) 0.67 c h);
+    --stripe-4: oklch(from var(--accent) 0.52 c h);
+    --stripe-5: oklch(from var(--accent) 0.40 c h);
+    --stripe-6: oklch(from var(--accent) 0.29 c h);
+}
+
+/* WCAG 1.4.1 (uso de cor): quando o accent ≈ foreground (luminância E matiz), a COR sozinha
+   não distingue mais um link do texto ao redor. Vale pro alto-contraste (branco≈branco), o
+   hacker (verde≈verde) e o BSOD (azul-pálido≈branco): links de conteúdo ganham underline
+   (distinção não-cromática). Chips (.tag/.page-chip) e swatches se distinguem pelo fundo
+   chapado, ficam de fora. */
+:root:is([data-theme="high-contrast"], [data-theme="hacker"], [data-theme="bsod"]) :is(.post-headline,
+    .post-num,
+    .post-read,
+    .sidebar-link,
+    .sidebar-post,
+    .sidebar-tags-all,
+    .hit-head,
+    .content-link,
+    .media-cap a) {
+    text-decoration: underline;
+}
+
+/* Nota: .post-date-link e .post-era ficam de fora de propósito — vivem em caixas com
+   borda própria (--accent-line), que já os distingue sem cor. [ver mais]/[ler tudo]
+   carregam os colchetes .brk (cue não-cromático), mas .post-read entra no underline
+   acima por garantia (link real de "ler tudo"). */

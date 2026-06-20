@@ -1,0 +1,64 @@
+{{- /*
+  logo.html — #logo (componente próprio, ver README). Dois SVGs:
+  - .logo-tv  : TV (CRT, 6 faixas) SVG INLINE p/ o CSS animar as faixas (fill:
+    var(--stripe-N) -> reage ao tema + ao ciclo de loading). Wordmark "C.Term"
+    é PNG branco via CSS mask (recolore com o tema). Visível no desktop.
+    -> defs com ids prefixados (logo-*) p/ não colidir com outros SVGs.
+  - .logo-icon: ícone TV+CT (quadrado), só no mobile (mobile.css). O "C.T" é
+    <image> raster (não <text>: <text> visível disparava label-content-name-mismatch).
+  Decorativo: o nome acessível mora no aria-label do <a>.
+*/ -}}
+<div id="logo" class="header-logo">
+  <a href="{{ "/" | relURL }}" class="logo-link" aria-label="{{ .Site.Title }} — início">
+    <svg class="logo-tv" viewBox="17 5 100 100" aria-hidden="true" focusable="false">
+      <defs>
+        <pattern id="logo-scan" patternUnits="userSpaceOnUse" width="380" height="3">
+          <rect width="380" height="1" y="2" fill="#000000" fill-opacity="0.6" />
+        </pattern>
+        <clipPath id="logo-bands">
+          <path d="M 24.0 12.0 Q 66.0 -2.0 108.0 12.0 L 110.4 20.1 Q 66.0 8.7 21.6 20.1 Z" />
+          <path d="M 21.1 22.1 Q 66.0 11.3 110.9 22.1 L 113.4 34.8 Q 66.0 28.2 18.6 34.8 Z" />
+          <path d="M 18.3 36.8 Q 66.0 30.8 113.7 36.8 L 115.0 54.0 Q 66.0 53.7 17.0 54.0 Z" />
+          <path d="M 17.0 56.0 Q 66.0 56.3 115.0 56.0 L 113.7 73.2 Q 66.0 79.2 18.3 73.2 Z" />
+          <path d="M 18.6 75.2 Q 66.0 81.8 113.4 75.2 L 110.9 87.9 Q 66.0 98.7 21.1 87.9 Z" />
+          <path d="M 21.6 89.9 Q 66.0 101.3 110.4 89.9 L 108.0 98.0 Q 66.0 112.0 24.0 98.0 Z" />
+        </clipPath>
+      </defs>
+      <g class="logo-stripes">
+        <path class="stripe" d="M 24.0 12.0 Q 66.0 -2.0 108.0 12.0 L 110.4 20.1 Q 66.0 8.7 21.6 20.1 Z" />
+        <path class="stripe" d="M 21.1 22.1 Q 66.0 11.3 110.9 22.1 L 113.4 34.8 Q 66.0 28.2 18.6 34.8 Z" />
+        <path class="stripe" d="M 18.3 36.8 Q 66.0 30.8 113.7 36.8 L 115.0 54.0 Q 66.0 53.7 17.0 54.0 Z" />
+        <path class="stripe" d="M 17.0 56.0 Q 66.0 56.3 115.0 56.0 L 113.7 73.2 Q 66.0 79.2 18.3 73.2 Z" />
+        <path class="stripe" d="M 18.6 75.2 Q 66.0 81.8 113.4 75.2 L 110.9 87.9 Q 66.0 98.7 21.1 87.9 Z" />
+        <path class="stripe" d="M 21.6 89.9 Q 66.0 101.3 110.4 89.9 L 108.0 98.0 Q 66.0 112.0 24.0 98.0 Z" />
+      </g>
+      <rect x="10" y="0" width="120" height="120" fill="url(#logo-scan)" clip-path="url(#logo-bands)" />
+    </svg>
+    <span class="logo-wordmark" aria-hidden="true"></span>
+    <svg class="logo-icon" viewBox="16 5 100 100" aria-hidden="true" focusable="false">
+      <defs>
+        <pattern id="scan-i" patternUnits="userSpaceOnUse" width="380" height="3">
+          <rect width="380" height="1" y="2" fill="#000000" fill-opacity="0.6" />
+        </pattern>
+        <clipPath id="bands-i">
+          <path d="M 24.0 12.0 Q 66.0 -2.0 108.0 12.0 L 110.4 20.1 Q 66.0 8.7 21.6 20.1 Z" />
+          <path d="M 21.1 22.1 Q 66.0 11.3 110.9 22.1 L 113.4 34.8 Q 66.0 28.2 18.6 34.8 Z" />
+          <path d="M 18.3 36.8 Q 66.0 30.8 113.7 36.8 L 115.0 54.0 Q 66.0 53.7 17.0 54.0 Z" />
+          <path d="M 17.0 56.0 Q 66.0 56.3 115.0 56.0 L 113.7 73.2 Q 66.0 79.2 18.3 73.2 Z" />
+          <path d="M 18.6 75.2 Q 66.0 81.8 113.4 75.2 L 110.9 87.9 Q 66.0 98.7 21.1 87.9 Z" />
+          <path d="M 21.6 89.9 Q 66.0 101.3 110.4 89.9 L 108.0 98.0 Q 66.0 112.0 24.0 98.0 Z" />
+        </clipPath>
+      </defs>
+      <g class="logo-stripes">
+        <path class="stripe" d="M 24.0 12.0 Q 66.0 -2.0 108.0 12.0 L 110.4 20.1 Q 66.0 8.7 21.6 20.1 Z" />
+        <path class="stripe" d="M 21.1 22.1 Q 66.0 11.3 110.9 22.1 L 113.4 34.8 Q 66.0 28.2 18.6 34.8 Z" />
+        <path class="stripe" d="M 18.3 36.8 Q 66.0 30.8 113.7 36.8 L 115.0 54.0 Q 66.0 53.7 17.0 54.0 Z" />
+        <path class="stripe" d="M 17.0 56.0 Q 66.0 56.3 115.0 56.0 L 113.7 73.2 Q 66.0 79.2 18.3 73.2 Z" />
+        <path class="stripe" d="M 18.6 75.2 Q 66.0 81.8 113.4 75.2 L 110.9 87.9 Q 66.0 98.7 21.1 87.9 Z" />
+        <path class="stripe" d="M 21.6 89.9 Q 66.0 101.3 110.4 89.9 L 108.0 98.0 Q 66.0 112.0 24.0 98.0 Z" />
+      </g>
+      <rect x="10" y="0" width="120" height="120" fill="url(#scan-i)" clip-path="url(#bands-i)" />
+      <image href="/logo/png/c-term-ct.png" x="16" y="5" width="100" height="100" />
+    </svg>
+  </a>
+</div>
