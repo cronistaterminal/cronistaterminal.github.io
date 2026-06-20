@@ -1,0 +1,132 @@
+/* Extraído de layouts/index.html (M3). Ordem da cascata preservada. */
+/* Footer: painel TUI (.term-panel dá borda accent + relative). Ícones
+   sociais · copyright centralizados dentro. */
+.site-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--gap-footer);
+    /* respiro vertical antes/depois do · */
+    font-size: 0.9rem;
+}
+
+/* Painel TUI: borda accent nos 4 lados + relative p/ ancorar o label.
+   Compartilhado por footer (.site-footer) e #main (.content). */
+.term-panel {
+    position: relative;
+    border: 1px solid var(--accent);
+}
+
+/* Label na borda, à la K9S/ncurses: span absoluto assentado no meio da
+   linha de 1px de cima (translateY -50%), com background do tema cortando
+   a borda atrás do texto. Alinhado à esquerda; lê como prompt de shell. */
+.term-label {
+    position: absolute;
+    top: 0;
+    left: var(--panel-label-inset);
+    transform: translateY(-50%);
+    padding-inline: 0.5ch;
+    /* respiro que abre o vão na borda */
+    background: var(--background);
+    /* encobre a borda atrás do label */
+    color: var(--accent);
+    /* o "comando" na cor do tema/borda */
+    font-size: 0.8rem;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+/* Peças compartilhadas do prompt vivo (footer e #main). Classes globais
+   — ambos os labels (.term-label) reaproveitam o mesmo visual. */
+
+/* O "$" é o prompt do shell, não o comando: tom de texto esmaecido, não accent. */
+.prompt {
+    color: var(--foreground);
+    opacity: 0.6;
+    margin-right: 0.5ch;
+}
+
+/* Prompt $ aceso (accent), p/ marcadores plantados como LEAD de item (ex.: nav
+   da sidebar). Distinto do .prompt dim dos term-labels: lá o $ é secundário ao
+   comando digitado; aqui ele É o bullet do link -> acende. Sem margin-right (o
+   espaço literal no markup já separa). Sempre accent, inclusive sob :hover do
+   link (a cor do filho vence a herdada). */
+.prompt-accent {
+    color: var(--accent);
+}
+
+/* Texto digitado pelo JS (accent). */
+.typed {
+    color: var(--accent);
+}
+
+/* Cursor de terminal: bloco cheio de 1 célula (1ch) que pisca em hard-cut.
+   O blink é CSS (step-end = sem fade, liga/desliga seco como num VT100);
+   o JS só escreve/apaga o texto à esquerda dele. ~530ms por estado.
+   width/height em ch/em -> escala junto com o font-size do container. */
+.cursor {
+    display: inline-block;
+    width: 1ch;
+    height: 1.1em;
+    margin-left: 1px;
+    vertical-align: text-bottom;
+    background: var(--accent);
+    animation: cursor-blink 1.06s step-end infinite;
+}
+
+@keyframes cursor-blink {
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    50.01%,
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Quem pediu menos movimento não recebe o blink infinito. */
+@media (prefers-reduced-motion: reduce) {
+    .cursor {
+        animation: none;
+    }
+}
+
+.social {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--gap-social);
+}
+
+/* Ícone via CSS mask: a cor vem do background-color (tema), não do SVG.
+   Por isso a variante -dark/-light do selfh.st é indiferente aqui. */
+.social .icon {
+    width: 18px;
+    height: 18px;
+    background-color: var(--foreground);
+    -webkit-mask: var(--icon) center / contain no-repeat;
+    mask: var(--icon) center / contain no-repeat;
+    transition: background-color 0.15s ease;
+}
+
+.social .icon:hover {
+    background-color: var(--accent);
+}
+
+.footer-sep {
+    color: var(--foreground);
+}
+
+/* Conteúdo placeholder só pra dar altura e testar o scroll/estrutura. */
+.placeholder {
+    color: color-mix(in srgb, var(--foreground) 55%, transparent);
+}
+
+/* ── Item de listagem de post (#main) ──────────────────────────────────
+   Um "átomo" (fechamos 1 antes de replicar). Tags no topo (varredura
+   primeiro), depois 2 colunas: meta (data + época, as ÚNICAS caixas com
+   borda) | conteúdo (título, TL;DR, ações). Escada de disclosure:
+   tags -> título -> TL;DR curto -> [ver mais] -> [ler tudo]. Ver memórias
+   post-data-model + a11y-find-fast-first. */

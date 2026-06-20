@@ -1,0 +1,25 @@
+{{- /*
+  footer.html — #footer (componente). Painel TUI (.term-panel) com:
+  - .term-label : prompt vivo na borda (#footer-typed) — prompt.js monta o motor
+    mountPrompt nesse id (cursor pisca via CSS .cursor). aria-hidden (chrome decorativo).
+  - .social     : ícones via CSS mask (cor = tema via background-color, hover = accent).
+    Vendorizados em static/icons/social/ (antes selfh.st @main no CDN — @main não é
+    imutável; vendorizar foi decisão de README p/ a fase Hugo). O RSS aponta pro feed
+    REAL gerado pelo Hugo (.OutputFormats rss). Os demais hrefs ficam "#" até as URLs de
+    perfil entrarem (idealmente [params.social] no hugo.toml).
+  - .copyright  : ano dinâmico via now.Year (não recodificar a cada virada de ano).
+*/ -}}
+<footer id="footer" class="site-footer term-panel">
+  <span class="term-label" aria-hidden="true"><span class="prompt">$</span><span class="typed" id="footer-typed"></span><span class="cursor"></span></span>
+
+  <nav class="social" aria-label="Redes sociais">
+    <a class="icon" href="#" aria-label="GitHub" style="--icon: url('/icons/social/github.svg')"></a>
+    <a class="icon" href="#" aria-label="Bluesky" style="--icon: url('/icons/social/bluesky.svg')"></a>
+    <a class="icon" href="#" aria-label="LinkedIn" style="--icon: url('/icons/social/linkedin.svg')"></a>
+    {{- with .OutputFormats.Get "rss" }}
+    <a class="icon" href="{{ .RelPermalink }}" aria-label="RSS" style="--icon: url('/icons/social/rss.svg')"></a>
+    {{- end }}
+  </nav>
+
+  <span class="copyright">Cronista Terminal @ {{ now.Year }}</span>
+</footer>
