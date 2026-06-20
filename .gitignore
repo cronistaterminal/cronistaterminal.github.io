@@ -1,0 +1,11 @@
+# Worktree do layout standalone (tag pre-alpha). Snapshot de referência fora do
+# versionamento da main — recriável com: git worktree add --detach __layout pre-alpha
+__layout/
+
+# Estado local / sessão
+.claude/
+.remember/
+node_modules/
+public/
+*.log
+session-report-*.html
