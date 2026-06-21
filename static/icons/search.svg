@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 13" role="img" aria-label="Buscar" shape-rendering="crispEdges">
+  <!-- Lupa pixel-art: lente redonda vazada + cabo diagonal, desenhada numa grade
+       de quadrados (estetica 8-bit/CRT do tema, cantos retos do radius 0). Fundo
+       transparente. Cor fixa = accent (a cor da acao de busca), so pra preview e
+       reuso standalone. INLINE no chip .page-search a copia usa fill=currentColor,
+       herdando a cor do texto (apagada em repouso, invertida no hover). Par futuro
+       de outros glifos de UI nesta pasta. -->
+  <path fill="#eec35e" d="M3 1h1v1h-1z M4 1h1v1h-1z M5 1h1v1h-1z M2 2h1v1h-1z M6 2h1v1h-1z M1 3h1v1h-1z M7 3h1v1h-1z M1 4h1v1h-1z M7 4h1v1h-1z M1 5h1v1h-1z M7 5h1v1h-1z M2 6h1v1h-1z M6 6h1v1h-1z M3 7h1v1h-1z M4 7h1v1h-1z M5 7h1v1h-1z M7 7h1v1h-1z M8 8h1v1h-1z M9 9h1v1h-1z M10 10h1v1h-1z M11 11h1v1h-1z M8 7h1v1h-1z M9 8h1v1h-1z M10 9h1v1h-1z M11 10h1v1h-1z"/>
+</svg>

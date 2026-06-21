@@ -9,3 +9,9 @@ title = 'dablog'
 # não do markdown bruto. Mantido enxuto por ora — cresce com os componentes.
 [params]
   description = 'Crônicas de um terminal — histórias de computação, contadas por época.'
+
+# pagerSize baixo de propósito enquanto há poucos posts seed: força >1 página p/
+# validar o componente de paginação (janela primeira/prev/atual/próxima). Subir
+# para ~10 quando houver volume real.
+[pagination]
+  pagerSize = 2

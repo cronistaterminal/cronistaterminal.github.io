@@ -1,0 +1,43 @@
+{{- /*
+  pagination.html — paginação da listagem. Contexto (.) = o objeto Paginator (passado por
+  quem chama: {{ partial "pagination.html" $paginator }}).
+
+  Regra da JANELA (espelha o protótipo): [atual-1, atual, atual+1].
+    · atual-1 SUPRIMIDO se == 1  («primeira já leva à pág. 1; não duplicar)
+    · atual+1 SUPRIMIDO se > última
+  Nos LIMITES o Hugo OMITE (não desabilita) o que sai de alcance:
+    · pág. 1 -> some «primeira ;  última -> some próxima>
+  Omitir (não desabilitar) evita ruído/armadilha de contraste pro leitor de tela.
+  rel=prev/next marcam a sequência pro crawler. A busca segue como gatilho da palette
+  (data-command) — inerte até o componente de busca chegar.
+*/ -}}
+{{- $pag := . -}}
+{{- if gt $pag.TotalPages 1 -}}
+{{- $cur := $pag.PageNumber -}}
+{{- $total := $pag.TotalPages -}}
+{{- $lo := sub $cur 1 -}}
+{{- if le $lo 1 }}{{ $lo = $cur }}{{ end -}}
+{{- $hi := add $cur 1 -}}
+{{- if gt $hi $total }}{{ $hi = $total }}{{ end -}}
+<nav class="pagination" aria-label="Paginação dos posts">
+  <p class="page-status">página <strong>{{ $cur }}</strong> de {{ $total }}</p>
+  <ul class="page-list">
+    {{- if gt $cur 1 }}
+    <li><a class="page-chip" href="{{ $pag.First.URL }}"><span aria-hidden="true">«</span> primeira<span class="sr-only"> página</span></a></li>
+    {{- end }}
+    {{- range seq $lo $hi }}
+    {{- $n := . }}
+    {{- if eq $n $cur }}
+    <li><span class="page-chip page-current" aria-current="page">{{ $n }}</span></li>
+    {{- else }}
+    {{- $pager := index $pag.Pagers (sub $n 1) }}
+    <li><a class="page-chip" href="{{ $pager.URL }}"{{ if eq $n (sub $cur 1) }} rel="prev"{{ end }} aria-label="Página {{ $n }}">{{ $n }}</a></li>
+    {{- end }}
+    {{- end }}
+    {{- if lt $cur $total }}
+    <li><a class="page-chip" href="{{ $pag.Next.URL }}" rel="next" aria-label="Próxima página">próxima <span aria-hidden="true">&gt;</span></a></li>
+    {{- end }}
+    <li><a class="page-chip page-search" href="#" data-command="search" aria-label="Buscar posts" aria-haspopup="dialog"><span class="page-search-icon" aria-hidden="true"></span>buscar</a></li>
+  </ul>
+</nav>
+{{- end -}}

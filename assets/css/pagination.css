@@ -1,0 +1,111 @@
+/* Extraído de layouts/index.html (M3). Ordem da cascata preservada. */
+.pagination {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: var(--gap-list);
+    /* mesmo respiro vertical dos itens da lista acima */
+}
+
+/* "página X de Y": âncora cognitiva (onde estou) ANTES dos controles. O
+   leitor de tela ouve a posição primeiro; o olho neurodivergente ganha o
+   marco. Tom quieto (--accent-dim) p/ não competir com os chips. */
+.page-status {
+    margin: 0;
+    color: var(--accent-dim);
+    font-size: 0.85rem;
+}
+
+.page-status strong {
+    color: var(--accent);
+}
+
+.page-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.45rem;
+    /* mesmo gap dos chips de tag */
+}
+
+/* Chip-base: gêmeo da .tag, porém maior (alvo de toque WCAG 2.5.8: o mínimo
+   é 24px, ~36px aqui). border transparent reservada -> o estado atual troca
+   só a COR da borda sem o layout "pular". min-width iguala 1 e 2 dígitos. */
+.page-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4ch;
+    /* respiro entre glifo (« →) e palavra */
+    min-width: 2.6rem;
+    padding: 0.4rem 0.75rem;
+    background-color: var(--accent-mute);
+    color: var(--chip-text);
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    text-decoration: none;
+    line-height: 1;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.page-chip:hover {
+    background-color: var(--accent);
+    color: var(--background);
+}
+
+/* ── DECISÃO DE DESIGN: o "você está aqui" (página atual) ───────────────
+   Default = OUTLINE: borda accent + texto accent, fundo vazado. Distinto do
+   hover (que PREENCHE) e ecoa as caixas .post-date/.post-era (borda accent).
+   É <span>, não <a>. ALTERNATIVAS (descomentar uma p/ trocar o sabor):
+
+   // A) FILL — preenche igual ao hover, mas fixo (mais forte, porém pode
+   //    ler como "clicável"):
+   // .page-current { background-color: var(--accent); color: var(--background);
+   //                 border-color: var(--accent); font-weight: 700; cursor: default; }
+
+   // C) BARRA — chip normal + régua accent embaixo, ecoando a régua lateral
+   //    da .post-date (vocabulário "você está aqui" já existente no tema):
+   // .page-current { position: relative; font-weight: 700; cursor: default; }
+   // .page-current::after { content: ""; position: absolute; left: 0; right: 0;
+   //                        bottom: -4px; height: 3px; background: var(--accent); }
+*/
+.page-current {
+    background-color: transparent;
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 700;
+    cursor: default;
+}
+
+/* "buscar" (no lugar de "última página"). Mesmo chip; hook próprio caso
+   depois queira destacá-lo como ação de tipo diferente (não é navegação
+   entre páginas, é um find). Por ora idêntico ao chip-base. */
+.page-search {
+    /* sem override por enquanto */
+}
+
+/* Lupa pixel-art do "buscar": SVG inline com fill=currentColor -> segue a
+   COR DO TEXTO do chip (apagada em repouso, inverte pro fundo no hover, sem
+   CSS extra). Dimensão em em -> escala com a fonte. shape-rendering no SVG
+   mantém os quadrados crispos (sem anti-alias borrando a estética 8-bit). */
+.page-search-icon {
+    width: 1em;
+    height: 1em;
+    flex: none;
+    /* o flex do chip não espreme/distorce o ícone */
+    /* M3: SVG externalizado via mask (assets/icons/search.svg). background-color:
+       currentColor reproduz o fill=currentColor inline antigo — segue a cor do texto
+       do chip e inverte no hover de graça (o chip troca o color no :hover). */
+    background-color: currentColor;
+    -webkit-mask: url(/icons/search.svg) center / contain no-repeat;
+    mask: url(/icons/search.svg) center / contain no-repeat;
+}
+
+/* ── Command palette (busca) ───────────────────────────────────────────
+   Overlay invocável (Ctrl+K ou gatilho data-command). Backdrop sombreia
+   TODO o conteúdo; o painel central é um .term-panel flutuante. Detalhes
+   de comportamento/foco no <script> no fim do body. */

@@ -1,0 +1,170 @@
+/* Extraído de layouts/index.html (M3). Ordem da cascata preservada. */
+/* Miolo: 2 painéis irmãos (#main | #sidebar), CADA UM com sua borda amarela
+       (.term-panel), separados por --gap-columns -> lêem como componentes distintos.
+       O wrapper .body NÃO é mais painel (a borda saiu daqui pras colunas). Ambos
+       nascem no topo da row -> a sidebar "começa na altura do main". */
+.body {
+    flex: 1;
+    /* empurra o footer pro fundo */
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--gap-columns);
+}
+
+.content {
+    flex: 1;
+    max-width: var(--content-width);
+    padding: var(--pad);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-list);
+    /* gap real entre os <article> da listagem (#main é flex column) */
+}
+
+/* Sidebar: painel de navegação/meta. Fundo escurecido (--sidebar-bg) + borda
+   accent (.term-panel) + prompt vivo na borda. Empilha widgets (busca / nav /
+   tags featured / últimos posts) com --gap-sidebar entre eles. O padding fica
+   AQUI agora (não há mais sub-seções header/main/footer): o label absoluto
+   ancora na borda independente do padding, então o inset não o desloca. */
+.sidebar {
+    flex: 0 0 var(--sidebar-width);
+    background: var(--sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sidebar);
+    padding: var(--sidebar-pad);
+    /* align-self: flex-start é o que dá CURSO pro sticky: sem ele a sidebar
+       esticaria a altura inteira da row e não sobraria espaço p/ andar (o .body
+       já é flex-start, mas deixo explícito — é o pré-requisito do truque). */
+    align-self: flex-start;
+}
+
+/* Sticky: acompanha o scroll, mas só "anda" (pina) quando o topo da sidebar
+   alcança --sidebar-sticky-top da viewport; daí fica fixa enquanto o #main
+   desliza por baixo, e SOLTA sozinha no fim do .body (footer entra). Zero JS.
+   SELETOR COMPOSTO de propósito: o .sidebar TAMBÉM é .term-panel, que seta
+   `position: relative` — mesma especificidade, e .term-panel vem DEPOIS no
+   arquivo, então venceria por ordem de fonte e viraria a sidebar em
+   relative+top (offset estático, NÃO grudava). `.sidebar.term-panel` (2 classes)
+   crava a vitória por especificidade, sem depender de ordem. `sticky` ainda
+   serve de containing block pro .term-label absoluto, igual `relative`. */
+.sidebar.term-panel {
+    position: sticky;
+    top: var(--sidebar-sticky-top);
+}
+
+/* Rótulo de bloco (tags / últimos posts): marco quieto pro olho varrer
+   (a11y-find-fast-first). Tom --accent-dim, minúsculo, lowercase — lê como
+   cabeçalho de seção de terminal, sem competir com os links/chips. */
+.sidebar-heading {
+    margin: 0 0 0.7rem;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: var(--accent-dim);
+}
+
+/* Botão de busca: ação primária do painel. Gatilho do command palette via
+   data-command="search" (zero JS novo — o delegate global já captura). Veste
+   a família de chip chapado (--accent-mute -> hover acende pro accent e
+   inverte), porém full-width + ícone -> peso de "ação", não de tag. */
+.sidebar-search {
+    display: flex;
+    align-items: center;
+    gap: 0.6ch;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--accent-mute);
+    color: color-mix(in oklab, var(--foreground) 80%, transparent);
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    font: inherit;
+    font-size: 0.9rem;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.sidebar-search:hover {
+    background-color: var(--accent);
+    color: var(--background);
+}
+
+/* Lupa: mesma pixel-art do chip "buscar" da paginação (fill=currentColor ->
+   segue a cor do texto, inverte no hover de graça). */
+.sidebar-search-icon {
+    width: 1em;
+    height: 1em;
+    flex: none;
+    /* M3: SVG externalizado via mask (assets/icons/search.svg) — ver page-search-icon. */
+    background-color: currentColor;
+    -webkit-mask: url(/icons/search.svg) center / contain no-repeat;
+    mask: url(/icons/search.svg) center / contain no-repeat;
+}
+
+/* Nav (Página Inicial · O Cronista): links de texto simples, empilhados.
+   Foreground em repouso -> accent no hover (não são chips: distinção visual
+   entre "ir pra uma página" e "filtrar por tag"). */
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sidebar-link {
+    color: var(--foreground);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.sidebar-link:hover {
+    color: var(--accent);
+}
+
+/* Nuvem de tags featured: idêntica à .post-tags da listagem (chips .tag, fundo
+   chapado, hover acende). Reusa a .tag -> recolore com o tema junto. */
+.sidebar-tags {
+    list-style: none;
+    margin: 0 0 0.7rem;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    font-size: 0.85rem;
+}
+
+/* "ver todas (N)": MESMO chip chapado (.tag), porém bloco numa linha própria
+   abaixo da nuvem — lê como a ação "mostrar o resto". N = total de tags. */
+.sidebar-tags-all {
+    display: inline-block;
+    font-size: 0.85rem;
+}
+
+/* Últimos posts: 3 links compactos. #id em --accent-dim (sigilo de catálogo,
+   ecoa .post-num) + título em accent (ecoa .post-headline). */
+.sidebar-posts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.sidebar-post {
+    display: block;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.9rem;
+    line-height: 1.3;
+}
+
+.sidebar-post:hover {
+    text-decoration: underline;
+}
+
+.sidebar-post-id {
+    color: var(--accent-dim);
+    margin-right: 0.5ch;
+}

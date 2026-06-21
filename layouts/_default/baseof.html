@@ -10,7 +10,17 @@
   <a class="skip-link" href="#main">Pular para o conteúdo</a>
   <div id="page" class="container">
     {{ partial "header.html" . }}
-    {{ block "main" . }}{{ end }}
+    {{- /* #layout-body: 2 colunas (main | sidebar), chrome compartilhado entre home e
+           single. O #main é o painel .content.term-panel com prompt vivo (#body-typed);
+           o block "main" preenche só o conteúdo interno (lista na home, corpo no single).
+           A sidebar é partial irmã, sticky no desktop (layout.css). */ -}}
+    <div class="body" id="layout-body">
+      <main id="main" class="content term-panel" tabindex="-1">
+        <span class="term-label" aria-hidden="true"><span class="prompt">$</span><span class="typed" id="body-typed"></span><span class="cursor"></span></span>
+        {{ block "main" . }}{{ end }}
+      </main>
+      {{ partial "sidebar.html" . }}
+    </div>
     {{ partial "footer.html" . }}
   </div>
 

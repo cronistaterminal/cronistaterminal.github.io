@@ -1,8 +1,13 @@
 {{ define "main" }}
-{{- /* Placeholder enquanto portamos componente a componente. O #main real (painel
-       .content.term-panel com a lista de posts + paginação) entra num próximo passo;
-       por ora isto só dá um alvo válido pro skip-link e mostra o header em contexto. */ -}}
-<main id="main" class="content" tabindex="-1" style="padding: var(--pad)">
-  <p>Header portado. Corpo da listagem em construção — próximo componente.</p>
-</main>
+{{- /* Conteúdo do #main na home: a listagem de posts. Ordenada por num decrescente
+       (número da entrada da crônica), não por data — as datas exibidas são do evento,
+       não da publicação. .Paginate respeita o pagerSize do hugo.toml. A paginação
+       recebe o $paginator (mesmo objeto) p/ render a janela. */ -}}
+{{- $posts := where site.RegularPages "Type" "posts" -}}
+{{- $posts = sort $posts "Params.num" "desc" -}}
+{{- $paginator := .Paginate $posts -}}
+{{- range $paginator.Pages }}
+{{ partial "post-card.html" . }}
+{{- end }}
+{{ partial "pagination.html" $paginator }}
 {{ end }}

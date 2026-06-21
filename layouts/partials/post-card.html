@@ -1,0 +1,60 @@
+{{- /*
+  post-card.html — uma entrada da listagem (<article.post>). Contexto (.) = a Page do post.
+  Arranjo: tags no topo; linha com .post-meta à esquerda (data + época) e .post-content à
+  direita (título #num + título, TL;DR curto, "ver mais" -> TL;DR longo, "ler tudo").
+  - #num e o id #post-{num} vêm de .Params.num.
+  - Data exibida (.Date) em pt-BR via slices indexados (não depende de locale do Hugo).
+  - "ver mais" é CSS-only: checkbox #more-{num} + label (sem JS).
+*/ -}}
+{{- $num := .Params.num -}}
+{{- $monthsFull := slice "Janeiro" "Fevereiro" "Março" "Abril" "Maio" "Junho" "Julho" "Agosto" "Setembro" "Outubro" "Novembro" "Dezembro" -}}
+{{- $monthsAbbr := slice "Jan" "Fev" "Mar" "Abr" "Mai" "Jun" "Jul" "Ago" "Set" "Out" "Nov" "Dez" -}}
+{{- $mi := sub (int .Date.Month) 1 -}}
+<article id="post-{{ $num }}" class="post" aria-labelledby="post-{{ $num }}-title">
+
+  {{- with .Params.tags }}
+  <ul class="post-tags" aria-label="Tags do post">
+    {{- range . }}
+    <li><a class="tag" href="{{ (printf "/tags/%s" (urlize .)) | relURL }}">{{ . }}</a></li>
+    {{- end }}
+  </ul>
+  {{- end }}
+
+  <div class="post-row">
+    <div class="post-meta">
+      <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">
+        <a class="post-date-link" href="{{ .RelPermalink }}">
+          <span class="post-day">{{ .Date.Format "02" }}</span>
+          <span class="post-month" data-mon="{{ index $monthsAbbr $mi }}">{{ index $monthsFull $mi }}</span>
+          <span class="post-year">{{ .Date.Format "2006" }}</span>
+        </a>
+      </time>
+      {{- with .Params.epoca }}
+      <a class="post-era" href="{{ $.RelPermalink }}"><span class="sr-only">Época retratada: </span>{{ . }}</a>
+      {{- end }}
+    </div>
+
+    <div class="post-content">
+      <h2 id="post-{{ $num }}-title" class="post-title">
+        <a class="post-num" href="#post-{{ $num }}" aria-label="Post número {{ $num }}">#{{ $num }}</a>
+        <a class="post-headline" href="{{ .RelPermalink }}">{{ .Title }}</a>
+      </h2>
+
+      {{- with .Params.tldr }}
+      <p class="post-tldr">{{ . }}</p>
+      {{- end }}
+
+      {{- with .Params.tldr_long }}
+      <input type="checkbox" id="more-{{ $num }}" class="more-toggle">
+      <p class="post-tldr-long">{{ . }}</p>
+      {{- end }}
+
+      <div class="post-foot">
+        {{- if .Params.tldr_long }}
+        <label for="more-{{ $num }}" class="post-more-btn brk"><span class="more-txt">ver mais</span><span class="less-txt">ver menos</span></label>
+        {{- end }}
+        <a class="post-read brk" href="{{ .RelPermalink }}">ler tudo</a>
+      </div>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,307 @@
+/* Extraído de layouts/index.html (M3). Ordem da cascata preservada. */
+.post {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    --bar: var(--accent);
+    /* cor da régua lateral da data. Base = amarelo cheio (cobre as linhas
+       PARES 0-based, incl. a 0). nth-child(even) sobrescreve p/ dark. */
+}
+
+/* Alternância da régua. CSS nth-child é 1-based -> CSS-even = linhas ÍMPARES
+   0-based (1,3,5…), que recebem a versão dark. Linha 0 (CSS-odd) fica no
+   amarelo cheio da base acima. */
+.post:nth-child(even) {
+    --bar: var(--accent-dark);
+}
+
+/* Hairline de fronteira entre posts, CENTRADA no vão: o gap do #main dá o
+   respiro acima da linha; este padding-top (= mesmo token) dá o respiro
+   igual abaixo. foreground-dim, não accent (10 traços amarelos competiriam). */
+.post+.post {
+    padding-top: var(--gap-list);
+    border-top: 1px solid color-mix(in oklab, var(--foreground) 12%, transparent);
+}
+
+/* Tags: lista horizontal de chips (puxam o olho na varredura). */
+.post-tags {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    font-size: 0.85rem;
+}
+
+/* Chip de fundo chapado na cor do tema, porém "morto" (--accent-mute,
+   variação quieta do master) + texto claro. Hover acende: fundo sobe pro
+   accent CHEIO e o texto inverte pro fundo escuro (o contraste vira). Tudo
+   derivado do master -> recolore com o tema. Cantos retos (--radius: 0). */
+.tag {
+    background-color: var(--accent-mute);
+    color: var(--chip-text);
+    /* texto apagado no repouso (--chip-text, >= AA sobre --accent-mute) -> o hover
+       reacende o texto E o fundo de uma vez */
+    border-radius: var(--radius);
+    padding: 0.12rem 0.6rem;
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.tag:hover {
+    background-color: var(--accent);
+    color: var(--background);
+}
+
+/* Contagem de posts por tag (ex.: "python (12)"). Dim via OPACITY, não cor:
+   o chip inverte texto<->fundo no hover, então uma cor fixa quebraria num dos
+   estados; opacity escurece relativo ao texto vigente nos DOIS. */
+.tag-count {
+    opacity: 0.6;
+    margin-left: 0.4ch;
+}
+
+/* Colchetes decorativos compartilhados (tags, ver mais/menos, ler tudo). */
+.brk::before {
+    content: "[";
+}
+
+.brk::after {
+    content: "]";
+}
+
+/* Linha principal: meta (largura do conteúdo) | conteúdo (resto). */
+.post-row {
+    display: flex;
+    gap: var(--pad);
+    align-items: flex-start;
+}
+
+/* Coluna meta: data (caixa maior) em cima, época (caixa menor) embaixo. */
+.post-meta {
+    flex: 0 0 var(--meta-width);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+/* As ÚNICAS caixas com borda no item. Borda = variação QUIETA do master
+   (--accent-line), não foreground: assim deriva do tema e recolore junto.
+   Cantos retos: assinatura do tema (--radius: 0). */
+.post-date,
+.post-era {
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius);
+    text-align: center;
+    transition: border-color 0.15s ease, color 0.15s ease;
+    /* acende a borda no hover (data/época são links agora) */
+}
+
+.post-date {
+    position: relative;
+    /* ancora a régua lateral (::before); padding/layout migraram p/ o <a> */
+}
+
+/* Régua vertical à ESQUERDA da data de publicação. Cor = --bar (alterna
+   por linha, def. na .post). Pseudo-elemento absoluto fora da borda
+   esquerda da caixa (com um respiro), altura = altura da caixa de data. */
+.post-date::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -0.85rem;
+    /* largura da régua + respiro até a caixa */
+    width: 5px;
+    background: var(--bar);
+}
+
+/* O <a> da data preenche a caixa (padding aqui -> área clicável = box todo).
+   Empilha dia/mês/ano. Hover acende o texto; a borda acende junto via
+   .post-date:hover (link preenche o box, então hover no box = hover no link). */
+.post-date-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.7rem 1.3rem;
+    line-height: 1.15;
+    color: var(--foreground);
+    text-decoration: none;
+}
+
+.post-date:hover {
+    border-color: var(--accent);
+}
+
+.post-date-link:hover {
+    color: var(--accent);
+}
+
+.post-day {
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.post-year {
+    font-size: 1.1rem;
+}
+
+.post-era {
+    display: block;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.95rem;
+    color: color-mix(in srgb, var(--foreground) 80%, transparent);
+    text-decoration: none;
+}
+
+.post-era:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* Coluna de conteúdo: título, TL;DRs, ações. */
+.post-content {
+    flex: 1;
+    min-width: 0;
+    /* deixa o texto quebrar dentro do flex (evita overflow) */
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.post-title {
+    margin: 0;
+    font-size: 1.4rem;
+    line-height: 1.25;
+    font-weight: 700;
+}
+
+/* #1234: número/permalink — variação ESMAECIDA do master (--accent-dim),
+   sigilo de catálogo. Mais quieto que o headline -> hierarquia dentro do
+   título. Hover sobe pro accent cheio. */
+.post-num {
+    color: var(--accent-dim);
+    text-decoration: none;
+    margin-right: 0.5ch;
+}
+
+.post-num:hover {
+    color: var(--accent);
+}
+
+/* Título: o alvo principal da varredura. Accent CHEIO (a variação mais forte
+   do master) — puxa o olho. Hover sublinha (já é accent, não muda de cor). */
+.post-headline {
+    color: var(--accent);
+    text-decoration: none;
+    font-family: var(--font-head);
+    /* título: Space Mono (convencional) -> Comic Relief (acessível). O #num ao lado
+       herda --font-body (não tem font-family próprio) -> acompanha o corpo. */
+}
+
+.post-headline:hover {
+    text-decoration: underline;
+}
+
+.post-tldr {
+    margin: 0;
+    color: var(--foreground);
+    font-family: var(--font-body);
+    /* corpo de leitura: IBM Plex Mono (convencional) -> Lexend (acessível) */
+}
+
+/* Disclosure do 2º TL;DR (a continuação), CSS-only via checkbox escondido
+   — mesmo padrão do toggle Aa (.aa-input). Mantém [ver mais] COLADO ao
+   [ler tudo] no rodapé (contextos de ação juntos = previsível, menos
+   overhead; ver a11y-find-fast-first) E revela a continuação em largura
+   cheia logo após o resumo curto. No DOM o checkbox precede o long-p e o
+   rodapé, então o combinador ~ alcança os dois. */
+
+/* Checkbox: invisível mas FOCÁVEL por teclado (1px/opacity 0, não
+   display:none, que o tiraria do tab order). Absoluto -> fora do fluxo,
+   não ocupa slot no flex/gap do .post-content. */
+.more-toggle {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* 2º TL;DR = CONTINUAÇÃO do curto: escondido por padrão; o checkbox marcado
+   revela. Mesma cor (foreground) e largura cheia -> lê contínuo com o curto. */
+.post-tldr-long {
+    display: none;
+    margin: 0;
+    color: var(--foreground);
+    font-family: var(--font-body);
+}
+
+.more-toggle:checked~.post-tldr-long {
+    display: block;
+}
+
+/* [ver mais] é um <label> que parece/age como link, no rodapé. O clique no
+   label alterna o checkbox (mesmo escondido); o teclado foca o checkbox e
+   Espaço alterna. */
+.post-more-btn {
+    cursor: pointer;
+    color: var(--accent);
+    white-space: nowrap;
+}
+
+.post-more-btn:hover {
+    text-decoration: underline;
+}
+
+/* O foco do teclado aterrissa no checkbox invisível -> espelho o anel de
+   foco no rótulo visível (mesma ideia do .aa-toggle:focus-within). */
+.more-toggle:focus-visible~.post-foot .post-more-btn {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Swap ver mais <-> ver menos (estado :checked). Os colchetes do .brk
+   envolvem o rótulo inteiro -> sempre 1 par visível. */
+.less-txt {
+    display: none;
+}
+
+.more-toggle:checked~.post-foot .more-txt {
+    display: none;
+}
+
+.more-toggle:checked~.post-foot .less-txt {
+    display: inline;
+}
+
+/* Rodapé: [ver mais] + [ler tudo] JUNTOS, à direita (contexto de ação
+   agrupado — previsibilidade). */
+.post-foot {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.6ch;
+}
+
+.post-read {
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.post-read:hover {
+    text-decoration: underline;
+}
+
+/* ── Paginação (#main, rodapé da listagem) ─────────────────────────────
+   Numerada, centralizada. Os chips reusam a FAMÍLIA visual da .tag (fundo
+   chapado --accent-mute + texto apagado; hover acende pro accent cheio e
+   inverte o texto). Diferem da tag só no tamanho (alvo de toque maior) e
+   no min-width (números de 1/2 dígitos alinham). Ordem que o Nilton pediu:
+   «primeira | janela de números (atual = .page-current, NÃO-link) |
+   próxima› | buscar — no lugar de "última página": num blog cronológico a
+   última página é o conteúdo mais velho/menos relevante; busca vale mais
+   (ver a11y-find-fast-first). No Hugo a JANELA recomputa por página via
+   .Paginator (server-side, sem JS): cada /posts/page/N/ é URL real -> back
+   button funciona. */

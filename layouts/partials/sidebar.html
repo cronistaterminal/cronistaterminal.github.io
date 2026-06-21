@@ -1,0 +1,49 @@
+{{- /*
+  sidebar.html — #sidebar (painel nav/meta). .term-panel irmão do #main, com prompt vivo
+  (#sidebar-typed). Blocos:
+  - busca: gatilho da palette (data-command) — inerte até o componente de busca chegar.
+  - nav: páginas do site (não-tags).
+  - destaques: tags mais usadas (site.Taxonomies.tags.ByCount, top 5) + "ver todas".
+  - últimos posts: 3 mais recentes por num (mesma ordem da listagem).
+  Chips = .tag (reusa o estilo da listagem). Sticky no desktop (layout.css).
+*/ -}}
+{{- $posts := where site.RegularPages "Type" "posts" -}}
+{{- $recent := first 3 (sort $posts "Params.num" "desc") -}}
+<aside id="sidebar" class="sidebar term-panel">
+  <span class="term-label" aria-hidden="true"><span class="prompt">$</span><span class="typed" id="sidebar-typed"></span><span class="cursor"></span></span>
+
+  <button type="button" class="sidebar-search" data-command="search" aria-haspopup="dialog">
+    <span class="sidebar-search-icon" aria-hidden="true"></span>
+    buscar
+  </button>
+
+  <nav class="sidebar-nav" aria-label="Navegação">
+    <a class="sidebar-link" href="{{ "/" | relURL }}"><span class="prompt-accent">$</span> Página Inicial</a>
+    <a class="sidebar-link" href="{{ "/cronista/" | relURL }}"><span class="prompt-accent">$</span> O Cronista</a>
+  </nav>
+
+  {{- with site.Taxonomies.tags }}
+  <section aria-labelledby="sb-tags-h">
+    <h2 id="sb-tags-h" class="sidebar-heading">destaques</h2>
+    <ul class="sidebar-tags" aria-label="Tags em destaque">
+      {{- /* .Name = a chave da taxonomia (lowercase, ex.: arquitetura-de-software);
+             .Page.Title viria humanizado/Title-Case — não bate com os chips da listagem. */ -}}
+      {{- range first 5 .ByCount }}
+      <li><a class="tag" href="{{ .Page.RelPermalink }}">{{ .Name }} <span class="tag-count">({{ .Count }})</span></a></li>
+      {{- end }}
+    </ul>
+    <a class="tag sidebar-tags-all" href="{{ "/tags/" | relURL }}">ver todas</a>
+  </section>
+  {{- end }}
+
+  {{- with $recent }}
+  <section aria-labelledby="sb-recent-h">
+    <h2 id="sb-recent-h" class="sidebar-heading">últimos posts</h2>
+    <ul class="sidebar-posts">
+      {{- range . }}
+      <li><a class="sidebar-post" href="{{ .RelPermalink }}"><span class="sidebar-post-id">#{{ .Params.num }}</span>{{ .Title }}</a></li>
+      {{- end }}
+    </ul>
+  </section>
+  {{- end }}
+</aside>
