@@ -37,6 +37,12 @@
        separação do #main agora vem da BORDA própria + gap entre as colunas,
        não do contraste de fundo. O 0.88 é o dial (menor = mais fundo). */
 
+    --code-bg: var(--sidebar-bg);
+    /* fundo do bloco de código. Por padrão É o --sidebar-bg (o bloco lê como
+       "caixa de UI", igual aos painéis) — este token existe para que um tema
+       possa DESCOLAR os dois sem tocar no code.css. O bsod usa isso: o azul
+       #0000aa é vivo demais para segurar um bloco inteiro de código. */
+
     /* Faixas do logo (TV CRT), de cima p/ baixo (M2). A TV é SVG inline; cada faixa usa
        fill: var(--stripe-N). No tema DEFAULT = arco-íris da identidade (atari/rosa/roxo/
        azul/c64/hacker, ver logo-color-philosophy). Um tema sobrescreve estes 6 -> a TV

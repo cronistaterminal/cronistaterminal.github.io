@@ -51,8 +51,9 @@
 
 /* --- Container --- */
 .chroma {
-    background: var(--sidebar-bg);
-    /* mesmo fundo dos painéis da sidebar -> o bloco lê como "caixa de UI" */
+    background: var(--code-bg);
+    /* = --sidebar-bg por padrão (o bloco lê como "caixa de UI", igual aos painéis).
+       O token existe p/ o tema poder escurecer só o código — ver bsod. */
     border: 1px solid var(--accent-line);
     /* borda quieta accent (mesma família das caixas de meta) */
     border-radius: var(--radius);

@@ -81,6 +81,11 @@
     --background: #0000aa;
     --foreground: #ffffff;
     --accent: #aecbff;
+    /* Único tema que descola o fundo do código do --sidebar-bg. Nos outros o azul
+       não existe: aqui o #0000aa é vivo e saturado, e um bloco de código inteiro
+       sobre ele vibra. Mesma técnica dos outros derivados (derruba só a
+       luminosidade, preserva matiz/croma) — continua azul de BSOD, só mais fundo. */
+    --code-bg: oklch(from var(--background) calc(l * 0.6) c h);
 }
 
 /* C64 — azul Commodore 64. fundo escuro + accent azul-lavanda. O azul autêntico (#7c70da)
