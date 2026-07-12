@@ -1,0 +1,51 @@
+{{- /* Galeria de imagens. Par com o shortcode `slide` (aninhado), para o autor
+       escrever markdown legível em vez de um blob de JSON:
+
+           {{< gallery label="Restauração de um C64" pos="break-box" w="520px" >}}
+             {{< slide src="demo/g1.jpg" alt="…" cap="…" >}}
+             {{< slide src="demo/g2.jpg" alt="…" cap="…" >}}
+           {{< /gallery >}}
+
+       Os <li> vêm de .Inner (os `slide` filhos já renderizados). O aria-label de
+       cada slide ("2 de 3") NÃO é escrito aqui: quem conta é o gallery.js, que
+       sabe o total — contar à mão significa que o dia em que alguém insere um
+       slide no meio, todos os rótulos abaixo passam a mentir.
+
+         label (obrig.) — o que a galeria mostra. Um grupo sem nome é anunciado
+                          pelo leitor de tela como "grupo", e nada mais.  */ -}}
+
+{{- if not (.Get "label") -}}
+  {{- errorf "shortcode gallery (%s): falta o parâmetro obrigatório `label` — sem ele a galeria é anônima para leitores de tela" .Position -}}
+{{- end -}}
+{{- $pos := .Get "pos" | default "break-box" -}}
+{{- $valid := slice "inline-left" "inline-right" "break-full" "break-box" -}}
+{{- if not (in $valid $pos) -}}
+  {{- errorf "shortcode gallery (%s): pos=%q inválido. Use um de: %s" .Position $pos (delimit $valid ", ") -}}
+{{- end -}}
+
+<figure class="media-figure media-gallery {{ $pos }}"{{ with .Get "w" }} style="--media-w: {{ . }}"{{ end }}
+        data-gallery role="group" aria-roledescription="galeria de imagens"
+        aria-label="Galeria: {{ .Get "label" }}">
+  <div class="gallery-viewport">
+    {{- /* aria-live=polite: trocar de slide anuncia o novo conteúdo sem roubar
+           o foco de quem está navegando. */ -}}
+    <ol class="gallery-track" aria-live="polite">
+      {{ .Inner }}
+    </ol>
+  </div>
+  <div class="gallery-controls">
+    <button type="button" class="gallery-btn" data-gallery-first aria-label="Primeira foto">
+      <span class="gallery-ico gallery-ico-first" aria-hidden="true"></span>
+    </button>
+    <button type="button" class="gallery-btn" data-gallery-prev aria-label="Foto anterior">
+      <span class="gallery-ico gallery-ico-prev" aria-hidden="true"></span>
+    </button>
+    <span class="gallery-count" aria-hidden="true"><span data-gallery-index>1</span>/<span data-gallery-total>1</span></span>
+    <button type="button" class="gallery-btn" data-gallery-next aria-label="Próxima foto">
+      <span class="gallery-ico gallery-ico-next" aria-hidden="true"></span>
+    </button>
+    <button type="button" class="gallery-btn" data-gallery-last aria-label="Última foto">
+      <span class="gallery-ico gallery-ico-last" aria-hidden="true"></span>
+    </button>
+  </div>
+</figure>

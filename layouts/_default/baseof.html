@@ -29,14 +29,25 @@
          se auto-desativaria. Ver palette.html / modal-a11y-contract. */ -}}
   {{ partial "palette.html" . }}
 
+  {{- /* Lightbox: mesmo contrato (irmão do #page). Só entra onde há galeria —
+         .HasShortcode pergunta ao Hugo se a página usou o shortcode, em vez de
+         despejar o markup do overlay em toda página do site. */ -}}
+  {{- if .HasShortcode "gallery" }}
+  {{ partial "lightbox.html" . }}
+  {{- end }}
+
   {{- /* JS deferred: roda após o parse, na ordem do README (prompt·palette·theme·mobile).
          prompt.js monta o motor mountPrompt nos ids de prompt vivo que existirem
          (#footer-typed + agora #palette-input; body/sidebar fazem no-op até chegarem).
          palette.js liga Ctrl+K + os gatilhos [data-command]. theme.js sincroniza
-         tema/fonte (header); mobile.js liga o hambúrguer. */ -}}
+         tema/fonte (header); mobile.js liga o hambúrguer. gallery.js monta as
+         galerias + o lightbox: entra no bundle único (não por página) para o
+         arquivo continuar cacheável — onde não há [data-gallery] ele é um
+         querySelectorAll vazio e sai. */ -}}
   {{- $js := slice
         (resources.Get "js/prompt.js")
         (resources.Get "js/palette.js")
+        (resources.Get "js/gallery.js")
         (resources.Get "js/theme.js")
         (resources.Get "js/mobile.js")
         | resources.Concat "js/bundle.js" | minify | fingerprint -}}

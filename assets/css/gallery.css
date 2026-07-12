@@ -1,0 +1,273 @@
+/* Galeria de imagens do post (M6). Standalone; tokens de tokens.css —
+   nunca hex fixo, pra recolorir com o tema. Cantos retos (--radius:0),
+   assinatura do tema. Par do gallery.js + ícones chevron-*.svg. */
+
+/* ── Caixa da galeria (overlay) ───────────────────────────────────────
+   A galeria virou uma CAIXA única: a imagem preenche, a legenda fica sempre
+   visível sobreposta no canto inferior-esquerdo e os controles no inferior-
+   direito (pedido do Nilton). .media-gallery é o ancestral posicionado. */
+.media-gallery {
+    position: relative;
+}
+
+/* O viewport recorta o que vaza (slides escondidos com `hidden` saem do fluxo). */
+.gallery-viewport {
+    overflow: hidden;
+}
+
+/* O trilho é a <ol> — reset de lista (a semântica ordinal serve ao leitor de
+   tela, não ao visual). */
+.gallery-track {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Cada slide ancora sua própria legenda sobreposta. Um por vez (`hidden`). */
+.gallery-slide {
+    margin: 0;
+    position: relative;
+}
+
+/* Botão de zoom = a imagem inteira é clicável (abre o lightbox). Sem chrome
+   próprio (vira a moldura da img); cursor de lupa; foco visível p/ teclado. */
+.gallery-zoom {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+}
+
+.gallery-zoom:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+}
+
+/* Mídia responsiva: enche a largura, altura proporcional, sem baseline gap. */
+.gallery-slide img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Legenda SEMPRE visível, sobreposta no inferior-esquerdo, com fundo translúcido
+   p/ legibilidade sobre qualquer imagem. max-width deixa folga p/ os controles
+   à direita não colidirem. */
+.gallery-cap {
+    position: absolute;
+    left: 0.6rem;
+    bottom: 0.6rem;
+    max-width: 58%;
+    margin: 0;
+    padding: 0.35rem 0.6rem;
+    background: color-mix(in oklab, var(--background) 78%, transparent);
+    color: var(--foreground);
+    font-size: 0.82rem;
+    line-height: 1.35;
+    border-radius: var(--radius);
+}
+
+/* ── Controles (overlay inferior-direito) ──────────────────────────────
+   Dentro da caixa, canto inferior-direito, sobre a imagem. Fundo translúcido +
+   borda quieta p/ destacar da foto. z-index acima da img/legenda. */
+.gallery-controls {
+    position: absolute;
+    right: 0.6rem;
+    bottom: 0.6rem;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem;
+    background: color-mix(in oklab, var(--background) 80%, transparent);
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius);
+}
+
+/* Botão de navegação: fundo morto (--accent-mute), borda accent quieta,
+   cantos retos. A cor do glifo vem de `color` (currentColor no mask). */
+.gallery-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    background-color: var(--accent-mute);
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius);
+    color: var(--foreground);
+    cursor: pointer;
+}
+
+/* Foco visível (teclado): contorno accent destacado — gate de a11y. */
+.gallery-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+/* Extremos: botão sem destino fica apagado e não-clicável. */
+.gallery-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ── Glifos (chevrons) ─────────────────────────────────────────────── */
+/* Cada ícone é um SVG pintado por CSS mask + background-color:currentColor
+   (mesmo padrão dos ícones de UI/footer). currentColor herda o `color` do
+   botão -> recolore com o tema/hover. Os 4 só diferem na URL do mask. */
+.gallery-ico {
+    width: 13px;
+    height: 13px;
+    background-color: currentColor;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+}
+
+.gallery-ico-first {
+    -webkit-mask-image: url(/icons/chevron-first.svg);
+    mask-image: url(/icons/chevron-first.svg);
+}
+
+.gallery-ico-prev {
+    -webkit-mask-image: url(/icons/chevron-prev.svg);
+    mask-image: url(/icons/chevron-prev.svg);
+}
+
+.gallery-ico-next {
+    -webkit-mask-image: url(/icons/chevron-next.svg);
+    mask-image: url(/icons/chevron-next.svg);
+}
+
+.gallery-ico-last {
+    -webkit-mask-image: url(/icons/chevron-last.svg);
+    mask-image: url(/icons/chevron-last.svg);
+}
+
+/* ── Contador ──────────────────────────────────────────────────────── */
+/* "N/total" na fonte do corpo. --foreground, e NÃO o --accent-dim do protótipo:
+   esse token afunda (é accent misturado com o BACKGROUND) — foi o que reprovou
+   contraste no highlight de código, e aqui é pior ainda, porque o fundo dos
+   controles é translúcido e o que está atrás é uma IMAGEM ARBITRÁRIA. Contra
+   fundo imprevisível, o texto tem que ser o tom mais sólido que existe. */
+.gallery-count {
+    font-family: var(--font-body);
+    color: var(--foreground);
+    padding-inline: 0.2rem;
+}
+
+/* Controles só existem se o JS montou a galeria (o script marca o root com
+   data-gallery-ready). Sem JS os slides ficam todos visíveis, empilhados, cada
+   um com sua legenda — degradação honesta. Exibir botões de navegação que não
+   navegam seria uma mentira de UI. */
+.media-gallery:not([data-gallery-ready]) .gallery-controls {
+    display: none;
+}
+
+/* ── Lightbox (imagem cheia) ───────────────────────────────────────────
+   Overlay modal IRMÃO do #page (como a command palette): ao abrir, #page fica
+   `inert`, o foco entra, Esc/clique-fora/X fecham e o foco volta ao gatilho.
+   Mostra a imagem da galeria em tamanho cheio + legenda + prev/próxima. */
+.lightbox-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: color-mix(in oklab, var(--background) 86%, transparent);
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+}
+
+/* [hidden] vence o display:flex (especificidade igual, mas precisa ser explícito
+   pois display sobrescreveria o hidden nativo). */
+.lightbox-backdrop[hidden] {
+    display: none;
+}
+
+.lightbox {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    max-width: min(92vw, 1100px);
+    max-height: 90vh;
+}
+
+.lightbox-figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-height: 0;
+}
+
+.lightbox-img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: 76vh;
+    object-fit: contain;
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius);
+}
+
+.lightbox-cap {
+    margin: 0;
+    text-align: center;
+    color: var(--foreground);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.lightbox-cap[hidden] {
+    display: none;
+}
+
+/* Linha de navegação (reusa .gallery-btn / .gallery-count). */
+.lightbox-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+}
+
+/* Botão fechar: canto superior-direito do diálogo, glifo close.svg via mask. */
+.lightbox-close {
+    position: absolute;
+    top: -0.6rem;
+    right: -0.6rem;
+    width: 2rem;
+    height: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background-color: var(--accent-mute);
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius);
+    color: var(--foreground);
+    cursor: pointer;
+}
+
+.lightbox-close:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.lightbox-close-ico {
+    width: 13px;
+    height: 13px;
+    background-color: currentColor;
+    -webkit-mask: url(/icons/close.svg) center / contain no-repeat;
+    mask: url(/icons/close.svg) center / contain no-repeat;
+}

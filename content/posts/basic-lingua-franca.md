@@ -61,3 +61,15 @@ A sintaxe mudou. O contrato — digito, ele obedece, eu vejo — é o mesmo de 1
 
 Ninguém chamava aquilo de *developer experience*. Era só o teclado, e o que ele
 fazia quando você o apertava.
+
+{{< gallery label="Restauração de um C64" pos="break-box" w="520px" >}}
+  {{< slide src="demo/g1.jpg" alt="Bancada com o protótipo montado e o osciloscópio ligado."
+      cap="A bancada no primeiro dia de testes — fios por toda parte." >}}
+  {{< slide src="demo/g2.jpg" alt="Close da placa soldada à mão sob a lupa."
+      cap="Solda à mão da placa principal, ponto a ponto." >}}
+  {{< slide src="demo/g3.jpg" alt="O aparelho fechado exibindo a tela acesa."
+      cap="O resultado final, já na caixa, com a tela acesa." >}}
+{{< /gallery >}}
+
+Restaurar um desses hoje é menos eletrônica do que arqueologia: o difícil não é
+soldar, é descobrir o que a placa esperava encontrar do outro lado.

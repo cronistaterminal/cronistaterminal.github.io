@@ -27,15 +27,17 @@ _default:
 # O que ele indexa é decidido por MARCAÇÃO no single.html (data-pagefind-body /
 # -ignore / -meta / -filter), não aqui.
 #
-# --cleanDestinationDir: o Hugo NÃO limpa o public/ por padrão, só sobrescreve o
-# que ele mesmo gera. Um public/ acumulado entre builds pode servir HTML velho
-# (vi datas antigas num post enquanto o resto do site já estava novo — o arquivo
-# era resíduo de um build anterior, sem --minify). Build de produção parte de um
-# destino limpo, ponto.
-# A flag roda no passo do HUGO, antes do pagefind — se rodasse depois, apagaria o
-# public/pagefind/ que o indexador acabou de escrever.
+# `rm -rf public` em vez de --cleanDestinationDir: o Hugo NÃO limpa o public/ por
+# padrão, só sobrescreve o que ele mesmo gera, e um public/ acumulado JÁ serviu
+# HTML velho aqui mais de uma vez (datas antigas num post; e depois um <img> com
+# o src do fallback num build em que o asset já existia). A flag deveria resolver,
+# mas ela relata "Cleaned 0" e o resíduo continua lá — em vez de confiar no que
+# ela promete, apagamos o diretório. Determinístico, e custa milissegundos.
+# Vem ANTES do pagefind — se apagássemos depois, levaríamos junto o public/pagefind/
+# que o indexador acabou de escrever.
 build:
-    hugo --gc --minify --cleanDestinationDir
+    rm -rf public
+    hugo --gc --minify
     npx --yes pagefind@latest --site public
 
 # Servidor de desenvolvimento (live reload, inclui drafts).

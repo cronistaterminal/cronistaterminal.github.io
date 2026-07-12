@@ -1,0 +1,39 @@
+{{- /* Um slide da galeria. Só faz sentido dentro de {{< gallery >}} — daí a
+       checagem de .Parent: fora dela o markup sairia como um <li> órfão, sem
+       viewport, sem controles e sem ninguém para escondê-lo.
+
+       A imagem inteira é o botão de zoom (abre o lightbox). Só o PRIMEIRO slide
+       carrega com prioridade: os outros começam `hidden`, e pedir os bytes de
+       uma imagem que ninguém está vendo é desperdício no caminho crítico. */ -}}
+
+{{- if not .Parent -}}
+  {{- errorf "shortcode slide (%s): só pode ser usado dentro de {{< gallery >}}" .Position -}}
+{{- end -}}
+{{- if ne .Parent.Name "gallery" -}}
+  {{- errorf "shortcode slide (%s): o pai é %q, mas slide só vive dentro de {{< gallery >}}" .Position .Parent.Name -}}
+{{- end -}}
+{{- $src := .Get "src" -}}
+{{- if not $src -}}
+  {{- errorf "shortcode slide (%s): falta o parâmetro obrigatório `src`" .Position -}}
+{{- end -}}
+{{- if not (isset .Params "alt") -}}
+  {{- errorf "shortcode slide (%s): falta o parâmetro obrigatório `alt`. Use alt=\"\" se a imagem for decorativa." .Position -}}
+{{- end -}}
+
+{{- $img := resources.Get $src -}}
+{{- with .Page.Resources.GetMatch $src -}}{{- $img = . -}}{{- end -}}
+{{- $first := eq .Ordinal 0 -}}
+
+<li class="gallery-slide" aria-roledescription="slide"{{ if not $first }} hidden{{ end }}>
+  <button type="button" class="gallery-zoom" aria-label="Ampliar imagem">
+    {{- with $img }}
+    <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}"
+         alt="{{ $.Get "alt" }}"{{ if not $first }} loading="lazy"{{ end }} decoding="async">
+    {{- else }}
+    <img src="{{ $src }}" alt="{{ .Get "alt" }}"{{ if not $first }} loading="lazy"{{ end }} decoding="async">
+    {{- end }}
+  </button>
+  {{- with .Get "cap" }}
+  <figcaption class="media-cap gallery-cap">{{ . | markdownify }}</figcaption>
+  {{- end }}
+</li>
