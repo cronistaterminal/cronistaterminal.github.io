@@ -20,17 +20,25 @@
   </ul>
   {{- end }}
 
+  {{- /* As DUAS caixas de data dizem coisas diferentes, e sem rótulo são só dois
+         números lado a lado:
+           .post-date -> quando o POST foi publicado (obrigatório)
+           .post-era  -> o PERÍODO de que o post fala (opcional)
+         Rótulo em duas camadas, igual ao single: `title` só aparece no hover do
+         MOUSE (não no foco por teclado, e com suporte irregular em leitor de
+         tela), então vai acompanhado de um .sr-only. */ -}}
   <div class="post-row">
     <div class="post-meta">
-      <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">
+      <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}" title="Data de publicação">
         <a class="post-date-link" href="{{ .RelPermalink }}">
+          <span class="sr-only">Publicado em: </span>
           <span class="post-day">{{ .Date.Format "02" }}</span>
           <span class="post-month" data-mon="{{ index $monthsAbbr $mi }}">{{ index $monthsFull $mi }}</span>
           <span class="post-year">{{ .Date.Format "2006" }}</span>
         </a>
       </time>
       {{- with .Params.epoca }}
-      <a class="post-era" href="{{ $.RelPermalink }}"><span class="sr-only">Época retratada: </span>{{ . }}</a>
+      <a class="post-era" href="{{ $.RelPermalink }}" title="Período retratado"><span class="sr-only">Época retratada: </span>{{ . }}</a>
       {{- end }}
     </div>
 

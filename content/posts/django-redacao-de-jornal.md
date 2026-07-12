@@ -1,6 +1,6 @@
 +++
 title = 'Django, o framework que nasceu numa redação de jornal'
-date = 2005-07-15
+date = 2026-05-25
 draft = false
 num = 1228
 epoca = '2003–2008'

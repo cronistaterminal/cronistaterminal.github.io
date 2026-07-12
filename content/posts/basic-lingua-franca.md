@@ -1,6 +1,6 @@
 +++
 title = 'Quando o BASIC era a língua franca dos quartos'
-date = 1984-03-03
+date = 2026-06-22
 draft = false
 num = 1233
 epoca = '1980–1991'

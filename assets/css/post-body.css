@@ -137,8 +137,13 @@
 /* Abstract: agrupa os dois TL;DR no topo do post. Borda-esquerda accent
    (marca "este é o resumo, leia primeiro") + recuo; empilha curto + longo
    com gap. Ecoa o blockquote (mesma gramática de bloco-com-borda), mas
-   accent CHEIO (não accent-line): é destaque editorial, não voz secundária. */
+   accent CHEIO (não accent-line): é destaque editorial, não voz secundária.
+
+   margin-top espelha o margin da .post-rule (2.4rem): o abstract fica com o
+   MESMO respiro acima (título) e abaixo (régua) — a caixa do resumo lê como um
+   bloco solto entre os dois, não colada no título. */
 .post-abstract {
+    margin-top: 2.4rem;
     border-left: 3px solid var(--accent);
     padding-left: 1.1rem;
     display: flex;

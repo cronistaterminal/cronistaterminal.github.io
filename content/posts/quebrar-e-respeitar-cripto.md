@@ -1,6 +1,6 @@
 +++
 title = 'O verão em que aprendi a quebrar (e respeitar) criptografia'
-date = 1999-01-09
+date = 2026-05-11
 draft = false
 num = 1225
 epoca = '1997–2003'

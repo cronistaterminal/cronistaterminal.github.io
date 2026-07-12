@@ -1,6 +1,6 @@
 +++
 title = 'Turing não inventou o computador (e por que isso importa)'
-date = 1936-06-22
+date = 2026-06-08
 draft = false
 num = 1230
 epoca = '1936'

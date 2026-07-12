@@ -4,8 +4,8 @@
   já existiam no post-card e na sidebar (e que até aqui davam 404).
 
   Reusa o post-card e a paginação da home; o que muda é só o cabeçalho, que
-  nomeia o recorte. Ordena por num desc, igual à home (a crônica é numerada;
-  a data exibida é a do EVENTO, não a da publicação — ver index.html).
+  nomeia o recorte. Ordena por num desc, igual à home (a crônica é numerada e a
+  ordem do arquivo é a da numeração — ver index.html).
 */ -}}
 {{- $posts := .Pages -}}
 {{- $posts = sort $posts "Params.num" "desc" -}}

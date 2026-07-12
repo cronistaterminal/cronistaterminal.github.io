@@ -1,6 +1,6 @@
 +++
 title = 'Watchmen e a arquitetura de uma conspiração'
-date = 1986-10-28
+date = 2026-04-27
 draft = false
 num = 1220
 epoca = '1986–1987'

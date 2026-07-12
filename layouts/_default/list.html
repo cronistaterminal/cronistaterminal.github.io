@@ -7,7 +7,7 @@
 
   É o mesmo arranjo da home (post-card + paginação); o que muda é o cabeçalho,
   que nomeia o recorte — igual ao term.html. Ordena por num desc: a crônica é
-  numerada, e a data exibida é a do EVENTO, não a da publicação (ver index.html).
+  numerada, e a ordem do arquivo é a da numeração (ver index.html).
 */ -}}
 {{- $posts := sort .Pages "Params.num" "desc" -}}
 {{- $paginator := .Paginate $posts -}}

@@ -30,18 +30,30 @@
     </ul>
     {{- end }}
 
+    {{- /* As DUAS caixas de data dizem coisas diferentes, e sem rótulo ficam
+           ambíguas (dois números lado a lado):
+             .post-date -> quando o POST foi publicado (obrigatório)
+             .post-era  -> o PERÍODO de que o post fala (opcional; só existe
+                           quando a crônica trata de um recorte específico —
+                           ex.: o post do Turing fala de 1936)
+
+           Cada uma leva DUAS camadas de rótulo, porque `title` sozinho não
+           basta: ele só aparece no hover do MOUSE — não no foco por teclado, e
+           com suporte irregular em leitor de tela. Então title (mouse) + .sr-only
+           (leitor de tela). O olho vê só o número, como no protótipo. */ -}}
     <div class="post-meta post-meta-single">
-      <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">
+      <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}" title="Data de publicação">
         {{- /* Na single a data não é link (já estamos no destino): o <a> da
                listagem vira <span>, mas as classes seguem p/ o CSS reusar. */ -}}
         <span class="post-date-link">
+          <span class="sr-only">Publicado em: </span>
           <span class="post-day">{{ .Date.Format "02" }}</span>
           <span class="post-month" data-mon="{{ index $monthsAbbr $mi }}">{{ index $monthsFull $mi }}</span>
           <span class="post-year">{{ .Date.Format "2006" }}</span>
         </span>
       </time>
       {{- with .Params.epoca }}
-      <span class="post-era"><span class="sr-only">Época retratada: </span>{{ . }}</span>
+      <span class="post-era" title="Período retratado"><span class="sr-only">Época retratada: </span>{{ . }}</span>
       {{- end }}
     </div>
 
