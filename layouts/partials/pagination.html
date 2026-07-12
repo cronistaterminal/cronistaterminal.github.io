@@ -8,8 +8,8 @@
   Nos LIMITES o Hugo OMITE (não desabilita) o que sai de alcance:
     · pág. 1 -> some «primeira ;  última -> some próxima>
   Omitir (não desabilitar) evita ruído/armadilha de contraste pro leitor de tela.
-  rel=prev/next marcam a sequência pro crawler. A busca segue como gatilho da palette
-  (data-command) — inerte até o componente de busca chegar.
+  rel=prev/next marcam a sequência pro crawler. O chip "buscar" é gatilho da palette
+  (data-command="search") — abre o overlay (palette.html/palette.js).
 */ -}}
 {{- $pag := . -}}
 {{- if gt $pag.TotalPages 1 -}}

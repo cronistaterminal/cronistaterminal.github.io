@@ -1,0 +1,47 @@
+{{- /*
+  palette.html — overlay da command palette (#palette-backdrop). Global (todo
+  layout via baseof), invocável por Ctrl+K ou por qualquer [data-command="search"]
+  (sidebar, pagination). Motor + contrato de foco em palette.js / modal-a11y-contract:
+  IRMÃO do #page (não filho) — palette.js faz #page.inert ao abrir; se estivesse
+  dentro, se auto-desativaria.
+
+  Resultados: render de site.RegularPages (posts, num desc — mesma ordem da listagem
+  e da sidebar). SEM filtro por digitação ainda — a busca real (Pagefind) entra
+  depois; por ora a palette lista todos os posts e setas/Enter navegam neles. Cada
+  <li> é um role="option" com id único (palette.js usa em aria-activedescendant);
+  .hit-head aponta pro permalink real (Enter faz .click() -> navega).
+*/ -}}
+{{- $posts := where site.RegularPages "Type" "posts" -}}
+{{- $posts = sort $posts "Params.num" "desc" -}}
+<div id="palette-backdrop" class="palette-backdrop" hidden>
+  <div id="palette" class="palette term-panel" role="dialog" aria-modal="true" aria-label="Buscar posts">
+    <span class="term-label" aria-hidden="true"><span class="prompt">$</span> ./buscar.fish</span>
+
+    <button type="button" class="palette-close" aria-label="Fechar busca"><span class="palette-close-icon" aria-hidden="true"></span></button>
+
+    <div class="palette-prompt">
+      <span class="prompt" aria-hidden="true">$</span>
+      <input id="palette-input" class="palette-input" type="search" placeholder="grep nos posts…"
+        autocomplete="off" spellcheck="false" aria-label="Termo de busca" role="combobox"
+        aria-expanded="true" aria-controls="palette-results" aria-autocomplete="list">
+    </div>
+
+    <ul id="palette-results" class="palette-results" role="listbox" aria-label="Resultados">
+      {{- range $posts }}
+      <li class="palette-hit" role="option" id="hit-{{ .Params.num }}" aria-selected="false" aria-expanded="false">
+        <a class="hit-head" href="{{ .RelPermalink }}" tabindex="-1"><span class="hit-id">#{{ .Params.num }}</span><span class="hit-title">{{ .Title }}</span></a>
+        {{- with .Params.tldr }}
+        <p class="hit-tldr">{{ . }}</p>
+        {{- end }}
+        {{- with .Params.tldr_long }}
+        <p class="hit-tldr-long">{{ . }}</p>
+        {{- end }}
+      </li>
+      {{- end }}
+    </ul>
+
+    <p class="palette-hint" aria-hidden="true"><kbd>↑</kbd><kbd>↓</kbd> mover · <kbd>Tab</kbd> tl;dr ·
+      <kbd>Enter</kbd> abrir · <span class="hint-close"><kbd>Esc</kbd> fechar</span>
+    </p>
+  </div>
+</div>

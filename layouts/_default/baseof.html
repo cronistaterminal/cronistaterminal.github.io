@@ -24,12 +24,19 @@
     {{ partial "footer.html" . }}
   </div>
 
-  {{- /* JS deferred: roda após o parse, na ordem do README (prompt·theme·mobile; palette
-         entra com a busca). prompt.js monta o motor mountPrompt nos ids de prompt vivo que
-         existirem (hoje só #footer-typed; body/sidebar/palette fazem no-op até chegarem).
-         theme.js sincroniza tema/fonte (header); mobile.js liga o hambúrguer. */ -}}
+  {{- /* Command palette: IRMÃO do #page (não filho). palette.js faz #page.inert ao
+         abrir p/ tirar o fundo do foco/leitor; se o overlay estivesse dentro de #page,
+         se auto-desativaria. Ver palette.html / modal-a11y-contract. */ -}}
+  {{ partial "palette.html" . }}
+
+  {{- /* JS deferred: roda após o parse, na ordem do README (prompt·palette·theme·mobile).
+         prompt.js monta o motor mountPrompt nos ids de prompt vivo que existirem
+         (#footer-typed + agora #palette-input; body/sidebar fazem no-op até chegarem).
+         palette.js liga Ctrl+K + os gatilhos [data-command]. theme.js sincroniza
+         tema/fonte (header); mobile.js liga o hambúrguer. */ -}}
   {{- $js := slice
         (resources.Get "js/prompt.js")
+        (resources.Get "js/palette.js")
         (resources.Get "js/theme.js")
         (resources.Get "js/mobile.js")
         | resources.Concat "js/bundle.js" | minify | fingerprint -}}
