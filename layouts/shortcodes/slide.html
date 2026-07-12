@@ -20,8 +20,13 @@
   {{- errorf "shortcode slide (%s): falta o parâmetro obrigatório `alt`. Use alt=\"\" se a imagem for decorativa." .Position -}}
 {{- end -}}
 
+{{- /* Caminho local que não resolve = FALHA DE BUILD (ver o comentário longo em
+       figure.html: o fallback silencioso já publicou <img> quebrado). */ -}}
 {{- $img := resources.Get $src -}}
 {{- with .Page.Resources.GetMatch $src -}}{{- $img = . -}}{{- end -}}
+{{- if and (not $img) (not (or (hasPrefix $src "http") (hasPrefix $src "/"))) -}}
+  {{- errorf "shortcode slide (%s): não achei o resource %q (procurei em assets/ e no page bundle)." .Position $src -}}
+{{- end -}}
 {{- $first := eq .Ordinal 0 -}}
 
 <li class="gallery-slide" aria-roledescription="slide"{{ if not $first }} hidden{{ end }}>

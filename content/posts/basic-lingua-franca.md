@@ -13,9 +13,9 @@ tags = ['retrocomputacao', 'c64']
     alt="Monitor CRT âmbar de um Commodore 64 ligado, exibindo o cursor piscando no prompt READY."
     cap="Um C64 recém-ligado: o prompt READY antes de qualquer fita carregar." >}}
 
-A máquina ligava direto no interpretador. Não havia área de trabalho, não havia
-menu, não havia nada entre a pessoa e a linguagem — só um cursor piscando e a
-promessa de que qualquer linha digitada ali seria levada a sério.
+A máquina ligava direto no interpretador[^basic]. Não havia área de trabalho, não
+havia menu, não havia nada entre a pessoa e a linguagem — só um cursor piscando e
+a promessa de que qualquer linha digitada ali seria levada a sério.
 
 Ligar o computador e cair no interpretador era a coisa mais natural do mundo, e
 hoje é quase inconcebível: a máquina começava disposta a conversar.
@@ -33,8 +33,12 @@ hoje é quase inconcebível: a máquina começava disposta a conversar.
 ```
 
 Dez linhas, e o computador já sabia o seu nome. O `GOTO` da linha 70 é o pecado
-original de que Dijkstra reclamaria a vida inteira — mas era também a primeira
-vez que alguém de doze anos via um laço infinito acontecer por culpa própria.
+original de que Dijkstra reclamaria a vida inteira[^goto] — mas era também a
+primeira vez que alguém de doze anos via um laço infinito acontecer por culpa
+própria.
+
+A revista chegava com o programa impresso, e digitá-lo era metade da diversão: um
+caractere errado na linha 340 e a tarde inteira virava caça ao erro[^revistas].
 
 O que se perdeu não foi o BASIC: foi a distância curta. Hoje o mesmo impulso
 sobrevive no terminal, que continua sendo o único lugar onde a máquina responde
@@ -76,3 +80,15 @@ soldar, é descobrir o que a placa esperava encontrar do outro lado.
 
 {{< audio src="demo/recado.mp3" pos="break-box" w="440px"
     cap="Recado de voz — bastidores deste post." >}}
+
+[^basic]: KEMENY, John G.; KURTZ, Thomas E. *Back to BASIC: The History, Corruption
+    and Future of the Language*. Addison-Wesley, 1985. Os autores da linguagem
+    reclamando do que fizeram dela — vale só pelo título.
+
+[^goto]: DIJKSTRA, Edsger W. "Go To Statement Considered Harmful". *Communications
+    of the ACM*, v. 11, n. 3, mar. 1968, p. 147–148. Disponível em
+    [homepages.cwi.nl](https://www.cs.utexas.edu/~EWD/transcriptions/EWD02xx/EWD215.html).
+
+[^revistas]: Ver os acervos digitalizados da *Micro Sistemas* (1981–1990), a
+    revista brasileira que publicava listagens em BASIC para o CP-500, o TK-2000
+    e afins.

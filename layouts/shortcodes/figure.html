@@ -32,13 +32,22 @@
   {{- errorf "shortcode figure (%s): pos=%q inválido. Use um de: %s" .Position $pos (delimit $valid ", ") -}}
 {{- end -}}
 
-{{- /* Resolver a imagem como RESOURCE quando possível (assets/ ou page bundle):
-       aí conhecemos as dimensões reais e podemos emitir width/height, o que
-       reserva o espaço antes do byte chegar e mata o layout shift. Com um src
-       cru (URL externa) não há como saber — emitimos sem, e o CLS é risco do
-       autor. */ -}}
+{{- /* Resolver a imagem como RESOURCE (assets/ ou page bundle): aí conhecemos as
+       dimensões reais e emitimos width/height, o que reserva o espaço antes do
+       byte chegar e mata o layout shift.
+
+       Um caminho LOCAL que não resolve é FALHA DE BUILD, não um fallback. Já
+       aconteceu: um build cuspiu src="demo/crt-monitor.jpg" (relativo, 404 em
+       /posts/…/) enquanto o asset existia — e o site foi para o disco com a
+       imagem quebrada, sem um aviso sequer. Emitir o src cru nesse caso é
+       transformar um erro de build numa imagem morta em produção. Só passa sem
+       resolver o que é EXPLICITAMENTE externo (http…) ou já absoluto (/…). */ -}}
 {{- $img := resources.Get $src -}}
 {{- with .Page.Resources.GetMatch $src -}}{{- $img = . -}}{{- end -}}
+{{- $externo := or (hasPrefix $src "http") (hasPrefix $src "/") -}}
+{{- if and (not $img) (not $externo) -}}
+  {{- errorf "shortcode figure (%s): não achei o resource %q (procurei em assets/ e no page bundle). Se for imagem externa, use a URL completa." .Position $src -}}
+{{- end -}}
 
 <figure class="media-figure {{ $pos }}"{{ with .Get "w" }} style="--media-w: {{ . }}"{{ end }}>
   {{- with $img }}

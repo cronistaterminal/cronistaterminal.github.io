@@ -17,8 +17,12 @@
   {{- errorf "shortcode audio (%s): pos=%q inválido. Use um de: %s" .Position $pos (delimit $valid ", ") -}}
 {{- end -}}
 
+{{- /* Caminho local que não resolve = FALHA DE BUILD (ver figure.html). */ -}}
 {{- $file := resources.Get $src -}}
 {{- with .Page.Resources.GetMatch $src -}}{{- $file = . -}}{{- end -}}
+{{- if and (not $file) (not (or (hasPrefix $src "http") (hasPrefix $src "/"))) -}}
+  {{- errorf "shortcode audio (%s): não achei o resource %q (procurei em assets/ e no page bundle)." .Position $src -}}
+{{- end -}}
 {{- $url := $src -}}
 {{- with $file -}}{{- $url = .RelPermalink -}}{{- end -}}
 

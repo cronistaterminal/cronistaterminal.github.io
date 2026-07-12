@@ -37,6 +37,12 @@ _default:
 # que o indexador acabou de escrever.
 build:
     rm -rf public
+    # O `rm` acima JÁ FALHOU ("Directory not empty", transitório e não reproduzido).
+    # Quando isso acontece o build segue sobre um public/ sujo: o Hugo sobrescreve o
+    # que gera e o resto fica VELHO — foi assim que um post apareceu com <img> do
+    # fallback (src relativo, 404) num build em que o asset existia. Se o diretório
+    # sobreviver, abortamos: melhor não ter build do que ter um build metade-velho.
+    @test ! -d public || { echo "ERRO: public/ sobreviveu ao rm -rf — build abortado"; exit 1; }
     hugo --gc --minify
     npx --yes pagefind@latest --site public
 
