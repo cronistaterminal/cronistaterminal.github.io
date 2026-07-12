@@ -1,0 +1,53 @@
+{{- /* Figura (imagem + legenda). O autor escreve markdown; o HTML do protótipo
+       (.media-figure + modificador de posição) sai daqui.
+
+           {{< figure src="demo/crt-monitor.jpg"
+                      alt="Monitor CRT âmbar exibindo o cursor no prompt READY."
+                      cap="Um C64 recém-ligado, antes de qualquer fita carregar."
+                      pos="inline-right" w="320px" >}}
+
+       Parâmetros:
+         src  (obrig.) resource em assets/, resource do page bundle, ou URL/caminho cru
+         alt  (obrig.) texto alternativo — pode ser "" p/ imagem puramente decorativa,
+                       mas o parâmetro precisa EXISTIR: a ausência é sempre um
+                       esquecimento, e um alt faltando é o erro de a11y mais comum
+                       que existe. Por isso falhamos o build em vez de aceitar.
+         cap  (opc.)   legenda visível
+         pos  (opc.)   inline-left | inline-right | break-full | break-box
+                       (default: break-full — ocupa a coluna, sem float, que é o
+                       comportamento menos surpreendente)
+         w    (opc.)   largura da mídia p/ inline-* e break-box (ex.: "320px") */ -}}
+
+{{- $src := .Get "src" | default "" -}}
+{{- if not $src -}}
+  {{- errorf "shortcode figure (%s): falta o parâmetro obrigatório `src`" .Position -}}
+{{- end -}}
+{{- if not (isset .Params "alt") -}}
+  {{- errorf "shortcode figure (%s): falta o parâmetro obrigatório `alt`. Use alt=\"\" se a imagem for decorativa." .Position -}}
+{{- end -}}
+
+{{- $pos := .Get "pos" | default "break-full" -}}
+{{- $valid := slice "inline-left" "inline-right" "break-full" "break-box" -}}
+{{- if not (in $valid $pos) -}}
+  {{- errorf "shortcode figure (%s): pos=%q inválido. Use um de: %s" .Position $pos (delimit $valid ", ") -}}
+{{- end -}}
+
+{{- /* Resolver a imagem como RESOURCE quando possível (assets/ ou page bundle):
+       aí conhecemos as dimensões reais e podemos emitir width/height, o que
+       reserva o espaço antes do byte chegar e mata o layout shift. Com um src
+       cru (URL externa) não há como saber — emitimos sem, e o CLS é risco do
+       autor. */ -}}
+{{- $img := resources.Get $src -}}
+{{- with .Page.Resources.GetMatch $src -}}{{- $img = . -}}{{- end -}}
+
+<figure class="media-figure {{ $pos }}"{{ with .Get "w" }} style="--media-w: {{ . }}"{{ end }}>
+  {{- with $img }}
+  <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}"
+       alt="{{ $.Get "alt" }}" loading="lazy" decoding="async">
+  {{- else }}
+  <img src="{{ $src }}" alt="{{ .Get "alt" }}" loading="lazy" decoding="async">
+  {{- end }}
+  {{- with .Get "cap" }}
+  <figcaption class="media-cap">{{ . | markdownify }}</figcaption>
+  {{- end }}
+</figure>

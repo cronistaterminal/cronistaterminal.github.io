@@ -9,9 +9,18 @@ tldr_long = 'A década em que digitar um jogo a partir de uma revista era um rit
 tags = ['retrocomputacao', 'c64']
 +++
 
+{{< figure src="demo/crt-monitor.jpg" pos="inline-right" w="320px"
+    alt="Monitor CRT âmbar de um Commodore 64 ligado, exibindo o cursor piscando no prompt READY."
+    cap="Um C64 recém-ligado: o prompt READY antes de qualquer fita carregar." >}}
+
 A máquina ligava direto no interpretador. Não havia área de trabalho, não havia
 menu, não havia nada entre a pessoa e a linguagem — só um cursor piscando e a
 promessa de que qualquer linha digitada ali seria levada a sério.
+
+Ligar o computador e cair no interpretador era a coisa mais natural do mundo, e
+hoje é quase inconcebível: a máquina começava disposta a conversar.
+
+{{< clear >}}
 
 ```basic {file="ola.bas"}
 10 REM O PRIMEIRO PROGRAMA DE TODA UMA GERACAO
@@ -45,3 +54,10 @@ end
 ```
 
 A sintaxe mudou. O contrato — digito, ele obedece, eu vejo — é o mesmo de 1982.
+
+{{< figure src="demo/keyboard-macro.jpg" pos="break-box" w="520px"
+    alt="Teclado mecânico vintage visto de cima, teclas de função numeradas em vermelho."
+    cap="As teclas de função coloridas — atalhos antes de atalhos serem padrão." >}}
+
+Ninguém chamava aquilo de *developer experience*. Era só o teclado, e o que ele
+fazia quando você o apertava.

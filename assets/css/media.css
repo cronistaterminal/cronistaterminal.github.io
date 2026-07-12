@@ -1,0 +1,118 @@
+/* === media.css — sistema de POSICIONAMENTO DE MÍDIA ===
+   UM wrapper (.media-figure) + modificadores ortogonais: posicionamento
+   (inline-left/inline-right/break-full/break-box) × tipo (gallery/audio/embed).
+   Coerente com .term-panel: borda 1px --accent-line, cantos retos.
+   Os internos de galeria e áudio moram em gallery.css / audio.css — aqui só
+   o posicionamento e a moldura, que valem para os três tipos.
+
+   Quem emite este markup são os shortcodes (layouts/shortcodes/): o autor
+   escreve markdown, não HTML. */
+
+/* Largura-padrão das mídias dimensionáveis (inline-* e break-box). Vive aqui,
+   e não no tokens.css, porque é um dial DO COMPONENTE, não do tema — nenhum
+   tema o redefine. O shortcode sobrescreve por instância via --media-w inline. */
+:root {
+    --media-w-default: 360px;
+}
+
+.media-figure {
+    margin: 1.4rem 0;
+}
+
+/* Borda coerente com os painéis TUI. img como bloco -> sem o gap fantasma que
+   o baseline do inline deixa embaixo. */
+.media-figure img,
+.media-embed {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius);
+}
+
+/* ── Posicionamento (4 modificadores ortogonais) ──────────────────────── */
+
+/* Float à esquerda: o texto envolve. max-width:45% trava p/ a mídia não
+   dominar a coluna de leitura. Margem assimétrica: respiro só do lado que
+   encosta no texto. */
+.media-figure.inline-left {
+    float: left;
+    width: var(--media-w, var(--media-w-default));
+    max-width: 45%;
+    margin: 0.3rem 1.4rem 1rem 0;
+}
+
+/* Espelho do inline-left. */
+.media-figure.inline-right {
+    float: right;
+    width: var(--media-w, var(--media-w-default));
+    max-width: 45%;
+    margin: 0.3rem 0 1rem 1.4rem;
+}
+
+/* Quebra o fluxo, ocupa a largura cheia da coluna. */
+.media-figure.break-full {
+    width: 100%;
+}
+
+/* Quebra o fluxo, caixa centrada de largura --media-w. */
+.media-figure.break-box {
+    width: var(--media-w, var(--media-w-default));
+    max-width: 100%;
+    margin-inline: auto;
+}
+
+/* ── Embeds (YouTube / genérico) ──────────────────────────────────────── */
+
+/* Embed não tem altura intrínseca: o espaço é RESERVADO via aspect-ratio antes
+   do iframe carregar — sem isto o conteúdo abaixo dança quando ele chega (CLS).
+   position:relative ancora o iframe absoluto. */
+.media-embed {
+    position: relative;
+    width: 100%;
+    aspect-ratio: var(--media-ratio, 16/9);
+}
+
+/* O iframe preenche o wrapper; a borda mora no .media-embed. */
+.media-embed iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* ── Legenda ──────────────────────────────────────────────────────────── */
+
+/* Tom dim derivado do --foreground (não cor fixa -> acompanha o tema).
+   O color-mix com `transparent` produz ALPHA, não uma cor opaca: a legenda
+   fica translúcida sobre o que estiver atrás. 65% medido nos 8 temas (compondo
+   o alpha sobre o --background): pior caso 5.74:1 no `bsod`, acima do 4.5. */
+.media-cap {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: color-mix(in oklab, var(--foreground) 65%, transparent);
+}
+
+/* ── Utilitário de clear ──────────────────────────────────────────────── */
+
+/* Encerra o wrap de um float anterior: o próximo bloco começa ABAIXO da mídia,
+   não ao lado dela. Emitido pelo shortcode `clear`. */
+.brk-clear {
+    clear: both;
+}
+
+/* ── Mobile ───────────────────────────────────────────────────────────── */
+
+/* Em tela estreita o float aperta demais a coluna: inline-* perdem o float e
+   viram largura cheia. break-* já se comportam sozinhos. */
+@media (max-width: 720px) {
+    .media-figure.inline-left,
+    .media-figure.inline-right {
+        float: none;
+        width: 100%;
+        max-width: 100%;
+        margin-inline: 0;
+    }
+}

@@ -1,0 +1,46 @@
+{{- /* Embed (iframe com proporção reservada). Dois modos:
+
+           {{< embed yt="dQw4w9WgXcQ" title="Demoscene num Amiga 500" pos="break-full" >}}
+           {{< embed src="https://exemplo.org/player" title="Player de trilha SID"
+                     ratio="3/2" pos="break-box" w="480px" >}}
+
+       O modo `yt` monta a URL do youtube-nocookie sozinho. Não é açúcar: é o
+       jeito de garantir que NENHUM embed do blog caia no domínio que grava
+       cookie de rastreio antes de o leitor clicar em play — deixar isso na mão
+       de quem escreve significa que um dia alguém esquece.
+
+         title (obrig.) — o iframe é um documento inteiro dentro da página; sem
+                          title acessível, o leitor de tela anuncia "frame" e nada
+                          mais. É o equivalente do alt para embeds.
+         ratio (opc.)   — proporção reservada antes do carregamento (default 16/9) */ -}}
+
+{{- $yt := .Get "yt" -}}
+{{- $src := .Get "src" -}}
+{{- if and (not $yt) (not $src) -}}
+  {{- errorf "shortcode embed (%s): informe `yt` (id do vídeo) ou `src` (URL do iframe)" .Position -}}
+{{- end -}}
+{{- if not (.Get "title") -}}
+  {{- errorf "shortcode embed (%s): falta o parâmetro obrigatório `title` — sem ele o iframe é anônimo para leitores de tela" .Position -}}
+{{- end -}}
+{{- with $yt -}}
+  {{- $src = printf "https://www.youtube-nocookie.com/embed/%s" . -}}
+{{- end -}}
+
+{{- $pos := .Get "pos" | default "break-full" -}}
+{{- $valid := slice "inline-left" "inline-right" "break-full" "break-box" -}}
+{{- if not (in $valid $pos) -}}
+  {{- errorf "shortcode embed (%s): pos=%q inválido. Use um de: %s" .Position $pos (delimit $valid ", ") -}}
+{{- end -}}
+
+<figure class="media-figure media-embed-generic {{ $pos }}"{{ with .Get "w" }} style="--media-w: {{ . }}"{{ end }}>
+  <div class="media-embed" style="--media-ratio: {{ .Get "ratio" | default "16/9" }}">
+    {{- /* referrerpolicy restrita: o embed não recebe a URL cheia de onde foi
+           incorporado. allow= só o que o player de fato precisa. */ -}}
+    <iframe src="{{ $src }}" title="{{ .Get "title" }}" loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            {{ if $yt }}allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen{{ end }}></iframe>
+  </div>
+  {{- with .Get "cap" }}
+  <figcaption class="media-cap">{{ . | markdownify }}</figcaption>
+  {{- end }}
+</figure>
