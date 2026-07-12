@@ -1,0 +1,240 @@
+/* === code.css — syntax highlight via Chroma (server-side, Hugo) ===
+   O Chroma marca tokens com as classes curtas do Pygments (.k keyword, .s
+   string, .c comment, …). Aqui mapeamos essas classes a var(--…) do tokens.css.
+   Como tudo deriva do tema (data-theme no <html>), o highlight RECOLORE de graça
+   ao trocar de tema — nenhum hex fixo, nenhuma regra por tema (exceto o reforço
+   monocromático no fim). É o que exige noClasses=false no hugo.toml: com
+   noClasses=true o Chroma inlinaria hex e o highlight ficaria surdo ao tema.
+
+   Estrutura emitida (verificada no HTML do build, não suposta):
+     <div class="code-block">           <- wrapperClass do hugo.toml
+       <pre tabindex="0" class="chroma">
+         <code class="language-fish" data-lang="fish">
+           <span class="line"><span class="cl"> …tokens… </span></span>
+
+   DOIS CANAIS de distinção (requisito do dono):
+     1. COR    — keyword/function/string/comment/number recebem matizes do tema.
+     2. TIPOGRAFIA — negrito/itálico/underline. Independe da cor.
+   Por quê os dois: o tema `high-contrast` é MONOCROMÁTICO (accent ≈ foreground
+   ≈ branco). Ali a cor colapsa e NÃO distingue token nenhum. A tipografia é o
+   canal que sobrevive — e no fim do arquivo o high-contrast ganha underline
+   extra onde até o leve tom de string/number some.
+
+   O Chroma é mais granular que o Prism: onde havia um .token.string existem
+   .s .s1 .s2 .sd .se …. Agrupamos as classes finas nos mesmos BALDES visuais —
+   distinguir dez variedades de string não ajudaria ninguém a ler o código. */
+
+/* --- Container --- */
+.chroma {
+    background: var(--sidebar-bg);
+    /* mesmo fundo dos painéis da sidebar -> o bloco lê como "caixa de UI" */
+    border: 1px solid var(--accent-line);
+    /* borda quieta accent (mesma família das caixas de meta) */
+    border-radius: var(--radius);
+    /* = 0 no tema; respeita o dial caso mude */
+    padding: 1rem 1.1rem;
+    overflow-x: auto;
+    /* linhas longas rolam dentro do bloco, não estouram o layout */
+    font-family: var(--font-ibm);
+    /* mono estável — NÃO segue o toggle Aa; código quer monospace sempre */
+    font-size: .9rem;
+    line-height: 1.5;
+    margin: 1.6rem 0;
+    color: var(--foreground);
+    /* texto base; os tokens abaixo recolorem em cima disto */
+}
+
+/* O Chroma emite tabindex="0" no <pre> — correto (região rolável precisa ser
+   alcançável por teclado), mas isso o torna uma parada de Tab, e o site não tem
+   regra global de :focus-visible: sem esta regra o bloco cairia no anel default
+   do user-agent sobre --sidebar-bg. Mesmo tropeço do Bloco 1 com os links. */
+.chroma:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.chroma code {
+    font-family: inherit;
+}
+
+/* --- Tokens: COR + TIPOGRAFIA --- */
+
+/* Palavra-chave (k=keyword, kc=constant/True, kd=declaration, kn=namespace/import,
+   kp=pseudo, kr=reserved, kt=type): o acento principal, em negrito.
+   Negrito = canal tipográfico que sobrevive ao high-contrast. */
+.chroma .k,
+.chroma .kc,
+.chroma .kd,
+.chroma .kn,
+.chroma .kp,
+.chroma .kr,
+.chroma .kt {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+/* Função (nf), método mágico (fm), classe (nc), decorator (nd): accent LAVADO
+   de claro, negrito itálico. A tipografia (italic+bold) diferencia de keyword
+   mesmo quando as duas cores colapsam pro branco no high-contrast.
+
+   NÃO usar var(--accent-dim) aqui, apesar de ser o que o protótipo fazia: o
+   --accent-dim mistura accent com o BACKGROUND (escurece), e sobre o
+   --sidebar-bg do bloco ele afunda — medido, reprova 4.5:1 em quatro temas
+   (jabuticaba 2.87, zuko 3.27, c64 3.39, ametista 3.62). Misturar com o
+   FOREGROUND clareia em vez de escurecer: pior caso 6.04:1 (jabuticaba).
+   85% mantém a família accent e não colide com o 70% do número. */
+.chroma .nf,
+.chroma .fm,
+.chroma .nc,
+.chroma .nd {
+    color: color-mix(in oklab, var(--accent) 85%, var(--foreground));
+    font-weight: 700;
+    font-style: italic;
+}
+
+/* String, em todas as suas variedades (s/s1/s2 aspas, sa/sb/sc/dl afixos,
+   sd docstring, se escape, sh heredoc, si interpolação, sx outra, sr regex,
+   ss símbolo): tom intermediário accent+foreground. O color-mix garante
+   contraste sobre --sidebar-bg (não some) e segue o tema. 45% de accent:
+   distinto do texto puro sem competir com keyword. */
+.chroma .s,
+.chroma .sa,
+.chroma .sb,
+.chroma .sc,
+.chroma .dl,
+.chroma .sd,
+.chroma .s2,
+.chroma .se,
+.chroma .sh,
+.chroma .si,
+.chroma .sx,
+.chroma .sr,
+.chroma .s1,
+.chroma .ss {
+    color: color-mix(in oklab, var(--accent) 45%, var(--foreground));
+}
+
+/* Comentário (c/c1/cm/ch/cs) e diretiva de pré-processador (cp/cpf — #include,
+   #define: são "meta-linha", não código executável): apagado + itálico.
+   60% de foreground sobre o resto: claramente mais quieto que o código, mas
+   AINDA legível sobre --sidebar-bg (não vira ruído ilegível). Itálico é o
+   reforço tipográfico universal do "isto é comentário".
+   Era 55% (o valor do protótipo) — media 4.48:1 no tema `hacker`, reprovando o
+   4.5 por um fio. Em 60% o pior caso sobe para 5.06:1. */
+.chroma .c,
+.chroma .ch,
+.chroma .cm,
+.chroma .c1,
+.chroma .cs,
+.chroma .cp,
+.chroma .cpf {
+    color: color-mix(in oklab, var(--foreground) 60%, var(--background));
+    font-style: italic;
+}
+
+/* Número (m e as bases mb/mf/mh/mi/mo, il=long): outro tom accent+foreground,
+   distinto da string pelo peso da mistura (70% accent vs 45% da string). */
+.chroma .m,
+.chroma .mb,
+.chroma .mf,
+.chroma .mh,
+.chroma .mi,
+.chroma .mo,
+.chroma .il {
+    color: color-mix(in oklab, var(--accent) 70%, var(--foreground));
+}
+
+/* Operador (o, ow=operador-palavra como `and`/`in`), pontuação (p) e rótulo
+   (nl — em BASIC é o NÚMERO DE LINHA, em C é o alvo de goto): foreground
+   esmaecido. Tudo aqui é ANDAIME — estrutura que sustenta o código sem ser o
+   código. Fica de fundo, de propósito. */
+.chroma .o,
+.chroma .ow,
+.chroma .p,
+.chroma .nl {
+    color: color-mix(in oklab, var(--foreground) 60%, var(--background));
+}
+
+/* Builtin (nb, bp=`self`/`this`), variável (nv e os escopos vc/vg/vi),
+   propriedade (py), atributo (na), constante nomeada (no): foreground cheio —
+   é o "corpo" do código, o que sobra depois do andaime e das palavras da
+   linguagem. Os nomes comuns (.n, .nn, .nx) já herdam foreground do container. */
+.chroma .nb,
+.chroma .bp,
+.chroma .nv,
+.chroma .vc,
+.chroma .vg,
+.chroma .vi,
+.chroma .py,
+.chroma .na,
+.chroma .no {
+    color: var(--foreground);
+}
+
+/* Prompt de sessão de shell (gp — o `$`, que o Chroma reconhece e o Prism não
+   tinha) e saída de comando (go — o que a MÁQUINA respondeu, não o que se
+   digitou). Os dois são ANDAIME de sessão, não código: recuam para o mesmo
+   cinza do operador/pontuação acima. (Pelo mesmo motivo do .nf, o --accent-dim
+   não serve aqui — afunda sobre o --sidebar-bg em quatro dos oito temas.) */
+.chroma .gp,
+.chroma .go {
+    color: color-mix(in oklab, var(--foreground) 60%, var(--background));
+}
+
+.chroma .gp {
+    -webkit-user-select: none;
+    user-select: none;
+    /* copiar o bloco não deve levar o `$` junto */
+}
+
+/* Diff: inserido/removido distinguidos por COR + sinal tipográfico (peso,
+   line-through), pra não depender só de verde/vermelho — que aqui nem existem,
+   já que a paleta é a do tema. */
+.chroma .gi {
+    color: color-mix(in oklab, var(--accent) 55%, var(--foreground));
+    font-weight: 700;
+}
+
+.chroma .gd {
+    color: color-mix(in oklab, var(--foreground) 60%, var(--background));
+    text-decoration: line-through;
+}
+
+/* Ênfase genérica (markdown dentro do bloco): honrar como tipografia real. */
+.chroma .gs {
+    font-weight: 700;
+}
+
+.chroma .ge {
+    font-style: italic;
+}
+
+/* Erro de lexer (err). O default do Pygments pinta vermelho com borda — num
+   lexer imperfeito (ou numa linguagem que ele só conhece pela metade) isso
+   salpica o bloco de alarme falso. Aqui o token some no texto normal: se o
+   Chroma não entendeu, que ao menos não minta sobre o código. */
+.chroma .err {
+    color: var(--foreground);
+    background: none;
+}
+
+/* === Reforço MONOCROMÁTICO (high-contrast) ===
+   No high-contrast accent ≈ foreground ≈ branco: TODOS os color-mix acima
+   convergem pro mesmo branco. A cor para de distinguir. Aqui devolvemos a
+   distinção pelo único canal que resta — tipografia: underline onde a cor
+   sumiu (string/number) e itálico no corpo (builtin/variável/atributo, que era
+   foreground puro, sem nenhuma marca). Keyword/function já têm bold/italic das
+   regras acima, então não precisam de reforço. */
+:root[data-theme="high-contrast"] .chroma :is(.s, .sa, .sb, .sc, .dl, .sd, .s2, .se, .sh, .si, .sx, .sr, .s1, .ss),
+:root[data-theme="high-contrast"] .chroma :is(.m, .mb, .mf, .mh, .mi, .mo, .il) {
+    text-decoration: underline;
+}
+
+:root[data-theme="high-contrast"] .chroma :is(.nb, .bp, .nv, .vc, .vg, .vi, .py, .na, .no) {
+    font-style: italic;
+}
+
+/* Comentário no high-contrast: já é itálico (regra universal acima) e o
+   color-mix com o fg branco/bg quase-preto ainda cai num cinza legível —
+   não precisa de underline (underline em bloco de comentário longo viraria
+   ruído). */

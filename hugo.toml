@@ -16,6 +16,21 @@ title = 'dablog'
 [pagination]
   pagerSize = 2
 
+# Syntax highlight pelo Chroma (server-side, embutido no Hugo) em vez de Prism:
+# o HTML já sai colorido do build, sem JS no critical path e sem flash de código
+# sem cor. noClasses=false é o que torna o tema possível — o Chroma emite CLASSES
+# (.k, .s, .c…) e quem pinta é o assets/css/code.css, com var(--…) do tema; se
+# fosse true, ele inlinaria hex fixo e o highlight não recoloriria ao trocar de
+# tema. guessSyntax=false: fence sem linguagem fica sem cor (melhor que adivinhar
+# errado). lineNos desligado — o Chroma emitiria uma <table> só para isso.
+[markup]
+  [markup.highlight]
+    noClasses = false
+    guessSyntax = false
+    lineNos = false
+    tabWidth = 4
+    wrapperClass = 'code-block'
+
 # Só `tags`. O Hugo habilita tag+category por padrão; sem isto, /categories/
 # renderizava um índice de taxonomia vazio (o modelo de dados do post não tem
 # categoria — ver o front matter: num/epoca/tldr/tldr_long/tags).
