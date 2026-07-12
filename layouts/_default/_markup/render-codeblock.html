@@ -1,0 +1,29 @@
+{{- /* Render hook de bloco de código. Existe para dar ao autor a MOLDURA do
+       protótipo (o label "$ /usr/bin/env <lang> <script>" cortando a borda de
+       cima) sem que ele precise escrever HTML: no markdown continua sendo uma
+       fence crua, e o nome do arquivo vem como atributo:
+
+           ```python {file="conversao_sid.py"}
+           …
+           ```
+
+       Sem o atributo `file` não há label — o bloco sai nu, que é o certo para
+       um trecho solto que não representa arquivo nenhum (inventar um nome seria
+       mentir sobre o código).
+
+       O highlight em si é o Chroma, configurado em hugo.toml ([markup.highlight],
+       noClasses=false). transform.Highlight honra essa config, então o wrapper
+       .code-block e as classes de token saem daqui iguais aos de uma fence
+       processada pelo caminho normal. */ -}}
+{{- $lang := default "text" .Type -}}
+{{- $file := .Attributes.file -}}
+<div class="code-figure">
+  {{- with $file }}
+  {{- /* O label reusa .term-label/.prompt dos painéis (panels.css). Só o `$` é
+         decorativo -> aria-hidden nele, e NÃO no label inteiro como fazia o
+         protótipo: o nome do arquivo é informação real, e escondê-lo do leitor
+         de tela apagaria de que arquivo o bloco fala. */ -}}
+  <span class="term-label code-label"><span class="prompt" aria-hidden="true">$</span>/usr/bin/env {{ $lang }} {{ . }}</span>
+  {{- end }}
+  {{- transform.Highlight (strings.TrimRight "\n" .Inner) $lang }}
+</div>

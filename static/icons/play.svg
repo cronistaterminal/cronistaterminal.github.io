@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 13" role="img" aria-label="Reproduzir" shape-rendering="crispEdges">
+  <!-- Triangulo play pixel-art (aponta p/ direita), grade de quadrados igual a lupa/X:
+       estetica 8-bit/CRT do tema, cantos retos do radius 0. Simetrico em torno da
+       linha central; borda esquerda cheia, afina ate o vertice a direita. Fundo
+       transparente. Cor fixa = accent so pra preview/reuso standalone; usado como
+       CSS mask em .audio-ico (currentColor herda o accent do botao). Par do pause.svg. -->
+  <path fill="#eec35e" d="M4 2h1v1h-1z M4 3h1v1h-1z M5 3h1v1h-1z M4 4h1v1h-1z M5 4h1v1h-1z M6 4h1v1h-1z M4 5h1v1h-1z M5 5h1v1h-1z M6 5h1v1h-1z M7 5h1v1h-1z M4 6h1v1h-1z M5 6h1v1h-1z M6 6h1v1h-1z M7 6h1v1h-1z M8 6h1v1h-1z M4 7h1v1h-1z M5 7h1v1h-1z M6 7h1v1h-1z M7 7h1v1h-1z M8 7h1v1h-1z M4 8h1v1h-1z M5 8h1v1h-1z M6 8h1v1h-1z M7 8h1v1h-1z M4 9h1v1h-1z M5 9h1v1h-1z M6 9h1v1h-1z M4 10h1v1h-1z M5 10h1v1h-1z M4 11h1v1h-1z"/>
+</svg>

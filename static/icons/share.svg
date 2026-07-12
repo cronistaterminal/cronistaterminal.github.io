@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 13" role="img" aria-label="Compartilhar" shape-rendering="crispEdges">
+  <!-- Share node pixel-art: tres nos (esquerda-centro, topo-direita, baixo-direita)
+       ligados por linhas. Peso 1px, estetica 8-bit do tema. Cor fixa accent so p/
+       preview standalone; em uso o botao recolore via mask + currentColor. -->
+  <path fill="#eec35e" d="M2 6h1v1h-1z M3 6h1v1h-1z M2 7h1v1h-1z M3 7h1v1h-1z M9 2h1v1h-1z M10 2h1v1h-1z M9 3h1v1h-1z M10 3h1v1h-1z M9 9h1v1h-1z M10 9h1v1h-1z M9 10h1v1h-1z M10 10h1v1h-1z M4 6h1v1h-1z M5 5h1v1h-1z M6 5h1v1h-1z M7 4h1v1h-1z M8 4h1v1h-1z M5 8h1v1h-1z M6 8h1v1h-1z M7 9h1v1h-1z M8 9h1v1h-1z M4 7h1v1h-1z"/>
+</svg>

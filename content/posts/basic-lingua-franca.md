@@ -13,7 +13,7 @@ A máquina ligava direto no interpretador. Não havia área de trabalho, não ha
 menu, não havia nada entre a pessoa e a linguagem — só um cursor piscando e a
 promessa de que qualquer linha digitada ali seria levada a sério.
 
-```basic
+```basic {file="ola.bas"}
 10 REM O PRIMEIRO PROGRAMA DE TODA UMA GERACAO
 20 PRINT "QUAL O SEU NOME"
 30 INPUT N$
@@ -31,7 +31,7 @@ O que se perdeu não foi o BASIC: foi a distância curta. Hoje o mesmo impulso
 sobrevive no terminal, que continua sendo o único lugar onde a máquina responde
 sem intermediários.
 
-```fish
+```fish {file="retro.fish"}
 function retro --description 'lista os .prg do diretorio, do maior pro menor'
     set -l dir (path resolve $argv[1])
     test -d "$dir"; or begin

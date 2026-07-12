@@ -24,6 +24,31 @@
    .s .s1 .s2 .sd .se …. Agrupamos as classes finas nos mesmos BALDES visuais —
    distinguir dez variedades de string não ajudaria ninguém a ler o código. */
 
+/* --- Moldura com label de "comando" ---
+   O render hook (layouts/_default/_markup/render-codeblock.html) envolve o
+   bloco numa .code-figure para ancorar um label que CORTA a borda superior do
+   <pre> — mesmo truque do .term-label dos painéis (panels.css), mas ESTÁTICO em
+   vez de animado: mostra um comando-shebang "$ /usr/bin/env <lang> <script>".
+   A .code-figure é o ancestral posicionado; o bloco perde a margem própria (ela
+   vira da figure) p/ o label sentar exatamente na linha da borda. */
+.code-figure {
+    position: relative;
+    margin: 1.6rem 0;
+}
+
+.code-figure .chroma,
+.code-figure .code-block {
+    margin: 0;
+}
+
+/* Nome de script longo corta com reticências em vez de empurrar o layout. */
+.code-label {
+    max-width: calc(100% - 2 * var(--panel-label-inset));
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 /* --- Container --- */
 .chroma {
     background: var(--sidebar-bg);

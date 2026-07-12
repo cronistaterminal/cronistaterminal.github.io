@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 13" role="img" aria-label="Proxima" shape-rendering="crispEdges">
+  <!-- Chevron ">" pixel-art (proxima foto): diagonal descendo do topo ate o meio e
+       voltando, peso 1px igual a lupa/X. Estetica 8-bit/CRT do tema, cantos retos.
+       Cor fixa accent so p/ preview standalone; em uso a galeria recolore via CSS
+       mask + background-color:currentColor (segue o tema/foco). Quarteto com
+       chevron-prev/first/last nesta pasta de glifos de UI (pixel-art-ui-icons). -->
+  <path fill="#eec35e" d="M4 2h1v1h-1z M5 3h1v1h-1z M6 4h1v1h-1z M7 5h1v1h-1z M8 6h1v1h-1z M7 7h1v1h-1z M6 8h1v1h-1z M5 9h1v1h-1z M4 10h1v1h-1z"/>
+</svg>

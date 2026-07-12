@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 13" role="img" aria-label="Ultima" shape-rendering="crispEdges">
+  <!-- Duplo chevron ">>" pixel-art (ultima foto): dois ">" lado a lado, peso 1px
+       igual a lupa/X. Estetica 8-bit/CRT do tema, cantos retos. Cor fixa accent so
+       p/ preview standalone; em uso recolore via CSS mask + background-color:
+       currentColor. Quarteto com first/prev/next nesta pasta de glifos de UI. -->
+  <path fill="#eec35e" d="M2 2h1v1h-1z M3 3h1v1h-1z M4 4h1v1h-1z M5 5h1v1h-1z M6 6h1v1h-1z M5 7h1v1h-1z M4 8h1v1h-1z M3 9h1v1h-1z M2 10h1v1h-1z M6 2h1v1h-1z M7 3h1v1h-1z M8 4h1v1h-1z M9 5h1v1h-1z M10 6h1v1h-1z M9 7h1v1h-1z M8 8h1v1h-1z M7 9h1v1h-1z M6 10h1v1h-1z"/>
+</svg>

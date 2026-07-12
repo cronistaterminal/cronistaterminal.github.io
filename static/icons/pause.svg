@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 13" role="img" aria-label="Pausar" shape-rendering="crispEdges">
+  <!-- Pause pixel-art: duas barras verticais (2px de largura cada), peso/altura iguais
+       ao play, grade de quadrados igual a lupa/X. Estetica 8-bit/CRT, cantos retos.
+       Fundo transparente. Cor fixa = accent so pra preview/reuso standalone; usado
+       como CSS mask em .is-playing .audio-ico (currentColor herda o accent). Par do play.svg. -->
+  <path fill="#eec35e" d="M3 2h1v1h-1z M4 2h1v1h-1z M3 3h1v1h-1z M4 3h1v1h-1z M3 4h1v1h-1z M4 4h1v1h-1z M3 5h1v1h-1z M4 5h1v1h-1z M3 6h1v1h-1z M4 6h1v1h-1z M3 7h1v1h-1z M4 7h1v1h-1z M3 8h1v1h-1z M4 8h1v1h-1z M3 9h1v1h-1z M4 9h1v1h-1z M3 10h1v1h-1z M4 10h1v1h-1z M3 11h1v1h-1z M4 11h1v1h-1z M8 2h1v1h-1z M9 2h1v1h-1z M8 3h1v1h-1z M9 3h1v1h-1z M8 4h1v1h-1z M9 4h1v1h-1z M8 5h1v1h-1z M9 5h1v1h-1z M8 6h1v1h-1z M9 6h1v1h-1z M8 7h1v1h-1z M9 7h1v1h-1z M8 8h1v1h-1z M9 8h1v1h-1z M8 9h1v1h-1z M9 9h1v1h-1z M8 10h1v1h-1z M9 10h1v1h-1z M8 11h1v1h-1z M9 11h1v1h-1z"/>
+</svg>
