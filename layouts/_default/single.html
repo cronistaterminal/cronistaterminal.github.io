@@ -105,8 +105,26 @@
 
   {{- /* Corpo FORA do índice (escopo do Nilton: por ora busca-se só metadado).
          Trocar para indexar o corpo = remover este data-pagefind-ignore. */ -}}
+
+  {{- /* As notas de rodapé são NATIVAS (Goldmark): [^ref] no markdown vira um <sup>
+         numerado + a lista <div class="footnotes" role="doc-endnotes"> no fim, com
+         link de volta. Não há render hook para elas, então a única forma de mexer
+         no markup é reescrever o .Content.
+
+         O que trocamos: o <hr> com que o Hugo abre a lista vira um <h2> DE VERDADE.
+         O <hr> é uma linha muda — quem navega por cabeçalhos (o jeito normal de se
+         mover num texto longo com leitor de tela) não tinha como achar as
+         referências. O role="doc-endnotes" já dava a semântica; faltava o título
+         alcançável. Se um dia o markup do Goldmark mudar, o replace só não casa e
+         a lista aparece sem título — degrada, não quebra. */ -}}
+  {{- /* safeHTML é OBRIGATÓRIO aqui: .Content é template.HTML (confiável), mas o
+         replaceRE devolve uma STRING comum — e o Hugo escapa toda string ao
+         imprimir, por segurança. Sem o safeHTML a página cospe `<figure class=…>`
+         como texto literal na tela. O conteúdo é nosso (markdown do próprio
+         repositório), então reafirmar a confiança aqui é seguro. */ -}}
+  {{- $content := .Content | replaceRE `(?s)(<div class="footnotes" role="doc-endnotes">)\s*<hr\s*/?>` `${1}<h2 class="footnotes-title">Referências</h2>` | safeHTML -}}
   <div class="post-body" data-pagefind-ignore>
-    {{ .Content }}
+    {{ $content }}
   </div>
 
   {{- /* Ações do post. share.js liga os dois: [data-share] usa a Web Share API

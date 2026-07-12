@@ -1,0 +1,127 @@
+/* === footnotes.css — referências do post ===
+   Notas de rodapé NATIVAS do Goldmark ([^ref] no markdown). O Hugo emite:
+
+     …no texto:  <sup id="fnref:1"><a href="#fn:1" class="footnote-ref">1</a></sup>
+     …no fim:    <div class="footnotes" role="doc-endnotes">
+                   <h2 class="footnotes-title">Referências</h2>   <- nosso (single.html)
+                   <ol><li id="fn:1"><p>… <a class="footnote-backref" href="#fnref:1">↩</a></p></li></ol>
+                 </div>
+
+   Tudo escopado em .post-body: o bundle é único e um seletor cru vazaria. */
+
+/* ── Marcador no texto: [1] ───────────────────────────────────────────────
+   Os colchetes são PSEUDO-ELEMENTOS, não texto do markdown. Dois motivos: o autor
+   continua escrevendo [^ref] limpo, e a numeração segue 100% do Hugo — ninguém
+   digita o número, então ninguém pode errá-lo.
+
+   Por que colchete e não só o sobrescrito: o `¹` sozinho compete com expoente
+   matemático e some no meio da linha. O [1] é inconfundível — é a convenção da
+   Wikipédia, e o leitor já sabe o que ela significa sem precisar aprender nada. */
+/* SUBLINHADO, não só accent. Reprovou o link-in-text-block do Lighthouse (WCAG
+   1.4.1: um link no meio de um parágrafo não pode ser distinguível só pela COR).
+   Os colchetes são um sinal não-cromático, mas o auditor não os lê como tal — e
+   está certo em não confiar: quem não enxerga a cor precisa de uma marca na
+   FORMA. É a mesma regra que o resto dos links de prosa do site já segue. */
+.post-body .footnote-ref {
+    color: var(--accent);
+    font-weight: 700;
+    text-decoration: underline;
+    /* alvo de clique com folga sem empurrar a linha (padding lateral só) */
+    padding-inline: 0.15em;
+}
+
+.post-body .footnote-ref::before {
+    content: "[";
+}
+
+.post-body .footnote-ref::after {
+    content: "]";
+}
+
+/* O <sup> nativo encolhe demais dentro do mono e o [1] vira sujeira. Sobe o
+   tamanho e tira o deslocamento vertical exagerado do user-agent. */
+.post-body sup:has(.footnote-ref) {
+    font-size: 0.8em;
+    vertical-align: super;
+    line-height: 0;
+}
+
+.post-body .footnote-ref:hover,
+.post-body .footnote-ref:focus-visible {
+    text-decoration: underline;
+}
+
+.post-body .footnote-ref:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+/* ── A lista, no fim do post ─────────────────────────────────────────────── */
+
+/* Separação do corpo pela BORDA (o <hr> nativo virou o <h2> — ver single.html),
+   na mesma família das caixas de meta: traço accent quieto. */
+.post-body .footnotes {
+    margin-top: 3rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--accent-line);
+}
+
+.post-body .footnotes-title {
+    margin: 0 0 1rem;
+    font-family: var(--font-head);
+    font-size: 1.05rem;
+    color: var(--accent);
+}
+
+/* Corpo da referência: menor e mais quieto que a prosa — é aparato, não texto.
+   65% de foreground: mede 5.3:1 no pior tema (bsod), acima do 4.5 exigido.
+   NÃO usar --accent-dim aqui (afunda; ver memória accent-dim-sinks-as-text). */
+.post-body .footnotes ol {
+    margin: 0;
+    padding-left: 1.6rem;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: color-mix(in oklab, var(--foreground) 75%, var(--background));
+}
+
+.post-body .footnotes li {
+    margin-bottom: 0.7rem;
+}
+
+.post-body .footnotes li p {
+    margin: 0;
+}
+
+/* A referência ACENDE quando se chega nela pelo [1]. Sem isto o salto joga o
+   leitor numa lista de cinco itens parecidos e ele tem que descobrir sozinho em
+   qual caiu — o custo é maior justamente pra quem amplia a tela ou tem dificuldade
+   de rastrear posição. O realce é do próprio tema (nenhum amarelo de navegador). */
+.post-body .footnotes li:target {
+    background: var(--accent-mute);
+    outline: 2px solid var(--accent-line);
+    outline-offset: 0.35rem;
+    /* O texto SOBE para o foreground cheio aqui. O cinza de 75% acima foi
+       calibrado contra o fundo da PÁGINA; o realce troca o fundo por
+       --accent-mute, que é mais claro, e sobre ele aquele cinza reprovava —
+       3.56:1 no bsod, 3.75 no phosphor, 3.95 no hacker. Realçar uma nota e
+       torná-la menos legível no processo seria o oposto do objetivo. */
+    color: var(--foreground);
+}
+
+/* Seta de volta (↩): leva ao ponto exato da citação. Sublinhada pelo mesmo motivo
+   do marcador — é um link dentro de um bloco de texto (WCAG 1.4.1). */
+.post-body .footnote-backref {
+    color: var(--accent);
+    text-decoration: underline;
+    margin-left: 0.4ch;
+}
+
+.post-body .footnote-backref:hover,
+.post-body .footnote-backref:focus-visible {
+    text-decoration: underline;
+}
+
+.post-body .footnote-backref:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
