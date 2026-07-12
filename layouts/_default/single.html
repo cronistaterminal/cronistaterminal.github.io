@@ -108,5 +108,21 @@
   <div class="post-body" data-pagefind-ignore>
     {{ .Content }}
   </div>
+
+  {{- /* Ações do post. share.js liga os dois: [data-share] usa a Web Share API
+         nativa quando existe e, quando não, cai em copiar o link.
+
+         O aria-live no rótulo é um acréscimo ao protótipo. O feedback de sucesso
+         é a TROCA do texto do botão ("copiar link" -> "copiado!"): visualmente
+         basta, mas uma mudança silenciosa de texto não é anunciada — sem isto,
+         quem usa leitor de tela clica e não recebe confirmação nenhuma. */ -}}
+  <div class="post-actions">
+    <button type="button" class="post-action" data-share aria-label="Compartilhar post">
+      <span class="post-action-ico ico-share" aria-hidden="true"></span><span class="post-action-txt" aria-live="polite">compartilhar</span>
+    </button>
+    <button type="button" class="post-action" data-copy-link aria-label="Copiar link do post">
+      <span class="post-action-ico ico-link" aria-hidden="true"></span><span class="post-action-txt" aria-live="polite">copiar link</span>
+    </button>
+  </div>
 </article>
 {{ end }}
