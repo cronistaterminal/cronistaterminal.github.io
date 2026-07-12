@@ -101,6 +101,25 @@
     mask: url(/icons/close.svg) center / contain no-repeat;
 }
 
+/* Status da busca ("3 posts encontrados", "nenhum post encontrado…"). É uma
+   região viva (role=status/aria-live): a lista se reescreve enquanto o foco fica
+   no input, e sem isto a troca seria SILENCIOSA para o leitor de tela.
+
+   Fica vazio no estado zero — e vazio ele não deve ocupar espaço, senão abre um
+   buraco acima da lista. Daí o :empty { display: none } em vez de altura fixa. */
+.palette-status {
+    margin: 0 0 0.6rem;
+    padding-left: 1.7ch;
+    /* alinha com o recuo do ponteiro ">" dos hits */
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--accent-dim);
+}
+
+.palette-status:empty {
+    display: none;
+}
+
 /* Resultados: lista que rola dentro do teto de altura do painel. */
 .palette-results {
     list-style: none;

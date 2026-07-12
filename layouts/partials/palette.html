@@ -5,10 +5,17 @@
   IRMÃO do #page (não filho) — palette.js faz #page.inert ao abrir; se estivesse
   dentro, se auto-desativaria.
 
-  Resultados: render de site.RegularPages (posts, num desc — mesma ordem da listagem
-  e da sidebar). SEM filtro por digitação ainda — a busca real (Pagefind) entra
-  depois; por ora a palette lista todos os posts e setas/Enter navegam neles. Cada
-  <li> é um role="option" com id único (palette.js usa em aria-activedescendant);
+  ── DOIS ESTADOS, DOIS MOTORES ────────────────────────────────────────────
+  Campo VAZIO  -> os posts recentes, renderizados AQUI pelo Hugo, no build.
+                  É o estado zero da palette e o fallback de quem não tem JS.
+  Campo CHEIO  -> o Pagefind assume e reescreve a lista (palette.js).
+
+  O preço dessa escolha é que o markup de um hit existe em DOIS lugares: neste
+  template e na função hitHTML() do palette.js. Se mexer num, mexa no outro — as
+  classes e a estrutura (li[role=option] > a.hit-head > .hit-id/.hit-title) são
+  contrato do CSS e do teclado.
+
+  Cada <li> é um role="option" com id único (palette.js usa em aria-activedescendant);
   .hit-head aponta pro permalink real (Enter faz .click() -> navega).
 */ -}}
 {{- $posts := where site.RegularPages "Type" "posts" -}}
@@ -25,6 +32,12 @@
         autocomplete="off" spellcheck="false" aria-label="Termo de busca" role="combobox"
         aria-expanded="true" aria-controls="palette-results" aria-autocomplete="list">
     </div>
+
+    {{- /* Região viva: anuncia ao leitor de tela quantos resultados a busca
+           devolveu (a lista muda sem que o foco saia do input — sem isto, a
+           troca seria silenciosa). aria-live="polite" não interrompe a digitação.
+           Fica vazia no estado zero; palette.js a preenche. */ -}}
+    <p id="palette-status" class="palette-status" role="status" aria-live="polite"></p>
 
     <ul id="palette-results" class="palette-results" role="listbox" aria-label="Resultados">
       {{- range $posts }}

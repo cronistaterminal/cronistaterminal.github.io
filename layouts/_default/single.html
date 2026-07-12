@@ -14,18 +14,38 @@
   precisa de share.js + ícones), figuras/galeria/áudio/código como shortcodes,
   e a sidebar contextual da single (relacionados + mesma época) — por ora a
   sidebar do baseof é a mesma da home.
+
+  ── ÍNDICE DE BUSCA (Pagefind) ────────────────────────────────────────────
+  O Pagefind roda DEPOIS do Hugo e lê o HTML RENDERIZADO (não o markdown, não o
+  front matter) — ele é um crawler do próprio public/. Então "o que é buscável"
+  é decidido AQUI, por marcação:
+
+    data-pagefind-body   -> ESTE artigo é a região indexável. Como alguma página
+                            do site tem o atributo, o Pagefind passa a indexar
+                            SÓ as páginas que o têm: home, /posts/ e /tags/ ficam
+                            de fora automaticamente. Só post é resultado.
+    data-pagefind-ignore -> recortes DENTRO do artigo que não entram no índice.
+    data-pagefind-meta   -> campos que a palette precisa para desenhar o hit.
+    data-pagefind-filter -> facetas (tag, época) — ainda não usadas pela UI, mas
+                            marcadas agora: habilitam filtro sem re-indexar depois.
+
+  ESCOPO (decisão do Nilton, 2026-07-12): busca por TAGS, TÍTULO, DATAS e TL;DR.
+  O corpo do post fica FORA do índice (.post-body leva data-pagefind-ignore).
+  Quando houver post de verdade, reavaliar se o corpo entra.
 */ -}}
 {{- $num := .Params.num -}}
 {{- $monthsFull := slice "Janeiro" "Fevereiro" "Março" "Abril" "Maio" "Junho" "Julho" "Agosto" "Setembro" "Outubro" "Novembro" "Dezembro" -}}
 {{- $monthsAbbr := slice "Jan" "Fev" "Mar" "Abr" "Mai" "Jun" "Jul" "Ago" "Set" "Out" "Nov" "Dez" -}}
 {{- $mi := sub (int .Date.Month) 1 -}}
-<article id="post-{{ $num }}" class="post-single" aria-labelledby="post-{{ $num }}-title">
+<article id="post-{{ $num }}" class="post-single" aria-labelledby="post-{{ $num }}-title" data-pagefind-body
+  data-pagefind-meta="num:{{ $num }}">
 
   <header class="post-single-head">
+    {{- /* Cada tag é texto buscável E faceta (data-pagefind-filter="tag"). */ -}}
     {{- with .Params.tags }}
     <ul class="post-tags" aria-label="Tags do post">
       {{- range . }}
-      <li><a class="tag" href="{{ (printf "/tags/%s" (urlize .)) | relURL }}">{{ . }}</a></li>
+      <li><a class="tag" href="{{ (printf "/tags/%s" (urlize .)) | relURL }}" data-pagefind-filter="tag">{{ . }}</a></li>
       {{- end }}
     </ul>
     {{- end }}
@@ -41,38 +61,51 @@
            basta: ele só aparece no hover do MOUSE — não no foco por teclado, e
            com suporte irregular em leitor de tela. Então title (mouse) + .sr-only
            (leitor de tela). O olho vê só o número, como no protótipo. */ -}}
+    {{- /* Os rótulos .sr-only ("Publicado em:", "Época retratada:") saem do índice:
+           são texto de leitor de tela, iguais em TODO post — buscar "publicado"
+           casaria com o site inteiro. */ -}}
     <div class="post-meta post-meta-single">
-      <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}" title="Data de publicação">
+      <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}" title="Data de publicação"
+        data-pagefind-meta="date[datetime]">
         {{- /* Na single a data não é link (já estamos no destino): o <a> da
-               listagem vira <span>, mas as classes seguem p/ o CSS reusar. */ -}}
+               listagem vira <span>, mas as classes seguem p/ o CSS reusar.
+               O mês vai por extenso no DOM (o CSS mostra a abreviação via
+               data-mon) -> o índice fica com "Junho", não com "Jun". */ -}}
         <span class="post-date-link">
-          <span class="sr-only">Publicado em: </span>
+          <span class="sr-only" data-pagefind-ignore>Publicado em: </span>
           <span class="post-day">{{ .Date.Format "02" }}</span>
           <span class="post-month" data-mon="{{ index $monthsAbbr $mi }}">{{ index $monthsFull $mi }}</span>
           <span class="post-year">{{ .Date.Format "2006" }}</span>
         </span>
       </time>
       {{- with .Params.epoca }}
-      <span class="post-era" title="Período retratado"><span class="sr-only">Época retratada: </span>{{ . }}</span>
+      <span class="post-era" title="Período retratado" data-pagefind-meta="epoca" data-pagefind-filter="epoca">
+        <span class="sr-only" data-pagefind-ignore>Época retratada: </span>{{ . }}</span>
       {{- end }}
     </div>
 
+    {{- /* O <h1> inteiro seria o title default do Pagefind — mas ele começa com
+           o "#1234" do .post-num, que entraria no título do resultado. Marcando
+           o título num <span> próprio, o meta sai limpo; o número vai separado
+           (data-pagefind-meta="num" no <article>). */ -}}
     <h1 id="post-{{ $num }}-title" class="post-single-title">
       {{- with $num }}<span class="post-num">#{{ . }}</span> {{ end -}}
-      {{ $.Title }}
+      <span data-pagefind-meta="title">{{ $.Title }}</span>
     </h1>
   </header>
 
   {{- if or .Params.tldr .Params.tldr_long }}
   <div class="post-abstract">
-    {{- with .Params.tldr }}<p class="post-tldr">{{ . }}</p>{{ end }}
-    {{- with .Params.tldr_long }}<p class="post-tldr-long">{{ . }}</p>{{ end }}
+    {{- with .Params.tldr }}<p class="post-tldr" data-pagefind-meta="tldr">{{ . }}</p>{{ end }}
+    {{- with .Params.tldr_long }}<p class="post-tldr-long" data-pagefind-meta="tldr_long">{{ . }}</p>{{ end }}
   </div>
   {{- end }}
 
   <hr class="post-rule">
 
-  <div class="post-body">
+  {{- /* Corpo FORA do índice (escopo do Nilton: por ora busca-se só metadado).
+         Trocar para indexar o corpo = remover este data-pagefind-ignore. */ -}}
+  <div class="post-body" data-pagefind-ignore>
     {{ .Content }}
   </div>
 </article>

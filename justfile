@@ -17,11 +17,32 @@ port   := "8099"
 _default:
     @just --list
 
-# Build de produção em public/.
+# Build de produção em public/ + índice de busca.
+#
+# O Pagefind roda DEPOIS do Hugo, sobre o HTML já renderizado — ele é um crawler
+# do próprio public/, não um plugin do Hugo. Por isso a ordem é rígida: `hugo`
+# escreve o HTML, `pagefind` o lê e escreve public/pagefind/. Inverter (ou rodar
+# só `hugo`) deixa o site com a palette sem índice.
+#
+# O que ele indexa é decidido por MARCAÇÃO no single.html (data-pagefind-body /
+# -ignore / -meta / -filter), não aqui.
+#
+# --cleanDestinationDir: o Hugo NÃO limpa o public/ por padrão, só sobrescreve o
+# que ele mesmo gera. Um public/ acumulado entre builds pode servir HTML velho
+# (vi datas antigas num post enquanto o resto do site já estava novo — o arquivo
+# era resíduo de um build anterior, sem --minify). Build de produção parte de um
+# destino limpo, ponto.
+# A flag roda no passo do HUGO, antes do pagefind — se rodasse depois, apagaria o
+# public/pagefind/ que o indexador acabou de escrever.
 build:
-    hugo --gc --minify
+    hugo --gc --minify --cleanDestinationDir
+    npx --yes pagefind@latest --site public
 
 # Servidor de desenvolvimento (live reload, inclui drafts).
+# ATENÇÃO: o `hugo server` NÃO gera o índice do Pagefind (ele serve de memória,
+# sem passar pelo public/). A palette cai no estado inicial (posts recentes,
+# renderizados pelo Hugo) e a busca por digitação não responde. Para exercitar a
+# busca de verdade, use `just preview`.
 serve:
     hugo server -D --disableFastRender
 
