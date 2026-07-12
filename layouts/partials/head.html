@@ -14,7 +14,10 @@
 */ -}}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} · {{ .Site.Title }}{{ end }}</title>
+{{- /* Em página de taxonomia o .Title é o SLUG title-caseado ("Arquitetura-De-Software").
+       .Data.Term traz o termo cru do front matter — mesmo texto dos chips .tag. */ -}}
+{{- $name := or .Data.Term .Title -}}
+<title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ $name }} · {{ .Site.Title }}{{ end }}</title>
 {{ with .Site.Params.description }}<meta name="description" content="{{ . }}">{{ end }}
 
 {{- /* Favicons: PNGs com o wordmark "C.T" da fonte 3270 já queimado nos pixels.
@@ -42,6 +45,7 @@
   "css/layout.css"
   "css/panels.css"
   "css/posts.css"
+  "css/post-body.css"
   "css/pagination.css"
   "css/palette.css"
   "css/mobile.css"

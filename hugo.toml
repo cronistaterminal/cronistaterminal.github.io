@@ -1,7 +1,7 @@
 # baseURL fica como placeholder até o domínio sair (ver CLAUDE.md). Cloudflare
 # Pages fixa HUGO_VERSION na mesma versão do `hugo version` local.
 baseURL = 'https://example.org/'
-languageCode = 'pt-br'
+locale = 'pt-br'
 defaultContentLanguage = 'pt-br'
 title = 'dablog'
 
@@ -15,3 +15,9 @@ title = 'dablog'
 # para ~10 quando houver volume real.
 [pagination]
   pagerSize = 2
+
+# Só `tags`. O Hugo habilita tag+category por padrão; sem isto, /categories/
+# renderizava um índice de taxonomia vazio (o modelo de dados do post não tem
+# categoria — ver o front matter: num/epoca/tldr/tldr_long/tags).
+[taxonomies]
+  tag = 'tags'

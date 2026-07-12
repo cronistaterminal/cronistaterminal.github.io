@@ -4,6 +4,7 @@ __layout/
 
 # Estado local / sessão
 TODO.txt
+.lighthouse/
 .claude/
 .serena/
 .remember/

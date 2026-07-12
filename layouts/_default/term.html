@@ -1,0 +1,35 @@
+{{ define "main" }}
+{{- /*
+  term.html — os posts de UMA tag (/tags/<slug>/). Destino dos chips .tag que
+  já existiam no post-card e na sidebar (e que até aqui davam 404).
+
+  Reusa o post-card e a paginação da home; o que muda é só o cabeçalho, que
+  nomeia o recorte. Ordena por num desc, igual à home (a crônica é numerada;
+  a data exibida é a do EVENTO, não a da publicação — ver index.html).
+*/ -}}
+{{- $posts := .Pages -}}
+{{- $posts = sort $posts "Params.num" "desc" -}}
+{{- $paginator := .Paginate $posts -}}
+
+{{- /* .Data.Term = o termo CRU do front matter. .Title daria o slug title-caseado
+       ("Arquitetura-De-Software"), destoando dos chips .tag da home. */ -}}
+{{- $term := .Data.Term -}}
+
+<header class="post-single-head">
+  <h1 class="post-single-title">
+    <span class="post-num">#tag</span> {{ $term }}
+  </h1>
+  <p class="post-tldr">
+    {{ len $posts }} {{ if eq (len $posts) 1 }}post marcado{{ else }}posts marcados{{ end }} com
+    <em>{{ $term }}</em>.
+    <a href="{{ "/tags/" | relURL }}">ver todas as tags</a>
+  </p>
+</header>
+
+<hr class="post-rule">
+
+{{- range $paginator.Pages }}
+{{ partial "post-card.html" . }}
+{{- end }}
+{{ partial "pagination.html" $paginator }}
+{{ end }}

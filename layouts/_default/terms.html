@@ -1,0 +1,36 @@
+{{ define "main" }}
+{{- /*
+  terms.html — o índice de TODAS as tags (/tags/). Destino do "ver todas" da
+  sidebar (sidebar.html), que até aqui dava 404.
+
+  Sem paginação: é um catálogo, cabe numa tela. Ordena por contagem desc (as
+  tags mais usadas primeiro — quem chega aqui quer os eixos grandes do arquivo,
+  não a ordem alfabética). Reusa o chip .tag; a contagem vai como sufixo.
+*/ -}}
+{{- $terms := .Data.Terms.ByCount -}}
+
+<header class="post-single-head">
+  <h1 class="post-single-title">
+    <span class="post-num">#tags</span> Todas as tags
+  </h1>
+  <p class="post-tldr">
+    {{ len $terms }} {{ if eq (len $terms) 1 }}tag{{ else }}tags{{ end }} no arquivo, das mais usadas às mais raras.
+  </p>
+</header>
+
+<hr class="post-rule">
+
+<ul class="post-tags" aria-label="Todas as tags">
+  {{- range $terms }}
+  <li>
+    {{- /* .Page.Data.Term = o termo CRU do front matter ("arquitetura de software").
+           .Page.Title daria "Arquitetura-De-Software": o Hugo title-caseia o SLUG,
+           o que destoaria dos chips .tag da home, que mostram o termo original. */ -}}
+    <a class="tag" href="{{ .Page.RelPermalink }}">
+      {{ .Page.Data.Term }}
+      <span class="sr-only">— </span>{{ .Count }}
+    </a>
+  </li>
+  {{- end }}
+</ul>
+{{ end }}

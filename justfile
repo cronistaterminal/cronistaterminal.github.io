@@ -1,0 +1,83 @@
+# dablog — atalhos de build, preview e auditoria.
+#
+# O `just audit` é o GATE de a11y/perf: audita o BUILD DE PRODUÇÃO (public/, com
+# o bundle já concat+minify+fingerprint), não o `hugo server` — o dev server
+# serve os assets crus e injeta LiveReload, então mediria uma página que nunca
+# vai ao ar.
+
+# Binário Chromium usado pelo Lighthouse: o Brave Origin (do Nilton), apontado
+# DIRETO no executável real — não em /usr/bin/brave-origin-nightly, que é um
+# wrapper shell. O wrapper faz `exec brave-origin "$USER_FLAGS" "$BRAVE_FLAGS"
+# "$FLAG" "$@"`: com essas vars vazias E entre aspas, elas viram argumentos
+# VAZIOS, que o Chromium lê como URLs-alvo -> "Multiple targets are not
+# supported in headless mode" e o Lighthouse não conecta.
+chrome := "/opt/brave.com/brave-origin-nightly/brave-origin"
+port   := "8099"
+
+_default:
+    @just --list
+
+# Build de produção em public/.
+build:
+    hugo --gc --minify
+
+# Servidor de desenvolvimento (live reload, inclui drafts).
+serve:
+    hugo server -D --disableFastRender
+
+# Preview do build de produção (o mesmo bytes-a-bytes que o audit mede).
+preview: build
+    @echo "→ http://localhost:{{ port }}"
+    cd public && python3 -m http.server {{ port }}
+
+# Gate de a11y/perf: Lighthouse numa página. Ex.: just audit posts/algum-post/
+audit path="": build
+    #!/usr/bin/env bash
+    set -euo pipefail
+    trap 'kill ${SRV:-0} 2>/dev/null || true' EXIT
+    (cd public && python3 -m http.server {{ port }} >/dev/null 2>&1) &
+    SRV=$!
+    # Espera o servidor aceitar conexão — dormir um tempo fixo é corrida.
+    for _ in $(seq 1 40); do
+        curl -sf -o /dev/null "http://localhost:{{ port }}/" && break || sleep 0.1
+    done
+    mkdir -p .lighthouse
+    name="$(echo "{{ path }}" | tr -c 'a-zA-Z0-9' '-' | sed 's/-*$//;s/^-*//')"
+    out=".lighthouse/${name:-home}.json"
+    CHROME_PATH="{{ chrome }}" npx --yes lighthouse \
+        "http://localhost:{{ port }}/{{ path }}" \
+        --only-categories=accessibility,performance,best-practices,seo \
+        --chrome-flags="--headless=new --no-sandbox" \
+        --quiet --output=json --output-path="$out"
+    just _lh-report "$out"
+
+# Formata o JSON do Lighthouse: notas + os audits que REPROVARAM.
+_lh-report file:
+    #!/usr/bin/env python3
+    import json
+    d = json.load(open("{{ file }}"))
+    print(f"\n  {d['finalDisplayedUrl']}\n")
+    for k, v in d["categories"].items():
+        score = round(v["score"] * 100)
+        print(f"  [{'ok' if score == 100 else '!!'}] {k:16} {score:3}")
+
+    # Só audits BINÁRIOS contam como reprovação. Os "numeric" (FCP, LCP, TTI…)
+    # são MÉTRICAS: o score é uma curva, quase nunca crava 1.0 — listá-las como
+    # falha é falso alarme e ensina a ignorar o relatório.
+    bad = [
+        a for a in d["audits"].values()
+        if a.get("scoreDisplayMode") == "binary"
+        and a.get("score") is not None
+        and a["score"] < 1
+    ]
+    print(f"\n  {len(bad)} audit(s) reprovado(s)" + (":" if bad else "."))
+    for a in bad:
+        print(f"    - {a['id']}: {a['title']}")
+
+    print("\n  métricas:")
+    for m in ("first-contentful-paint", "largest-contentful-paint",
+              "total-blocking-time", "cumulative-layout-shift", "speed-index"):
+        a = d["audits"].get(m)
+        if a and a.get("displayValue"):
+            print(f"    {a['title']:28} {a['displayValue']}")
+    print()

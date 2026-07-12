@@ -1,0 +1,67 @@
+{{ define "main" }}
+{{- /*
+  single.html — a página de um post. Preenche o {{ block "main" }} do baseof
+  (que já provê o #main.term-panel com o prompt vivo); aqui vive só o <article>.
+
+  Arranjo (espelha o protótipo): cabeçalho (tags + meta data/época + título
+  #num), abstract com os DOIS TL;DR (na single não há disclosure — o post é o
+  destino), régua, e o corpo do markdown.
+
+  Datas em pt-BR por slices indexados, igual ao post-card.html: não dependemos
+  do locale do Hugo, que varia por instalação.
+
+  AINDA NÃO PORTADO (ver TODO.txt, bloco 4): .post-actions (share/copiar link,
+  precisa de share.js + ícones), figuras/galeria/áudio/código como shortcodes,
+  e a sidebar contextual da single (relacionados + mesma época) — por ora a
+  sidebar do baseof é a mesma da home.
+*/ -}}
+{{- $num := .Params.num -}}
+{{- $monthsFull := slice "Janeiro" "Fevereiro" "Março" "Abril" "Maio" "Junho" "Julho" "Agosto" "Setembro" "Outubro" "Novembro" "Dezembro" -}}
+{{- $monthsAbbr := slice "Jan" "Fev" "Mar" "Abr" "Mai" "Jun" "Jul" "Ago" "Set" "Out" "Nov" "Dez" -}}
+{{- $mi := sub (int .Date.Month) 1 -}}
+<article id="post-{{ $num }}" class="post-single" aria-labelledby="post-{{ $num }}-title">
+
+  <header class="post-single-head">
+    {{- with .Params.tags }}
+    <ul class="post-tags" aria-label="Tags do post">
+      {{- range . }}
+      <li><a class="tag" href="{{ (printf "/tags/%s" (urlize .)) | relURL }}">{{ . }}</a></li>
+      {{- end }}
+    </ul>
+    {{- end }}
+
+    <div class="post-meta post-meta-single">
+      <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">
+        {{- /* Na single a data não é link (já estamos no destino): o <a> da
+               listagem vira <span>, mas as classes seguem p/ o CSS reusar. */ -}}
+        <span class="post-date-link">
+          <span class="post-day">{{ .Date.Format "02" }}</span>
+          <span class="post-month" data-mon="{{ index $monthsAbbr $mi }}">{{ index $monthsFull $mi }}</span>
+          <span class="post-year">{{ .Date.Format "2006" }}</span>
+        </span>
+      </time>
+      {{- with .Params.epoca }}
+      <span class="post-era"><span class="sr-only">Época retratada: </span>{{ . }}</span>
+      {{- end }}
+    </div>
+
+    <h1 id="post-{{ $num }}-title" class="post-single-title">
+      {{- with $num }}<span class="post-num">#{{ . }}</span> {{ end -}}
+      {{ $.Title }}
+    </h1>
+  </header>
+
+  {{- if or .Params.tldr .Params.tldr_long }}
+  <div class="post-abstract">
+    {{- with .Params.tldr }}<p class="post-tldr">{{ . }}</p>{{ end }}
+    {{- with .Params.tldr_long }}<p class="post-tldr-long">{{ . }}</p>{{ end }}
+  </div>
+  {{- end }}
+
+  <hr class="post-rule">
+
+  <div class="post-body">
+    {{ .Content }}
+  </div>
+</article>
+{{ end }}

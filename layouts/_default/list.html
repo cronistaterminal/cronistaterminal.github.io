@@ -1,0 +1,31 @@
+{{ define "main" }}
+{{- /*
+  list.html — a página de uma SEÇÃO (/posts/). O Hugo avisava
+  "found no layout file for kind section": sem este template, /posts/ não gerava
+  index.html e a rota era 404 em produção (o 200 do `python -m http.server` era
+  só o directory listing dele, não uma página).
+
+  É o mesmo arranjo da home (post-card + paginação); o que muda é o cabeçalho,
+  que nomeia o recorte — igual ao term.html. Ordena por num desc: a crônica é
+  numerada, e a data exibida é a do EVENTO, não a da publicação (ver index.html).
+*/ -}}
+{{- $posts := sort .Pages "Params.num" "desc" -}}
+{{- $paginator := .Paginate $posts -}}
+
+<header class="post-single-head">
+  <h1 class="post-single-title">
+    <span class="post-num">#arquivo</span> {{ .Title }}
+  </h1>
+  <p class="post-tldr">
+    {{ len $posts }} {{ if eq (len $posts) 1 }}entrada{{ else }}entradas{{ end }} na crônica, da mais recente à mais antiga.
+    <a href="{{ "/tags/" | relURL }}">ver por tag</a>
+  </p>
+</header>
+
+<hr class="post-rule">
+
+{{- range $paginator.Pages }}
+{{ partial "post-card.html" . }}
+{{- end }}
+{{ partial "pagination.html" $paginator }}
+{{ end }}

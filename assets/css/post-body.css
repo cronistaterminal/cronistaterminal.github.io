@@ -1,0 +1,244 @@
+/* Tipografia do corpo do post (single). O .post-body é o markdown renderizado
+   pelo Hugo; aqui mora o ritmo de leitura longa (não a varredura de catálogo da
+   listagem, que vive em posts.css). Tudo deriva dos tokens do tema
+   (color-mix/var) -> recolore junto com data-theme.
+
+   PORTE: no protótipo standalone o HTML era escrito à mão e trazia classes
+   próprias (.content-link, .content-code, .content-list, .content-quote). O
+   markdown do Hugo emite <a>/<code>/<ul>/<blockquote> NUS — então aqui os
+   seletores descem de .post-body em vez de casar por classe. */
+
+/* Base do corpo: corpo de leitura (IBM Plex Mono -> Lexend no modo acessível),
+   entrelinha do tema. O ritmo vertical é UM gap único entre irmãos diretos
+   (lobotomized owl): cada bloco "respira" do anterior sem margins acumulando. */
+.post-body {
+    font-family: var(--font-body);
+    line-height: var(--line-height);
+    color: var(--foreground);
+}
+
+.post-body>*+* {
+    margin-top: 1.1rem;
+}
+
+/* Cabeçalhos de seção: título (Space Mono -> Comic Relief), ecoam a hierarquia
+   de accent da listagem (h2 = accent cheio, puxa o olho; h3/h4 = accent-dim,
+   mais quietos). margin-top maior que o ritmo base -> separa visualmente as
+   seções (a quebra é o sinal de "novo assunto"). */
+.post-body h2,
+.post-body h3,
+.post-body h4 {
+    font-family: var(--font-head);
+    line-height: 1.25;
+}
+
+.post-body h2 {
+    font-size: 1.5rem;
+    color: var(--accent);
+    margin-top: 2.4rem;
+}
+
+.post-body h3 {
+    font-size: 1.2rem;
+    color: var(--accent-dim);
+    margin-top: 2rem;
+}
+
+.post-body h4 {
+    font-size: 1.05rem;
+    color: var(--accent-dim);
+    margin-top: 1.6rem;
+}
+
+/* Parágrafo: foreground cheio, o texto da leitura. */
+.post-body p {
+    color: var(--foreground);
+}
+
+/* Listas: recuo p/ os marcadores caberem fora do bloco de texto; gap entre
+   itens p/ não colarem. ::marker em accent-dim -> o bullet/número ecoa o
+   sigilo de catálogo (mesma família dos #id), sem competir com o texto. */
+.post-body ul,
+.post-body ol {
+    padding-left: 1.5rem;
+}
+
+.post-body li+li {
+    margin-top: 0.5rem;
+}
+
+.post-body li::marker {
+    color: var(--accent-dim);
+}
+
+/* Citação: borda-esquerda accent-line (traço quieto do master) + recuo;
+   texto levemente esmaecido (color-mix foreground->transparent) -> lê como
+   voz secundária, destacada do corpo sem virar outro bloco. */
+.post-body blockquote {
+    border-left: 3px solid var(--accent-line);
+    padding-left: 1.1rem;
+    color: color-mix(in oklab, var(--foreground) 80%, transparent);
+}
+
+/* Código inline: SEMPRE mono (--font-ibm), mesmo no modo acessível — código
+   precisa do alinhamento monoespaçado, a legibilidade do Lexend não compensa.
+   Fundo chapado morto (--accent-mute) + texto de chip (--chip-text, >= AA
+   sobre esse fundo, mesmo par da .tag) -> distingue do corpo PELO fundo, não
+   só pela cor (1.4.1 fica coberto sem underline). Cantos retos (--radius: 0).
+
+   :not(pre)>code — o <code> DENTRO de um <pre> (bloco de código cercado) é
+   outro bicho: fundo próprio, sem padding de chip. Quando o bloco 4 trouxer o
+   code.css, ele manda no <pre>; aqui ficamos só com o código inline. */
+.post-body :not(pre)>code {
+    font-family: var(--font-ibm);
+    background: var(--accent-mute);
+    color: var(--chip-text);
+    padding: 0.1rem 0.4rem;
+    border-radius: var(--radius);
+    font-size: 0.92em;
+}
+
+/* Link de PROSA: underline PERMANENTE (não só hover). Âmbar sobre texto branco
+   dá só 1.38:1 de contraste link<->texto — abaixo do 3:1 que a WCAG 1.4.1 exige
+   p/ link dentro de bloco de texto (Lighthouse: link-in-text-block). O underline
+   é o canal não-cromático que distingue o link em TODOS os 8 temas (não só nos
+   monocromáticos que themes.css já cobria). hover engrossa o traço.
+
+   Cobre TAMBÉM o .post-tldr dos cabeçalhos de índice (list/term/terms), e não só
+   o corpo: o base.css não tem regra global p/ <a> — todo link do site até aqui
+   pertencia a um componente com cor própria (.tag, .post-headline, .logo-link).
+   Um <a> de prosa fora dessas caixas cai no azul do user-agent (#0000ee): 1.9:1
+   sobre o fundo escuro — Lighthouse color-contrast reprova. */
+.post-body a,
+.post-single-head .post-tldr a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+    text-decoration-thickness: 1px;
+}
+
+.post-body a:hover,
+.post-single-head .post-tldr a:hover {
+    text-decoration-thickness: 2px;
+}
+
+/* Régua de seção (hr / .post-rule): hairline foreground-dim (não accent — uma
+   linha amarela cheia gritaria no meio da leitura), margem vertical generosa
+   p/ marcar a pausa. Mesmo tom da fronteira entre posts da listagem. */
+.post-body hr,
+.post-rule {
+    border: none;
+    border-top: 1px solid color-mix(in oklab, var(--foreground) 12%, transparent);
+    margin: 2.4rem 0;
+}
+
+/* ── Cabeçalho da single ──────────────────────────────────────────────── */
+
+/* Abstract: agrupa os dois TL;DR no topo do post. Borda-esquerda accent
+   (marca "este é o resumo, leia primeiro") + recuo; empilha curto + longo
+   com gap. Ecoa o blockquote (mesma gramática de bloco-com-borda), mas
+   accent CHEIO (não accent-line): é destaque editorial, não voz secundária. */
+.post-abstract {
+    border-left: 3px solid var(--accent);
+    padding-left: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+/* Na listagem o TL;DR longo fica escondido por disclosure (.post-tldr-long
+   display:none até o checkbox). Na single ele é SEMPRE visível: o post é o
+   destino, não há "ver mais". Override local — não reescreve a classe. */
+.post-abstract .post-tldr-long {
+    display: block;
+}
+
+/* Título da single: grande, título (Space Mono -> Comic Relief). O #NNNN
+   inline antes (.post-num) herda o accent-dim de posts.css (sigilo de
+   catálogo), só ajusto o tamanho relativo aqui p/ não competir com o título. */
+.post-single-title {
+    margin: 1.8rem 0 0;
+    font-family: var(--font-head);
+    font-size: 2.2rem;
+    line-height: 1.2;
+    color: var(--accent);
+}
+
+.post-single-title .post-num {
+    font-size: 0.6em;
+    /* o #id acompanha mas não rivaliza com o headline */
+}
+
+/* Meta da single: a data/época numa linha (não na coluna estreita da
+   listagem). Reusa .post-date/.post-era; relaxa o layout p/ horizontal e as
+   caixas dimensionam ao conteúdo (não preenchem a linha). */
+.post-meta-single {
+    flex-direction: row;
+    align-items: stretch;
+    flex: initial;
+    gap: 0.9rem;
+}
+
+/* A data no desktop da single ecoa o formato compacto do mobile: "18 · Mar ·
+   2018" numa linha (em vez do empilhado dia/mês/ano da listagem). Mesma técnica
+   da mobile.css (esconde o mês cheio por font-size:0 e injeta o data-mon de 3
+   letras; "·" com nbsp dos dois lados). Escopo .post-meta-single -> só a single. */
+.post-meta-single .post-date-link {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 0.55rem 1rem;
+}
+
+.post-meta-single .post-day,
+.post-meta-single .post-month,
+.post-meta-single .post-year {
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.post-meta-single .post-day {
+    font-weight: 600;
+}
+
+.post-meta-single .post-month::before,
+.post-meta-single .post-year::before {
+    content: "\00A0·\00A0";
+    font-size: 1rem;
+}
+
+.post-meta-single .post-month {
+    font-size: 0;
+    /* esconde "Março" cheio (segue no DOM p/ leitor de tela) */
+}
+
+.post-meta-single .post-month::after {
+    content: attr(data-mon);
+    font-size: 1rem;
+}
+
+/* A época acompanha a altura da caixa de data (align-items:stretch no pai) e
+   centra o texto verticalmente. */
+.post-meta-single .post-era {
+    display: flex;
+    align-items: center;
+}
+
+/* ── Alvos de toque (WCAG 2.5.8) + respiro do cabeçalho ────────────────────
+   Os chips .tag do cabeçalho ficavam com ~22px de altura (padding de posts.css):
+   abaixo do mínimo de 24px de alvo. Engrosso o padding vertical e separo os chips
+   (gap maior) p/ não lerem como uma barra única.
+
+   ESCOPADO em .post-single de propósito: no standalone cada página tinha seu CSS,
+   então `.post-tags` cru só existia na single. Aqui o CSS é UM bundle servido em
+   TODAS as páginas — sem o escopo, isto vazaria e engrossaria os chips da home. */
+.post-single .post-tags {
+    gap: 0.65rem;
+    margin-bottom: 1.2rem;
+}
+
+.post-single .post-tags .tag {
+    display: inline-block;
+    padding-block: 0.4rem;
+}
