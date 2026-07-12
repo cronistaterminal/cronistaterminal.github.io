@@ -3,6 +3,7 @@
 __layout/
 
 # Estado local / sessão
+TODO.txt
 .claude/
 .serena/
 .remember/
