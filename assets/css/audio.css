@@ -1,0 +1,135 @@
+/* ── Player de audio custom (terminal/CRT) ────────────────────────────────
+   Estilo do player self-hosted consumido por assets/js/audio.js. Substitui o
+   controle nativo do navegador (que destoa do visual). Tudo em tokens
+   (tokens.css) -> segue o tema ativo automaticamente; zero hex fixo, radius 0. */
+
+/* A linha de controles: botao | barra | tempo. Caixa TUI — fundo da sidebar,
+   borda accent quieta, cantos retos. */
+.audio-ui {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.7rem;
+    background: var(--sidebar-bg);
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius);
+    font-family: var(--font-body);
+}
+
+/* ── Botao play/pause ─────────────────────────────────────────────────── */
+.audio-play {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    padding: 0;
+    background: transparent;
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius);
+    color: var(--accent); /* alimenta o currentColor do icone (mask) */
+    cursor: pointer;
+}
+
+.audio-play:hover {
+    border-color: var(--accent);
+}
+
+/* Foco visivel — contrato de a11y igual ao resto do chrome. */
+.audio-play:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* ── Icone via CSS mask + currentColor ────────────────────────────────────
+   O <span.audio-ico> nao tem conteudo: o desenho vem do SVG aplicado como
+   MASK, e a cor sai do currentColor do botao (--accent). Trocar play<->pause
+   = trocar o arquivo da mask, nada de manipular SVG no JS.
+   Default (pausado) = play.svg. */
+.audio-ico {
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    background-color: currentColor;
+    -webkit-mask: url("/icons/play.svg") no-repeat center / contain;
+    mask: url("/icons/play.svg") no-repeat center / contain;
+}
+
+/* Tocando: o JS poe .is-playing no <figure> -> a mask vira pause.svg. */
+.is-playing .audio-ico {
+    -webkit-mask-image: url("/icons/pause.svg");
+    mask-image: url("/icons/pause.svg");
+}
+
+/* ── Barra de seek (range estilizado) ─────────────────────────────────────
+   O range nativo e feio e nao tematiza; reescrevemos track + thumb. Reset do
+   estilo de plataforma e depois pintura com tokens, cantos retos. */
+.audio-seek {
+    flex: 1 1 auto;
+    min-width: 4rem;
+    height: 1rem;
+    margin: 0;
+    background: transparent;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* Track — trilho fino, fundo morto (--accent-mute), borda accent quieta. */
+.audio-seek::-webkit-slider-runnable-track {
+    height: 4px;
+    background: var(--accent-mute);
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius);
+}
+
+.audio-seek::-moz-range-track {
+    height: 4px;
+    background: var(--accent-mute);
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius);
+}
+
+/* Thumb — quadradinho accent (cantos retos). margin-top centraliza no track
+   do WebKit (track 4px + 2px borda = 6px; thumb 12px => -(12-6)/2 = -3px). */
+.audio-seek::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    margin-top: -3px;
+    background: var(--accent);
+    border: none;
+    border-radius: var(--radius);
+}
+
+.audio-seek::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: var(--accent);
+    border: none;
+    border-radius: var(--radius);
+}
+
+/* Foco visivel na barra (mesma regra do botao). */
+.audio-seek:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* ── Tempo decorrido / total ──────────────────────────────────────────── */
+/* Cinza de andaime (--foreground rebaixado), NÃO o --accent-dim do protótipo:
+   esse token mistura accent com o BACKGROUND, e como texto ele afunda — mediu
+   2.87:1 no jabuticaba, 3.27 no zuko, 3.39 no c64, 3.62 no ametista, os mesmos
+   quatro temas (e os mesmos números) em que ele reprovou no highlight de código.
+   O tempo decorrido é informação secundária, então o cinza quieto é o tom certo
+   — só que um cinza que se lê. */
+.audio-time {
+    flex: 0 0 auto;
+    font-family: var(--font-body);
+    font-size: 0.85em;
+    color: color-mix(in oklab, var(--foreground) 65%, var(--background));
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums; /* digitos de largura fixa -> nao "pula" */
+}

@@ -73,3 +73,6 @@ fazia quando você o apertava.
 
 Restaurar um desses hoje é menos eletrônica do que arqueologia: o difícil não é
 soldar, é descobrir o que a placa esperava encontrar do outro lado.
+
+{{< audio src="demo/recado.mp3" pos="break-box" w="440px"
+    cap="Recado de voz — bastidores deste post." >}}

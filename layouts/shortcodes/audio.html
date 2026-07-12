@@ -1,0 +1,43 @@
+{{- /* Player de áudio custom (self-hosted).
+
+           {{< audio src="demo/recado.mp3" cap="Recado de voz — bastidores do post."
+                     pos="break-box" w="440px" >}}
+
+       O <audio> sai SEM `controls`: a UI custom (audio.css + audio.js) é a única.
+       preload="none" — os bytes do áudio só descem quando alguém aperta play; um
+       mp3 é pesado demais para baixar por precaução em toda visita à página. */ -}}
+
+{{- $src := .Get "src" -}}
+{{- if not $src -}}
+  {{- errorf "shortcode audio (%s): falta o parâmetro obrigatório `src`" .Position -}}
+{{- end -}}
+{{- $pos := .Get "pos" | default "break-box" -}}
+{{- $valid := slice "inline-left" "inline-right" "break-full" "break-box" -}}
+{{- if not (in $valid $pos) -}}
+  {{- errorf "shortcode audio (%s): pos=%q inválido. Use um de: %s" .Position $pos (delimit $valid ", ") -}}
+{{- end -}}
+
+{{- $file := resources.Get $src -}}
+{{- with .Page.Resources.GetMatch $src -}}{{- $file = . -}}{{- end -}}
+{{- $url := $src -}}
+{{- with $file -}}{{- $url = .RelPermalink -}}{{- end -}}
+
+<figure class="media-figure media-audio {{ $pos }}"{{ with .Get "w" }} style="--media-w: {{ . }}"{{ end }} data-audio>
+  <audio preload="none" src="{{ $url }}"></audio>
+  <div class="audio-ui">
+    <button type="button" class="audio-play" aria-label="Reproduzir">
+      <span class="audio-ico" aria-hidden="true"></span>
+    </button>
+    <input type="range" class="audio-seek" min="0" max="100" value="0" step="0.1"
+           aria-label="Progresso do áudio">
+    {{- /* O tempo é aria-hidden porque o <input range> já anuncia a posição ao
+           leitor de tela; lê-lo duas vezes seria ruído. Continua sendo texto
+           VISÍVEL, então o contraste dele vale igual. */ -}}
+    <span class="audio-time" aria-hidden="true">
+      <span data-audio-cur>0:00</span> / <span data-audio-dur>0:00</span>
+    </span>
+  </div>
+  {{- with .Get "cap" }}
+  <figcaption class="media-cap">{{ . | markdownify }}</figcaption>
+  {{- end }}
+</figure>
