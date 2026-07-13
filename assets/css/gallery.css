@@ -152,7 +152,7 @@
 }
 
 /* ── Contador ──────────────────────────────────────────────────────── */
-/* "N/total" na fonte do corpo. --foreground, e NÃO o --accent-dim do protótipo:
+/* "N/total" na fonte do corpo. --foreground, e NÃO o antigo --accent-dim (removido):
    esse token afunda (é accent misturado com o BACKGROUND) — foi o que reprovou
    contraste no highlight de código, e aqui é pior ainda, porque o fundo dos
    controles é translúcido e o que está atrás é uma IMAGEM ARBITRÁRIA. Contra

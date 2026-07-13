@@ -177,11 +177,11 @@
     font-weight: 700;
 }
 
-/* #1234: número/permalink — variação ESMAECIDA do master (--accent-dim),
+/* #1234: número/permalink — variação quieta do master (--accent-quiet),
    sigilo de catálogo. Mais quieto que o headline -> hierarquia dentro do
    título. Hover sobe pro accent cheio. */
 .post-num {
-    color: var(--accent-dim);
+    color: var(--accent-quiet);
     text-decoration: none;
     margin-right: 0.5ch;
 }

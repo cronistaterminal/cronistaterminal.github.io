@@ -10,10 +10,10 @@
 
 /* "página X de Y": âncora cognitiva (onde estou) ANTES dos controles. O
    leitor de tela ouve a posição primeiro; o olho neurodivergente ganha o
-   marco. Tom quieto (--accent-dim) p/ não competir com os chips. */
+   marco. Tom quieto (--accent-quiet) p/ não competir com os chips. */
 .page-status {
     margin: 0;
-    color: var(--accent-dim);
+    color: var(--accent-quiet);
     font-size: 0.85rem;
 }
 

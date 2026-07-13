@@ -55,16 +55,16 @@ seu accent.
 As três primeiras colunas são **declaradas**; as demais são **derivadas** (exceto no
 `high-contrast`, onde são fixas).
 
-| tema | `--background` | `--foreground` | `--accent` | `--accent-dim` | `--accent-line` | `--accent-mute` | `--accent-dark` | `--sidebar-bg` | `--code-bg` |
+| tema | `--background` | `--foreground` | `--accent` | `--accent-quiet` | `--accent-line` | `--accent-mute` | `--accent-dark` | `--sidebar-bg` | `--code-bg` |
 |---|---|---|---|---|---|---|---|---|---|
-| **fosforo** *(default)* | `#1a170f` | `#eceae5` | `#eec35e` | `#a78a45` | `#715e31` | `#5c4d2a` | `#845c00` | `#14110a` | `#14110a` |
-| **alto-contraste** | `#0a0a0b` | `#f4f4f5` | `#ffffff` | `#e6e6e9` | `#8a8a91` | `#26262a` | `#cfcfd4` | `#050506` | `#050506` |
-| **zuko** | `#160a08` | `#f5e3da` | `#ff4b3e` | `#b1382d` | `#752820` | `#5e211b` | `#9d0000` | `#120605` | `#120605` |
-| **jabuticaba** | `#120a14` | `#f0e9ee` | `#d24a9e` | `#923670` | `#61264d` | `#4e203f` | `#7d0055` | `#0e0610` | `#0e0610` |
-| **ametista** | `#140e1c` | `#ece6f5` | `#b07bff` | `#7c57b3` | `#543b79` | `#453162` | `#5f20a1` | `#0f0917` | `#0f0917` |
-| **bsod** | `#0000aa` | `#ffffff` | `#aecbff` | `#7199e8` | `#416fd3` | `#2e5dca` | `#4b6492` | `#04009c` | `#12007d` |
-| **c64** | `#0a0a16` | `#e6e3f5` | `#8f84ec` | `#635ba4` | `#403c6d` | `#333058` | `#463393` | `#070712` | `#070712` |
-| **hacker** | `#0d0208` | `#bff5c8` | `#00ff41` | `#32a836` | `#306529` | `#2b4c23` | `#008b00` | `#0a0106` | `#0a0106` |
+| **fosforo** *(default)* | `#1a170f` | `#eceae5` | `#eec35e` | `#eecf8c` | `#715e31` | `#5c4d2a` | `#845c00` | `#14110a` | `#14110a` |
+| **alto-contraste** | `#0a0a0b` | `#f4f4f5` | `#ffffff` | `#fcfcfc` | `#8a8a91` | `#26262a` | `#cfcfd4` | `#050506` | `#050506` |
+| **zuko** | `#160a08` | `#f5e3da` | `#ff4b3e` | `#ff8170` | `#752820` | `#5e211b` | `#9d0000` | `#120605` | `#120605` |
+| **jabuticaba** | `#120a14` | `#f0e9ee` | `#d24a9e` | `#e07eb6` | `#61264d` | `#4e203f` | `#7d0055` | `#0e0610` | `#0e0610` |
+| **ametista** | `#140e1c` | `#ece6f5` | `#b07bff` | `#c19dfe` | `#543b79` | `#453162` | `#5f20a1` | `#0f0917` | `#0f0917` |
+| **bsod** | `#0000aa` | `#ffffff` | `#aecbff` | `#c6dbff` | `#416fd3` | `#2e5dca` | `#4b6492` | `#04009c` | `#12007d` |
+| **c64** | `#0a0a16` | `#e6e3f5` | `#8f84ec` | `#a7a1f0` | `#403c6d` | `#333058` | `#463393` | `#070712` | `#070712` |
+| **hacker** | `#0d0208` | `#bff5c8` | `#00ff41` | `#68fd76` | `#306529` | `#2b4c23` | `#008b00` | `#0a0106` | `#0a0106` |
 
 ### De onde vem cada um
 
@@ -110,36 +110,54 @@ sujeito a mínimo de contraste, e um gate que mente ensina a ignorá-lo.
 | `chip/mute` | texto do chip de tag em repouso | 4.5 |
 | `code-fn/code-bg` | nome de função no bloco de código | 4.5 |
 | `fg/code-bg` | corpo do código | 4.5 |
-| `dim/sidebar-bg` | `--accent-dim` usado como texto | 4.5 |
+| `quiet/bg` | `--accent-quiet` sobre a página | 4.5 |
+| `quiet/sidebar-bg` | `--accent-quiet` sobre a sidebar | 4.5 |
+| `hit-head/mute` | título do resultado **selecionado** da busca | 4.5 |
+| `hit-tldr/mute` | resumo do resultado **selecionado** | 4.5 |
 | `line/bg` | borda dos painéis | informativo |
 
-### A armadilha do `--accent-dim`
+Hoje todos passam, nos 8 temas. Foi preciso remover um token para chegar lá.
 
-**`--accent-dim` não serve como cor de texto.** Ele mistura o accent com o *background* —
-isto é, escurece — então sobre um fundo escuro ele **afunda**. Medido sobre `--sidebar-bg`:
+### O token que foi removido: `--accent-dim`
 
-| tema | contraste | |
-|---|---|---|
-| jabuticaba | **2.84:1** | reprova |
-| zuko | **3.30:1** | reprova |
-| c64 | **3.40:1** | reprova |
-| ametista | **3.61:1** | reprova |
-| bsod | 5.00:1 | passa |
-| fosforo | 5.71:1 | passa |
-| hacker | 6.66:1 | passa |
-| alto-contraste | 16.36:1 | passa (é fixo, não derivado) |
+Existia um `--accent-dim` = `color-mix(accent 70%, background)`. Ele misturava o accent com o
+**fundo** — ou seja, **escurecia**. Como cor de texto sobre fundo escuro, ele *afundava*:
+reprovava 4.5:1 em quatro dos oito temas (jabuticaba 2.76, zuko 3.21, c64 3.34, ametista 3.49
+sobre o `--background`).
 
-Isso já mordeu três vezes — no bloco de código, no contador da galeria e no tempo do áudio.
-Nos três casos a correção foi a mesma: **misturar com o `--foreground`** (que clareia) em vez
-do background.
+O bug mordeu **quatro vezes** — no bloco de código, no contador da galeria, no tempo do áudio
+e nos rótulos da sidebar — sempre pela mesma razão: **o nome prometia "accent mais quieto" e a
+fórmula entregava "accent mais perto do fundo"**. Toda vez, a correção local foi a mesma, e
+toda vez o token seguiu ali, esperando o próximo uso.
+
+Por isso ele foi **removido, não corrigido**. Enquanto existisse, alguém o usaria de novo. No
+lugar entrou o `--accent-quiet`:
 
 ```css
-/* errado, como TEXTO: */  color: var(--accent-dim);
-/* certo:              */  color: color-mix(in oklab, var(--accent) 85%, var(--foreground));
+--accent-quiet: color-mix(in oklab, var(--accent) 70%, var(--foreground));
 ```
 
-O `--accent-dim` continua legítimo para o que ele foi feito: superfícies e traços quietos —
-não texto.
+Aqui "quieto" é por **dessaturação** — puxa o accent na direção do texto — e não por
+escurecimento. Pior caso: 7.25:1 sobre `--background`, 7.44:1 sobre `--sidebar-bg`.
 
-**Nada disso aparece no Lighthouse**, porque ele só audita o tema ativo. Um `a11y 100` não
-diz nada sobre os outros sete. É essa a lacuna que o `just swatches` fecha.
+O custo estético é real e vale saber: a hierarquia entre `h2` e `h3` deixa de ser "um âmbar
+mais escuro" e passa a ser "um âmbar mais lavado". A distinção continua, mas peso e tamanho
+carregam mais do trabalho do que antes.
+
+### O outro fundo: `--accent-mute`
+
+`--accent-quiet` resolve o texto sobre a **página**. Não resolve o texto sobre um **chip**.
+
+`--accent-mute` é o fundo dos chips em repouso — e também o do **resultado selecionado da
+palette**. Sobre ele, *nenhuma* mistura de accent passa: mesmo puxando 90% na direção do
+foreground, o pior caso fica em 3.75:1. E não é um canto raro: o primeiro resultado da busca
+já nasce selecionado, então esse é o estado normal.
+
+Regra: **mudou o fundo, muda a cor.** Sobre `--accent-mute`, o texto sobe para `--foreground`
+cheio (títulos) ou usa `--chip-text` (que é, por definição, o tom calibrado contra esse fundo).
+É o mesmo padrão do `li:target` nas notas de rodapé, onde o realce troca o fundo e o texto
+acompanha.
+
+**Nada disso aparece no Lighthouse**, porque ele só audita o tema ativo — e no tema ativo
+(fosforo) três desses quatro casos passavam. Um `a11y 100` não diz nada sobre os outros sete.
+É essa a lacuna que o `just swatches` fecha.

@@ -75,7 +75,7 @@
 
 /* Corpo da referência: menor e mais quieto que a prosa — é aparato, não texto.
    65% de foreground: mede 5.3:1 no pior tema (bsod), acima do 4.5 exigido.
-   NÃO usar --accent-dim aqui (afunda; ver memória accent-dim-sinks-as-text). */
+   NÃO usar aqui o antigo --accent-dim (afundava; token REMOVIDO — ver tokens.css). */
 .post-body .footnotes ol {
     margin: 0;
     padding-left: 1.6rem;

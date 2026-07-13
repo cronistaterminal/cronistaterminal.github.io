@@ -13,8 +13,21 @@
        vez de hex fixo. OKLab mantém a matiz fiel ao misturar com o fundo
        (sRGB passaria por tons lamacentos). % = quanto de accent sobra:
        quanto menor, mais perto do fundo (mais quieto). */
-    --accent-dim: color-mix(in oklab, var(--accent) 70%, var(--background));
-    /* texto accent esmaecido (ex.: #1234) */
+    --accent-quiet: color-mix(in oklab, var(--accent) 70%, var(--foreground));
+    /* TEXTO accent secundário (#1234, h3/h4, rótulos da sidebar, "página X de Y").
+       Mistura com o FOREGROUND, não com o background — e é essa a diferença que importa.
+       Era --accent-dim (accent 70% + BACKGROUND), que escurecia: como texto sobre fundo
+       escuro ele AFUNDAVA, reprovando 4.5:1 em 4 dos 8 temas (jabuticaba 2.76, zuko 3.21,
+       c64 3.34, ametista 3.49 sobre o --background). O bug mordeu quatro vezes — código,
+       galeria, áudio, sidebar — sempre pela mesma razão: o nome prometia "accent mais
+       quieto" e a fórmula entregava "accent mais perto do fundo". O token velho foi
+       REMOVIDO, não corrigido: enquanto ele existisse, alguém o usaria de novo.
+       Aqui "quieto" é por DESSATURAÇÃO (puxa o accent na direção do texto), não por
+       escurecimento. Pior caso 7.25:1 sobre --background, 7.44:1 sobre --sidebar-bg.
+       Sobre --accent-mute (fundo de chip / hit selecionado) NENHUMA mistura de accent
+       passa — ali o texto sobe para --foreground cheio. Ver .hit-id no palette.css e
+       li:target no footnotes.css: mesmo padrão, o fundo mudou, a cor acompanha.
+       Medido por tools/theme-swatches.py (`just swatches`), que reprova se algum tema cair. */
     --accent-line: color-mix(in oklab, var(--accent) 45%, var(--background));
     /* bordas/traços accent quietos (ex.: caixas de meta) */
     --accent-mute: color-mix(in oklab, var(--accent) 35%, var(--background));

@@ -22,7 +22,7 @@
 }
 
 /* Cabeçalhos de seção: título (Space Mono -> Comic Relief), ecoam a hierarquia
-   de accent da listagem (h2 = accent cheio, puxa o olho; h3/h4 = accent-dim,
+   de accent da listagem (h2 = accent cheio, puxa o olho; h3/h4 = accent-quiet,
    mais quietos). margin-top maior que o ritmo base -> separa visualmente as
    seções (a quebra é o sinal de "novo assunto"). */
 .post-body h2,
@@ -40,13 +40,13 @@
 
 .post-body h3 {
     font-size: 1.2rem;
-    color: var(--accent-dim);
+    color: var(--accent-quiet);
     margin-top: 2rem;
 }
 
 .post-body h4 {
     font-size: 1.05rem;
-    color: var(--accent-dim);
+    color: var(--accent-quiet);
     margin-top: 1.6rem;
 }
 
@@ -56,7 +56,7 @@
 }
 
 /* Listas: recuo p/ os marcadores caberem fora do bloco de texto; gap entre
-   itens p/ não colarem. ::marker em accent-dim -> o bullet/número ecoa o
+   itens p/ não colarem. ::marker em accent-quiet -> o bullet/número ecoa o
    sigilo de catálogo (mesma família dos #id), sem competir com o texto. */
 .post-body ul,
 .post-body ol {
@@ -68,7 +68,7 @@
 }
 
 .post-body li::marker {
-    color: var(--accent-dim);
+    color: var(--accent-quiet);
 }
 
 /* Citação: borda-esquerda accent-line (traço quieto do master) + recuo;
@@ -159,7 +159,7 @@
 }
 
 /* Título da single: grande, título (Space Mono -> Comic Relief). O #NNNN
-   inline antes (.post-num) herda o accent-dim de posts.css (sigilo de
+   inline antes (.post-num) herda o accent-quiet de posts.css (sigilo de
    catálogo), só ajusto o tamanho relativo aqui p/ não competir com o título. */
 .post-single-title {
     margin: 1.8rem 0 0;

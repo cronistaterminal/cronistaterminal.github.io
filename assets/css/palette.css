@@ -113,7 +113,7 @@
     /* alinha com o recuo do ponteiro ">" dos hits */
     font-family: var(--font-body);
     font-size: 0.85rem;
-    color: var(--accent-dim);
+    color: var(--accent-quiet);
 }
 
 .palette-status:empty {
@@ -165,8 +165,30 @@
 }
 
 .hit-id {
-    color: var(--accent-dim);
+    color: var(--accent-quiet);
     margin-right: 0.5ch;
+}
+
+/* O hit SELECIONADO troca o fundo para --accent-mute (regra acima), e TODA cor de texto
+   aqui dentro foi calibrada contra o fundo do painel, que é o --background. Sobre o mute,
+   os três reprovam — medido nos 8 temas (`just swatches`):
+     .hit-head  (--accent)        -> reprova em 5: jabuticaba 3.25, bsod 3.62, zuko 3.70,
+                                     ametista 3.81, c64 3.92
+     .hit-id    (--accent-quiet)  -> reprova em 7, pior caso 1.86
+     .hit-tldr  (--foreground/68%)-> reprova em 2: bsod 3.65, fosforo 4.16
+   Mudou o fundo, muda a cor — mesmo padrão do li:target no footnotes.css. E não é um
+   canto raro: o primeiro resultado JÁ NASCE selecionado, então este é o estado normal
+   da busca.
+
+   O tldr reusa o --chip-text em vez de inventar um tom novo: ele é, por definição, o
+   token de texto calibrado contra o --accent-mute (é o fundo dos chips em repouso).
+   Pior caso 4.57:1. */
+.palette-hit[aria-selected="true"] :is(.hit-head, .hit-id) {
+    color: var(--foreground);
+}
+
+.palette-hit[aria-selected="true"] :is(.hit-tldr, .hit-tldr-long) {
+    color: var(--chip-text);
 }
 
 /* tldr-1 sempre visível; tldr-2 revelado no Tab (via aria-expanded no li). */

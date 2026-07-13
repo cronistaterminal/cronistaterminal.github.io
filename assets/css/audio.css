@@ -119,7 +119,7 @@
 }
 
 /* ── Tempo decorrido / total ──────────────────────────────────────────── */
-/* Cinza de andaime (--foreground rebaixado), NÃO o --accent-dim do protótipo:
+/* Cinza de andaime (--foreground rebaixado), NÃO o antigo --accent-dim do protótipo (removido):
    esse token mistura accent com o BACKGROUND, e como texto ele afunda — mediu
    2.87:1 no jabuticaba, 3.27 no zuko, 3.39 no c64, 3.62 no ametista, os mesmos
    quatro temas (e os mesmos números) em que ele reprovou no highlight de código.

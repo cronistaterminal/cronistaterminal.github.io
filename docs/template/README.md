@@ -239,23 +239,17 @@ os chips da home.
 
 Registradas porque são contratos frágeis, não porque estão erradas.
 
-1. **`--accent-dim` como cor de texto reprova contraste em 4 dos 8 temas.** O token mistura
-   o accent com o *background* (escurece), então como texto ele afunda. Medido sobre
-   `--sidebar-bg`: jabuticaba 2.84, zuko 3.30, c64 3.40, ametista 3.61 — todos abaixo de
-   4.5:1. **`.sidebar-heading` e `.sidebar-post-id` ainda o usam.** O padrão correto, já
-   aplicado em código/áudio/galeria/notas, é misturar com o **foreground** (clareia).
-   Rode `just swatches` — ele reprova por isto.
-2. **O markup de um resultado da palette existe em dois lugares**: `palette.html` (estado
+1. **O markup de um resultado da palette existe em dois lugares**: `palette.html` (estado
    zero, e fallback sem JS) e `hitHTML()` no `palette.js`. Mexeu num, mexa no outro.
-3. **`.palette-close` é focável mas inalcançável por `Tab`** enquanto a palette está aberta,
+2. **`.palette-close` é focável mas inalcançável por `Tab`** enquanto a palette está aberta,
    porque `Tab` virou o toggle de TL;DR. Fecha-se por `Esc` ou clique.
-4. **Nada medeia o menu mobile aberto e o `Ctrl+K`** — os dois modais podem coexistir.
-5. **`LOGO_LOOP_MS` (`theme.js`) duplica à mão a duração de `stripe-cycle`** no `logo.css`.
-6. **`/cronista/` é link morto** na sidebar: a página não existe.
-7. **Paths absolutos hardcoded** (favicons, wordmark, ícones sociais) não passam por
+3. **Nada medeia o menu mobile aberto e o `Ctrl+K`** — os dois modais podem coexistir.
+4. **`LOGO_LOOP_MS` (`theme.js`) duplica à mão a duração de `stripe-cycle`** no `logo.css`.
+5. **`/cronista/` é link morto** na sidebar: a página não existe.
+6. **Paths absolutos hardcoded** (favicons, wordmark, ícones sociais) não passam por
    `relURL` — quebram se o site for servido num subpath.
-8. **Três dos quatro ícones sociais são `href="#"`** — falta `[params.social]` no `hugo.toml`.
-9. **`#nav.header-nav` é uma caixa vazia**, e `pagination` é o único componente de chrome
+7. **Três dos quatro ícones sociais são `href="#"`** — falta `[params.social]` no `hugo.toml`.
+8. **`#nav.header-nav` é uma caixa vazia**, e `pagination` é o único componente de chrome
    sem `id`.
 
 ---

@@ -55,14 +55,14 @@
 }
 
 /* Rótulo de bloco (tags / últimos posts): marco quieto pro olho varrer
-   (a11y-find-fast-first). Tom --accent-dim, minúsculo, lowercase — lê como
+   (a11y-find-fast-first). Tom --accent-quiet, minúsculo, lowercase — lê como
    cabeçalho de seção de terminal, sem competir com os links/chips. */
 .sidebar-heading {
     margin: 0 0 0.7rem;
     font-size: 0.75rem;
     font-weight: 400;
     letter-spacing: 0.04em;
-    color: var(--accent-dim);
+    color: var(--accent-quiet);
 }
 
 /* Botão de busca: ação primária do painel. Gatilho do command palette via
@@ -141,7 +141,7 @@
     font-size: 0.85rem;
 }
 
-/* Últimos posts: 3 links compactos. #id em --accent-dim (sigilo de catálogo,
+/* Últimos posts: 3 links compactos. #id em --accent-quiet (sigilo de catálogo,
    ecoa .post-num) + título em accent (ecoa .post-headline). */
 .sidebar-posts {
     list-style: none;
@@ -165,6 +165,6 @@
 }
 
 .sidebar-post-id {
-    color: var(--accent-dim);
+    color: var(--accent-quiet);
     margin-right: 0.5ch;
 }

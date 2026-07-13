@@ -162,8 +162,10 @@ THEMES = [
     {
         "id": "high-contrast", "name": "alto-contraste", "ref": "branco máximo (AAA)",
         "bg": "#0a0a0b", "fg": "#f4f4f5", "accent": "#ffffff",
+        # --accent-quiet NÃO é fixado: ele mistura accent com o FOREGROUND, e aqui os dois
+        # são ~brancos -> a fórmula se sustenta sozinha (19:1 sobre o bg).
         "fixed": {
-            "accent-dim": "#e6e6e9", "accent-line": "#8a8a91", "accent-mute": "#26262a",
+            "accent-line": "#8a8a91", "accent-mute": "#26262a",
             "chip-text": "#f4f4f5", "accent-dark": "#cfcfd4", "sidebar-bg": "#050506",
         },
     },
@@ -216,6 +218,9 @@ def derive(theme: dict) -> dict:
     d["code-bg"] = oklch_l(bg, theme["code_bg"][1]) if "code_bg" in theme else d["sidebar-bg"]
     # --chip-text é fg @ 82% alpha; para medir contraste, compomos sobre o chip
     d["chip-text"] = fixed.get("chip-text", composite(fg, 0.82, d["accent-mute"]))
+    # --accent-quiet: TEXTO accent secundário. Mistura com o FOREGROUND (clareia), nunca
+    # com o background — ver o comentário longo em tokens.css.
+    d["accent-quiet"] = mix_oklab(accent, fg, 70)
     # a cor de nome-de-função do código: color-mix(accent 85%, FOREGROUND) — mistura com o
     # fg (clareia), não com o bg. Ver code.css e a lição de --accent-dim no TODO/Bloco 3.
     d["code-fn"] = mix_oklab(accent, fg, 85)
@@ -231,8 +236,9 @@ def derive(theme: dict) -> dict:
 # Alvo 0 = informativo: bordas decorativas não estão sujeitas a mínimo de contraste, então
 # medimos e mostramos, mas não transformamos em gate — um gate que mente ensina a ignorá-lo.
 #
-# `dim/sidebar-bg` é o par que já mordeu três vezes: --accent-dim mistura o accent com o
-# BACKGROUND (escurece), então como TEXTO ele afunda. Ver a memória accent-dim-sinks-as-text.
+# Todo texto tem que ser medido contra o fundo em que ELE de fato cai. É o que o
+# `--accent-mute` ensina: ele é o fundo do hit selecionado da palette, e um tom calibrado
+# contra o --background reprova sobre ele. Ver o comentário em palette.css.
 def pairs(d: dict) -> list[tuple[str, str, str, float]]:
     return [
         ("fg/bg", d["foreground"], d["background"], 4.5),
@@ -240,7 +246,12 @@ def pairs(d: dict) -> list[tuple[str, str, str, float]]:
         ("chip/mute", d["chip-text"], d["accent-mute"], 4.5),
         ("code-fn/code-bg", d["code-fn"], d["code-bg"], 4.5),
         ("fg/code-bg", d["foreground"], d["code-bg"], 4.5),
-        ("dim/sidebar-bg", d["accent-dim"], d["sidebar-bg"], 4.5),
+        # --accent-quiet cai sobre os dois fundos de página
+        ("quiet/bg", d["accent-quiet"], d["background"], 4.5),
+        ("quiet/sidebar-bg", d["accent-quiet"], d["sidebar-bg"], 4.5),
+        # hit selecionado da palette: o fundo é --accent-mute
+        ("hit-head/mute", d["foreground"], d["accent-mute"], 4.5),
+        ("hit-tldr/mute", d["chip-text"], d["accent-mute"], 4.5),
         ("line/bg (borda)", d["accent-line"], d["background"], 0.0),
     ]
 
@@ -253,6 +264,7 @@ SWATCHES = [
     ("background", "bg"), ("foreground", "fg"), ("accent", "accent"),
     ("accent-dim", "dim"), ("accent-line", "line"), ("accent-mute", "mute"),
     ("accent-dark", "dark"), ("sidebar-bg", "side-bg"), ("code-bg", "code-bg"),
+    ("accent-quiet", "quiet"),
 ]
 
 

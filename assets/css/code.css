@@ -103,7 +103,7 @@
    de claro, negrito itálico. A tipografia (italic+bold) diferencia de keyword
    mesmo quando as duas cores colapsam pro branco no high-contrast.
 
-   NÃO usar var(--accent-dim) aqui, apesar de ser o que o protótipo fazia: o
+   NÃO usar o antigo var(--accent-dim) aqui (token REMOVIDO), que era o que o protótipo fazia: o
    --accent-dim mistura accent com o BACKGROUND (escurece), e sobre o
    --sidebar-bg do bloco ele afunda — medido, reprova 4.5:1 em quatro temas
    (jabuticaba 2.87, zuko 3.27, c64 3.39, ametista 3.62). Misturar com o
@@ -200,7 +200,7 @@
 /* Prompt de sessão de shell (gp — o `$`, que o Chroma reconhece e o Prism não
    tinha) e saída de comando (go — o que a MÁQUINA respondeu, não o que se
    digitou). Os dois são ANDAIME de sessão, não código: recuam para o mesmo
-   cinza do operador/pontuação acima. (Pelo mesmo motivo do .nf, o --accent-dim
+   cinza do operador/pontuação acima. (Pelo mesmo motivo do .nf, o antigo --accent-dim
    não serve aqui — afunda sobre o --sidebar-bg em quatro dos oito temas.) */
 .chroma .gp,
 .chroma .go {

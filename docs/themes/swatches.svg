@@ -35,6 +35,9 @@
 <rect x="812" y="58" width="92" height="38" fill="#14110a" stroke="#715e31" stroke-width="0.75"/>
 <text x="812" y="112" font-family="monospace" font-size="9.5" fill="#eceae5" opacity="0.85">code-bg</text>
 <text x="812" y="123" font-family="monospace" font-size="8.5" fill="#eceae5" opacity="0.55">#14110a</text>
+<rect x="910" y="58" width="92" height="38" fill="#eecf8c" stroke="#715e31" stroke-width="0.75"/>
+<text x="910" y="112" font-family="monospace" font-size="9.5" fill="#eceae5" opacity="0.85">quiet</text>
+<text x="910" y="123" font-family="monospace" font-size="8.5" fill="#eceae5" opacity="0.55">#eecf8c</text>
 <text x="28" y="145" font-family="monospace" font-size="9.5" fill="#eceae5" opacity="0.6">--stripe-1..6 (TV do logo)</text>
 <rect x="196" y="135" width="24" height="12" fill="#E5141E"/>
 <rect x="222" y="135" width="24" height="12" fill="#D60270"/>
@@ -63,11 +66,17 @@
 <text x="762" y="231" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
 <text x="612" y="248" font-family="monospace" font-size="10" fill="#eceae5">fg/code-bg: 15.7:1</text>
 <text x="762" y="248" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
-<text x="612" y="265" font-family="monospace" font-size="10" fill="#eceae5">dim/sidebar-bg: 5.7:1</text>
-<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
-<text x="612" y="282" font-family="monospace" font-size="10" fill="#eceae5">line/bg (borda): 2.9:1</text>
-<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
-<text x="612" y="305" font-family="monospace" font-size="9.5" fill="#eceae5" opacity="0.6">link distinguível por cor</text>
+<text x="612" y="265" font-family="monospace" font-size="10" fill="#eceae5">quiet/bg: 11.9:1</text>
+<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="282" font-family="monospace" font-size="10" fill="#eceae5">quiet/sidebar-bg: 12.5:1</text>
+<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="299" font-family="monospace" font-size="10" fill="#eceae5">hit-head/mute: 6.8:1</text>
+<text x="762" y="299" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
+<text x="612" y="316" font-family="monospace" font-size="10" fill="#eceae5">hit-tldr/mute: 5.2:1</text>
+<text x="762" y="316" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
+<text x="612" y="333" font-family="monospace" font-size="10" fill="#eceae5">line/bg (borda): 2.9:1</text>
+<text x="762" y="333" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
+<text x="612" y="356" font-family="monospace" font-size="9.5" fill="#eceae5" opacity="0.6">link distinguível por cor</text>
 </g>
 <g transform="translate(0,402)">
 <rect width="980" height="320" fill="#0a0a0b" stroke="#ffffff" stroke-width="1.5"/>
@@ -83,9 +92,9 @@
 <rect x="224" y="58" width="92" height="38" fill="#ffffff" stroke="#8a8a91" stroke-width="0.75"/>
 <text x="224" y="112" font-family="monospace" font-size="9.5" fill="#f4f4f5" opacity="0.85">accent</text>
 <text x="224" y="123" font-family="monospace" font-size="8.5" fill="#f4f4f5" opacity="0.55">#ffffff</text>
-<rect x="322" y="58" width="92" height="38" fill="#e6e6e9" stroke="#8a8a91" stroke-width="0.75"/>
+<rect x="322" y="58" width="92" height="38" fill="#acacac" stroke="#8a8a91" stroke-width="0.75"/>
 <text x="322" y="112" font-family="monospace" font-size="9.5" fill="#f4f4f5" opacity="0.85">dim</text>
-<text x="322" y="123" font-family="monospace" font-size="8.5" fill="#f4f4f5" opacity="0.55">#e6e6e9</text>
+<text x="322" y="123" font-family="monospace" font-size="8.5" fill="#f4f4f5" opacity="0.55">#acacac</text>
 <rect x="420" y="58" width="92" height="38" fill="#8a8a91" stroke="#8a8a91" stroke-width="0.75"/>
 <text x="420" y="112" font-family="monospace" font-size="9.5" fill="#f4f4f5" opacity="0.85">line</text>
 <text x="420" y="123" font-family="monospace" font-size="8.5" fill="#f4f4f5" opacity="0.55">#8a8a91</text>
@@ -101,6 +110,9 @@
 <rect x="812" y="58" width="92" height="38" fill="#050506" stroke="#8a8a91" stroke-width="0.75"/>
 <text x="812" y="112" font-family="monospace" font-size="9.5" fill="#f4f4f5" opacity="0.85">code-bg</text>
 <text x="812" y="123" font-family="monospace" font-size="8.5" fill="#f4f4f5" opacity="0.55">#050506</text>
+<rect x="910" y="58" width="92" height="38" fill="#fcfcfc" stroke="#8a8a91" stroke-width="0.75"/>
+<text x="910" y="112" font-family="monospace" font-size="9.5" fill="#f4f4f5" opacity="0.85">quiet</text>
+<text x="910" y="123" font-family="monospace" font-size="8.5" fill="#f4f4f5" opacity="0.55">#fcfcfc</text>
 <text x="28" y="145" font-family="monospace" font-size="9.5" fill="#f4f4f5" opacity="0.6">--stripe-1..6 (TV do logo)</text>
 <rect x="196" y="135" width="24" height="12" fill="#f2f2f2"/>
 <rect x="222" y="135" width="24" height="12" fill="#c4c4c4"/>
@@ -129,11 +141,17 @@
 <text x="762" y="231" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
 <text x="612" y="248" font-family="monospace" font-size="10" fill="#f4f4f5">fg/code-bg: 18.5:1</text>
 <text x="762" y="248" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
-<text x="612" y="265" font-family="monospace" font-size="10" fill="#f4f4f5">dim/sidebar-bg: 16.4:1</text>
+<text x="612" y="265" font-family="monospace" font-size="10" fill="#f4f4f5">quiet/bg: 19.3:1</text>
 <text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
-<text x="612" y="282" font-family="monospace" font-size="10" fill="#f4f4f5">line/bg (borda): 5.8:1</text>
-<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
-<text x="612" y="305" font-family="monospace" font-size="9.5" fill="#f4f4f5" opacity="0.6">link com underline (1.4.1)</text>
+<text x="612" y="282" font-family="monospace" font-size="10" fill="#f4f4f5">quiet/sidebar-bg: 19.9:1</text>
+<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="299" font-family="monospace" font-size="10" fill="#f4f4f5">hit-head/mute: 13.7:1</text>
+<text x="762" y="299" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="316" font-family="monospace" font-size="10" fill="#f4f4f5">hit-tldr/mute: 13.7:1</text>
+<text x="762" y="316" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="333" font-family="monospace" font-size="10" fill="#f4f4f5">line/bg (borda): 5.8:1</text>
+<text x="762" y="333" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
+<text x="612" y="356" font-family="monospace" font-size="9.5" fill="#f4f4f5" opacity="0.6">link com underline (1.4.1)</text>
 </g>
 <g transform="translate(0,744)">
 <rect width="980" height="320" fill="#160a08" stroke="#ff4b3e" stroke-width="1.5"/>
@@ -167,6 +185,9 @@
 <rect x="812" y="58" width="92" height="38" fill="#120605" stroke="#752820" stroke-width="0.75"/>
 <text x="812" y="112" font-family="monospace" font-size="9.5" fill="#f5e3da" opacity="0.85">code-bg</text>
 <text x="812" y="123" font-family="monospace" font-size="8.5" fill="#f5e3da" opacity="0.55">#120605</text>
+<rect x="910" y="58" width="92" height="38" fill="#ff8170" stroke="#752820" stroke-width="0.75"/>
+<text x="910" y="112" font-family="monospace" font-size="9.5" fill="#f5e3da" opacity="0.85">quiet</text>
+<text x="910" y="123" font-family="monospace" font-size="8.5" fill="#f5e3da" opacity="0.55">#ff8170</text>
 <text x="28" y="145" font-family="monospace" font-size="9.5" fill="#f5e3da" opacity="0.6">--stripe-1..6 (TV do logo)</text>
 <rect x="196" y="135" width="24" height="12" fill="#ffb09a"/>
 <rect x="222" y="135" width="24" height="12" fill="#ff806e"/>
@@ -195,11 +216,17 @@
 <text x="762" y="231" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
 <text x="612" y="248" font-family="monospace" font-size="10" fill="#f5e3da">fg/code-bg: 16.0:1</text>
 <text x="762" y="248" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
-<text x="612" y="265" font-family="monospace" font-size="10" fill="#f5e3da">dim/sidebar-bg: 3.3:1</text>
-<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#ed333b">FAIL</text>
-<text x="612" y="282" font-family="monospace" font-size="10" fill="#f5e3da">line/bg (borda): 1.9:1</text>
-<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
-<text x="612" y="305" font-family="monospace" font-size="9.5" fill="#f5e3da" opacity="0.6">link distinguível por cor</text>
+<text x="612" y="265" font-family="monospace" font-size="10" fill="#f5e3da">quiet/bg: 8.0:1</text>
+<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="282" font-family="monospace" font-size="10" fill="#f5e3da">quiet/sidebar-bg: 8.2:1</text>
+<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="299" font-family="monospace" font-size="10" fill="#f5e3da">hit-head/mute: 9.9:1</text>
+<text x="762" y="299" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="316" font-family="monospace" font-size="10" fill="#f5e3da">hit-tldr/mute: 7.1:1</text>
+<text x="762" y="316" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="333" font-family="monospace" font-size="10" fill="#f5e3da">line/bg (borda): 1.9:1</text>
+<text x="762" y="333" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
+<text x="612" y="356" font-family="monospace" font-size="9.5" fill="#f5e3da" opacity="0.6">link distinguível por cor</text>
 </g>
 <g transform="translate(0,1086)">
 <rect width="980" height="320" fill="#120a14" stroke="#d24a9e" stroke-width="1.5"/>
@@ -233,6 +260,9 @@
 <rect x="812" y="58" width="92" height="38" fill="#0e0610" stroke="#61264d" stroke-width="0.75"/>
 <text x="812" y="112" font-family="monospace" font-size="9.5" fill="#f0e9ee" opacity="0.85">code-bg</text>
 <text x="812" y="123" font-family="monospace" font-size="8.5" fill="#f0e9ee" opacity="0.55">#0e0610</text>
+<rect x="910" y="58" width="92" height="38" fill="#e07eb6" stroke="#61264d" stroke-width="0.75"/>
+<text x="910" y="112" font-family="monospace" font-size="9.5" fill="#f0e9ee" opacity="0.85">quiet</text>
+<text x="910" y="123" font-family="monospace" font-size="8.5" fill="#f0e9ee" opacity="0.55">#e07eb6</text>
 <text x="28" y="145" font-family="monospace" font-size="9.5" fill="#f0e9ee" opacity="0.6">--stripe-1..6 (TV do logo)</text>
 <rect x="196" y="135" width="24" height="12" fill="#ffb9ff"/>
 <rect x="222" y="135" width="24" height="12" fill="#ff8bde"/>
@@ -261,11 +291,17 @@
 <text x="762" y="231" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
 <text x="612" y="248" font-family="monospace" font-size="10" fill="#f0e9ee">fg/code-bg: 16.7:1</text>
 <text x="762" y="248" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
-<text x="612" y="265" font-family="monospace" font-size="10" fill="#f0e9ee">dim/sidebar-bg: 2.8:1</text>
-<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#ed333b">FAIL</text>
-<text x="612" y="282" font-family="monospace" font-size="10" fill="#f0e9ee">line/bg (borda): 1.8:1</text>
-<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
-<text x="612" y="305" font-family="monospace" font-size="9.5" fill="#f0e9ee" opacity="0.6">link distinguível por cor</text>
+<text x="612" y="265" font-family="monospace" font-size="10" fill="#f0e9ee">quiet/bg: 7.3:1</text>
+<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="282" font-family="monospace" font-size="10" fill="#f0e9ee">quiet/sidebar-bg: 7.4:1</text>
+<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="299" font-family="monospace" font-size="10" fill="#f0e9ee">hit-head/mute: 11.0:1</text>
+<text x="762" y="299" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="316" font-family="monospace" font-size="10" fill="#f0e9ee">hit-tldr/mute: 7.9:1</text>
+<text x="762" y="316" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="333" font-family="monospace" font-size="10" fill="#f0e9ee">line/bg (borda): 1.8:1</text>
+<text x="762" y="333" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
+<text x="612" y="356" font-family="monospace" font-size="9.5" fill="#f0e9ee" opacity="0.6">link distinguível por cor</text>
 </g>
 <g transform="translate(0,1428)">
 <rect width="980" height="320" fill="#140e1c" stroke="#b07bff" stroke-width="1.5"/>
@@ -299,6 +335,9 @@
 <rect x="812" y="58" width="92" height="38" fill="#0f0917" stroke="#543b79" stroke-width="0.75"/>
 <text x="812" y="112" font-family="monospace" font-size="9.5" fill="#ece6f5" opacity="0.85">code-bg</text>
 <text x="812" y="123" font-family="monospace" font-size="8.5" fill="#ece6f5" opacity="0.55">#0f0917</text>
+<rect x="910" y="58" width="92" height="38" fill="#c19dfe" stroke="#543b79" stroke-width="0.75"/>
+<text x="910" y="112" font-family="monospace" font-size="9.5" fill="#ece6f5" opacity="0.85">quiet</text>
+<text x="910" y="123" font-family="monospace" font-size="8.5" fill="#ece6f5" opacity="0.55">#c19dfe</text>
 <text x="28" y="145" font-family="monospace" font-size="9.5" fill="#ece6f5" opacity="0.6">--stripe-1..6 (TV do logo)</text>
 <rect x="196" y="135" width="24" height="12" fill="#ffd2ff"/>
 <rect x="222" y="135" width="24" height="12" fill="#d8a4ff"/>
@@ -327,11 +366,17 @@
 <text x="762" y="231" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
 <text x="612" y="248" font-family="monospace" font-size="10" fill="#ece6f5">fg/code-bg: 16.1:1</text>
 <text x="762" y="248" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
-<text x="612" y="265" font-family="monospace" font-size="10" fill="#ece6f5">dim/sidebar-bg: 3.6:1</text>
-<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#ed333b">FAIL</text>
-<text x="612" y="282" font-family="monospace" font-size="10" fill="#ece6f5">line/bg (borda): 2.1:1</text>
-<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
-<text x="612" y="305" font-family="monospace" font-size="9.5" fill="#ece6f5" opacity="0.6">link distinguível por cor</text>
+<text x="612" y="265" font-family="monospace" font-size="10" fill="#ece6f5">quiet/bg: 8.6:1</text>
+<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="282" font-family="monospace" font-size="10" fill="#ece6f5">quiet/sidebar-bg: 8.9:1</text>
+<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="299" font-family="monospace" font-size="10" fill="#ece6f5">hit-head/mute: 9.2:1</text>
+<text x="762" y="299" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="316" font-family="monospace" font-size="10" fill="#ece6f5">hit-tldr/mute: 6.8:1</text>
+<text x="762" y="316" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
+<text x="612" y="333" font-family="monospace" font-size="10" fill="#ece6f5">line/bg (borda): 2.1:1</text>
+<text x="762" y="333" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
+<text x="612" y="356" font-family="monospace" font-size="9.5" fill="#ece6f5" opacity="0.6">link distinguível por cor</text>
 </g>
 <g transform="translate(0,1770)">
 <rect width="980" height="320" fill="#0000aa" stroke="#aecbff" stroke-width="1.5"/>
@@ -365,6 +410,9 @@
 <rect x="812" y="58" width="92" height="38" fill="#12007d" stroke="#416fd3" stroke-width="0.75"/>
 <text x="812" y="112" font-family="monospace" font-size="9.5" fill="#ffffff" opacity="0.85">code-bg</text>
 <text x="812" y="123" font-family="monospace" font-size="8.5" fill="#ffffff" opacity="0.55">#12007d</text>
+<rect x="910" y="58" width="92" height="38" fill="#c6dbff" stroke="#416fd3" stroke-width="0.75"/>
+<text x="910" y="112" font-family="monospace" font-size="9.5" fill="#ffffff" opacity="0.85">quiet</text>
+<text x="910" y="123" font-family="monospace" font-size="8.5" fill="#ffffff" opacity="0.55">#c6dbff</text>
 <text x="28" y="145" font-family="monospace" font-size="9.5" fill="#ffffff" opacity="0.6">--stripe-1..6 (TV do logo)</text>
 <rect x="196" y="135" width="24" height="12" fill="#d5f3ff"/>
 <rect x="222" y="135" width="24" height="12" fill="#a8c5f9"/>
@@ -393,11 +441,17 @@
 <text x="762" y="231" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
 <text x="612" y="248" font-family="monospace" font-size="10" fill="#ffffff">fg/code-bg: 15.9:1</text>
 <text x="762" y="248" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
-<text x="612" y="265" font-family="monospace" font-size="10" fill="#ffffff">dim/sidebar-bg: 5.0:1</text>
-<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
-<text x="612" y="282" font-family="monospace" font-size="10" fill="#ffffff">line/bg (borda): 2.8:1</text>
-<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
-<text x="612" y="305" font-family="monospace" font-size="9.5" fill="#ffffff" opacity="0.6">link distinguível por cor</text>
+<text x="612" y="265" font-family="monospace" font-size="10" fill="#ffffff">quiet/bg: 9.5:1</text>
+<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="282" font-family="monospace" font-size="10" fill="#ffffff">quiet/sidebar-bg: 10.1:1</text>
+<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="299" font-family="monospace" font-size="10" fill="#ffffff">hit-head/mute: 5.9:1</text>
+<text x="762" y="299" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
+<text x="612" y="316" font-family="monospace" font-size="10" fill="#ffffff">hit-tldr/mute: 4.6:1</text>
+<text x="762" y="316" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
+<text x="612" y="333" font-family="monospace" font-size="10" fill="#ffffff">line/bg (borda): 2.8:1</text>
+<text x="762" y="333" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
+<text x="612" y="356" font-family="monospace" font-size="9.5" fill="#ffffff" opacity="0.6">link distinguível por cor</text>
 </g>
 <g transform="translate(0,2112)">
 <rect width="980" height="320" fill="#0a0a16" stroke="#8f84ec" stroke-width="1.5"/>
@@ -431,6 +485,9 @@
 <rect x="812" y="58" width="92" height="38" fill="#070712" stroke="#403c6d" stroke-width="0.75"/>
 <text x="812" y="112" font-family="monospace" font-size="9.5" fill="#e6e3f5" opacity="0.85">code-bg</text>
 <text x="812" y="123" font-family="monospace" font-size="8.5" fill="#e6e3f5" opacity="0.55">#070712</text>
+<rect x="910" y="58" width="92" height="38" fill="#a7a1f0" stroke="#403c6d" stroke-width="0.75"/>
+<text x="910" y="112" font-family="monospace" font-size="9.5" fill="#e6e3f5" opacity="0.85">quiet</text>
+<text x="910" y="123" font-family="monospace" font-size="8.5" fill="#e6e3f5" opacity="0.55">#a7a1f0</text>
 <text x="28" y="145" font-family="monospace" font-size="9.5" fill="#e6e3f5" opacity="0.6">--stripe-1..6 (TV do logo)</text>
 <rect x="196" y="135" width="24" height="12" fill="#eae2ff"/>
 <rect x="222" y="135" width="24" height="12" fill="#bdb4ff"/>
@@ -459,11 +516,17 @@
 <text x="762" y="231" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
 <text x="612" y="248" font-family="monospace" font-size="10" fill="#e6e3f5">fg/code-bg: 15.9:1</text>
 <text x="762" y="248" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
-<text x="612" y="265" font-family="monospace" font-size="10" fill="#e6e3f5">dim/sidebar-bg: 3.4:1</text>
-<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#ed333b">FAIL</text>
-<text x="612" y="282" font-family="monospace" font-size="10" fill="#e6e3f5">line/bg (borda): 2.0:1</text>
-<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
-<text x="612" y="305" font-family="monospace" font-size="9.5" fill="#e6e3f5" opacity="0.6">link distinguível por cor</text>
+<text x="612" y="265" font-family="monospace" font-size="10" fill="#e6e3f5">quiet/bg: 8.4:1</text>
+<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="282" font-family="monospace" font-size="10" fill="#e6e3f5">quiet/sidebar-bg: 8.6:1</text>
+<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="299" font-family="monospace" font-size="10" fill="#e6e3f5">hit-head/mute: 9.8:1</text>
+<text x="762" y="299" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="316" font-family="monospace" font-size="10" fill="#e6e3f5">hit-tldr/mute: 7.2:1</text>
+<text x="762" y="316" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="333" font-family="monospace" font-size="10" fill="#e6e3f5">line/bg (borda): 2.0:1</text>
+<text x="762" y="333" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
+<text x="612" y="356" font-family="monospace" font-size="9.5" fill="#e6e3f5" opacity="0.6">link distinguível por cor</text>
 </g>
 <g transform="translate(0,2454)">
 <rect width="980" height="320" fill="#0d0208" stroke="#00ff41" stroke-width="1.5"/>
@@ -497,6 +560,9 @@
 <rect x="812" y="58" width="92" height="38" fill="#0a0106" stroke="#306529" stroke-width="0.75"/>
 <text x="812" y="112" font-family="monospace" font-size="9.5" fill="#bff5c8" opacity="0.85">code-bg</text>
 <text x="812" y="123" font-family="monospace" font-size="8.5" fill="#bff5c8" opacity="0.55">#0a0106</text>
+<rect x="910" y="58" width="92" height="38" fill="#68fd76" stroke="#306529" stroke-width="0.75"/>
+<text x="910" y="112" font-family="monospace" font-size="9.5" fill="#bff5c8" opacity="0.85">quiet</text>
+<text x="910" y="123" font-family="monospace" font-size="8.5" fill="#bff5c8" opacity="0.55">#68fd76</text>
 <text x="28" y="145" font-family="monospace" font-size="9.5" fill="#bff5c8" opacity="0.6">--stripe-1..6 (TV do logo)</text>
 <rect x="196" y="135" width="24" height="12" fill="#4fff66"/>
 <rect x="222" y="135" width="24" height="12" fill="#00ee28"/>
@@ -525,11 +591,17 @@
 <text x="762" y="231" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
 <text x="612" y="248" font-family="monospace" font-size="10" fill="#bff5c8">fg/code-bg: 16.8:1</text>
 <text x="762" y="248" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
-<text x="612" y="265" font-family="monospace" font-size="10" fill="#bff5c8">dim/sidebar-bg: 6.7:1</text>
-<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
-<text x="612" y="282" font-family="monospace" font-size="10" fill="#bff5c8">line/bg (borda): 2.9:1</text>
-<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
-<text x="612" y="305" font-family="monospace" font-size="9.5" fill="#bff5c8" opacity="0.6">link com underline (1.4.1)</text>
+<text x="612" y="265" font-family="monospace" font-size="10" fill="#bff5c8">quiet/bg: 15.4:1</text>
+<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="282" font-family="monospace" font-size="10" fill="#bff5c8">quiet/sidebar-bg: 15.6:1</text>
+<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="299" font-family="monospace" font-size="10" fill="#bff5c8">hit-head/mute: 7.9:1</text>
+<text x="762" y="299" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="316" font-family="monospace" font-size="10" fill="#bff5c8">hit-tldr/mute: 6.0:1</text>
+<text x="762" y="316" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
+<text x="612" y="333" font-family="monospace" font-size="10" fill="#bff5c8">line/bg (borda): 2.9:1</text>
+<text x="762" y="333" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
+<text x="612" y="356" font-family="monospace" font-size="9.5" fill="#bff5c8" opacity="0.6">link com underline (1.4.1)</text>
 </g>
 </g>
 </svg>

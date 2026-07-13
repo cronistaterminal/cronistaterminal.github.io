@@ -21,9 +21,9 @@
     --accent: #ffffff;
 
     /* Derivados FIXADOS (não derivar do master aqui): color-mix(accent branco, bg
-       quase-preto) cairia pra cinzas de baixo contraste — sobretudo o chip. */
-    --accent-dim: #e6e6e9;
-    /* post-num/datas dim: ~16:1 sobre o bg */
+       quase-preto) cairia pra cinzas de baixo contraste — sobretudo o chip.
+       --accent-quiet NÃO precisa de override: ele mistura accent com o FOREGROUND, e
+       aqui os dois são ~brancos -> #fcfcfc, 19:1 sobre o bg. A fórmula se sustenta. */
     --accent-line: #8a8a91;
     /* traços/bordas finas: componente de UI, alvo >=3:1 */
     --accent-mute: #26262a;
@@ -42,7 +42,7 @@
 
 /* === 6 temas coloridos (2026-06-20) ===
    Ao contrário do alto-contraste, estes só sobrescrevem o trio MASTER — bg/fg/accent. Os
-   derivados (--accent-dim/line/mute/dark, --chip-text, --sidebar-bg) recalculam pelas
+   derivados (--accent-quiet/line/mute/dark, --chip-text, --sidebar-bg) recalculam pelas
    fórmulas do tokens.css (color-mix/oklch em var(--accent)/var(--background)), porque a
    substituição de var() relê o accent vencedor neste seletor. Contraste de cada um
    validado no swatch-sheet (tools/theme-swatches.py -> docs/themes/swatches.svg): fg/bg
