@@ -8,11 +8,15 @@
     max-width: none;
 }
 
+/* Centralizado no #main. A página não tem coluna de leitura nem sidebar para ancorar o
+   olho — alinhado à esquerda, o conteúdo ficava pendurado num canto de uma caixa larga.
+   O alinhamento à esquerda é o certo para PROSA longa; aqui é um cartaz. */
 .lost {
     display: flex;
     flex-direction: column;
     gap: 1.6rem;
-    align-items: start;
+    align-items: center;
+    text-align: center;
 }
 
 /* O "404" é decorativo (aria-hidden): quem usa leitor de tela já ouviu o <title> da
