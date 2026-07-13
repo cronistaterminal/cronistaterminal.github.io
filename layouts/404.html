@@ -17,6 +17,28 @@
 {{- /* hugo.Data, não site.Data: o segundo foi deprecado no Hugo 0.156. */ -}}
 {{- $d := index hugo.Data "404" -}}
 
+{{- /* Os passos do apodrecimento vivem em data/decay.toml, em BASE64, e são decodificados
+       aqui — em tempo de build. O cliente recebe o mesmo texto de sempre; o lost.js não
+       sabe que este arquivo existe.
+
+       Estão em base64 porque Zalgo cru viola a única regra que um arquivo de texto tem:
+       um caractere fica dentro da própria linha. Combining marks (U+0300-036F) empilham
+       sobre o glifo e sangram para as linhas vizinhas, embaralhando editor e diff.
+       Para editá-los: `just decay-edit` -> .decay.txt -> `just decay-save`.
+
+       O errorf é o contrato: se decay.toml sumir ou vier vazio, o BUILD PARA. Um decay
+       silenciosamente vazio deixaria a 404 no ar com o texto congelado — o bug que o
+       Nilton acabou de caçar, mas permanente e sem sintoma no build. */ -}}
+{{- $decayData := index hugo.Data "decay" -}}
+{{- $encoded := and $decayData $decayData.steps_b64 -}}
+{{- if not $encoded -}}
+  {{- errorf "404: data/decay.toml não tem steps_b64 — rode `just decay-save`" -}}
+{{- end -}}
+{{- $steps := slice -}}
+{{- range $encoded -}}
+  {{- $steps = $steps | append (. | base64Decode) -}}
+{{- end -}}
+
 <div class="lost">
   <h1 class="lost-code" aria-hidden="true">404</h1>
 
@@ -85,7 +107,7 @@
   {{- dict
     "redirectAfter" $d.timing.redirect_after
     "decayStarts" $d.timing.decay_starts
-    "decaySteps" $d.decay_steps
+    "decaySteps" $steps
     "home" ("/" | relURL)
   | jsonify | safeJS -}}
 </script>

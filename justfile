@@ -63,6 +63,20 @@ serve:
 swatches:
     python3 tools/theme-swatches.py
 
+# Os passos do apodrecimento da 404, em texto legível (.decay.txt, fora do git).
+# Edite o arquivo e rode `just decay-save` para recodificar.
+decay-edit:
+    python3 tools/decay.py decode
+
+# .decay.txt -> data/decay.toml (base64). Verifica o round-trip antes de gravar.
+#
+# Zalgo cru NÃO entra no repositório: combining marks sangram para as linhas vizinhas
+# do editor e destroem o diff. O base64 é o artefato versionado; o .decay.txt é a vista
+# efêmera. Se esquecer o `decay-save`, o site vai ao ar com o Zalgo ANTERIOR — o TOML é
+# a fonte da verdade, não o scratch.
+decay-save:
+    python3 tools/decay.py encode
+
 # Preview do build de produção (o mesmo bytes-a-bytes que o audit mede).
 preview: build
     @echo "→ http://localhost:{{ port }}"

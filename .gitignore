@@ -4,6 +4,11 @@
 #   git worktree add --detach __layout layout/standalone-pass
 __layout/
 
+# O scratch do apodrecimento da 404: Zalgo CRU, gerado por `just decay-edit`.
+# Nenhum arquivo versionado carrega Zalgo cru — a cópia no repo é o base64 em
+# data/decay.toml. Este aqui é vista, não fonte.
+.decay.txt
+
 # Estado local / sessão
 TODO.txt
 .lighthouse/

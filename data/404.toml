@@ -19,17 +19,14 @@ middle = "Mas clique rápido pois "
 decay = "as coisas tendem a ficar estranhas por aqui"
 suffix = "."
 
-# Os estados do apodrecimento, um por segundo a partir de decay_starts.
-# Nilton: cole Zalgo/unicode à vontade aqui — o Zalgo fica SÓ no visual (aria-hidden);
-# o leitor de tela sempre ouve o `decay` original acima, estável e em português.
-# Placeholders por idioma até o texto real entrar (5 passos = segundos 5,6,7,8,9).
-decay_steps = [
-  "las cosas tienden a ponerse extrañas por aquí",
-  "things tend to get strange around here",
-  "les choses ont tendance à devenir étranges ici",
-  "тут всё начинает странно себя вести",
-  "こ̴こ̷で̶は̸物̷事̴が̸奇̷妙̶に̴な̷り̸が̶ち̴で̷す̸",
-]
+# Os estados do apodrecimento moram em data/decay.toml, em base64 — Zalgo cru
+# sangra para as linhas vizinhas do editor e destrói o diff. Para editá-los:
+#
+#   just decay-edit   ->  .decay.txt (Zalgo legível, fora do git)
+#   just decay-save   ->  volta para data/decay.toml
+#
+# O Zalgo fica SÓ no visual (aria-hidden); o leitor de tela sempre ouve o `decay`
+# original acima, estável e em português.
 
 [timing]
 # Segundos até voltar sozinho para a home. O contador é VISÍVEL e cancelável —
