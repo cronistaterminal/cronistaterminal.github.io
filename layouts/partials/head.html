@@ -19,6 +19,19 @@
 <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ $name }} · {{ .Site.Title }}{{ end }}</title>
 {{ with .Site.Params.description }}<meta name="description" content="{{ . }}">{{ end }}
 
+{{- /* Autodiscovery do RSS. Sem isto o feed EXISTE mas ninguém o acha: leitores de feed e
+       browsers procuram exatamente esta tag, e o ícone do footer não substitui.
+       Anuncia o feed DA PRÓPRIA PÁGINA (.OutputFormats, não um href fixo): na home é o
+       feed do site; em /tags/c64/ é o feed daquela tag. É o que deixa assinar um recorte.
+       O <title> do link é o que o leitor de feeds mostra na lista de assinaturas. */ -}}
+{{- /* O título do feed reusa a MESMA regra do <title> da página (o $name acima, que
+       prefere .Data.Term ao .Title title-caseado da taxonomia). Na home seria
+       "dablog · dablog" — daí o .IsHome. */ -}}
+{{- $feedTitle := cond .IsHome site.Title (printf "%s · %s" $name site.Title) -}}
+{{- range .AlternativeOutputFormats -}}
+{{ printf `<link rel=%q type=%q href=%q title=%q>` .Rel .MediaType.Type .Permalink $feedTitle | safeHTML }}
+{{- end }}
+
 {{- /* Favicons: PNGs com o wordmark "C.T" da fonte 3270 já queimado nos pixels.
        Em static/ (paths absolutos estáveis) enquanto a 3270 não é web-served. */ -}}
 <link rel="icon" href="/logo/png/favicon.ico" sizes="any">

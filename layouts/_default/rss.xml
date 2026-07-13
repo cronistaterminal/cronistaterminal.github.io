@@ -1,0 +1,74 @@
+{{- /*
+  rss.xml — feed do dablog. Substitui o template EMBUTIDO do Hugo, por duas razões:
+
+  1. O default despeja o CORPO INTEIRO no <description> — e o nosso corpo carrega HTML de
+     shortcode (figure/img/gallery/audio, <sup> de nota de rodapé). Fora do nosso CSS isso
+     renderiza mal, e o leitor de feeds recebe markup que não sabe o que fazer com.
+  2. O post do dablog TEM um resumo escrito à mão: tldr (curto) + tldr_long. É o mesmo
+     abstract que a página do post mostra no topo. Um feed é uma vitrine; a legenda da
+     vitrine já existe, não faz sentido gerar outra a partir do corpo bruto.
+     (Decisão do Nilton, 2026-07-13. Mesma linha do Bloco 2, onde o índice de busca
+     também é só metadado.)
+
+  O default também emite <description>Recent content on dablog</description> — string
+  interna do Hugo, em INGLÊS, num site pt-BR que já declara a sua em site.Params.
+
+  Este template serve TODOS os 11 feeds (home, /posts/ e um por tag) — o .Pages de cada
+  página é que muda. Isso deixa assinar uma tag só: /tags/retrocomputacao/index.xml.
+
+  Ordenação: por `num` desc, a mesma de todas as listagens do site (a crônica é numerada,
+  não cronológica) — ver docs/template/README.md.
+*/ -}}
+{{- $pages := where site.RegularPages "Type" "posts" -}}
+{{- if not .IsHome -}}
+  {{- $pages = .Pages -}}
+{{- end -}}
+{{- $pages = sort $pages "Params.num" "desc" -}}
+{{- $limit := site.Config.Services.RSS.Limit -}}
+{{- if ge $limit 1 -}}
+  {{- $pages = first $limit $pages -}}
+{{- end -}}
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    {{- /* Em taxonomia o .Title é o slug title-caseado ("Arquitetura-De-Software");
+           .Data.Term traz o termo cru. Mesma regra do <title> em head.html. */ -}}
+    <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ or .Data.Term .Title }} · {{ site.Title }}{{ end }}</title>
+    <link>{{ .Permalink }}</link>
+    <description>{{ site.Params.description }}</description>
+    <generator>Hugo</generator>
+    <language>{{ site.Language.LanguageCode | default site.Language.Lang }}</language>
+    {{- with (index $pages 0) }}
+    <lastBuildDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>
+    {{- end }}
+    {{- with .OutputFormats.Get "rss" }}
+    {{ printf `<atom:link href=%q rel="self" type=%q/>` .Permalink .MediaType | safeHTML }}
+    {{- end }}
+    {{- range $pages }}
+    <item>
+      <title>{{ .Title }}</title>
+      <link>{{ .Permalink }}</link>
+      <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+      <guid>{{ .Permalink }}</guid>
+      {{- /* O abstract: os dois tl;dr, exatamente como a página do post os mostra.
+
+             ESCAPADO, não CDATA. Em RSS 2.0 o <description> carrega HTML *escapado* —
+             é o que o leitor de feeds espera desescapar. Duas armadilhas, ambas já
+             cometidas aqui e pegas pelo xmllint:
+               - CDATA não sobrevive: o Hugo escapa a saída do template, então o `<p>`
+                 virava &lt;p&gt; e o `]]>` ficava solto no conteúdo -> XML inválido.
+               - `markdownify` gera entidades HTML (&lsquo;/&rsquo;, do smartypants). XML
+                 só conhece cinco entidades — &lsquo; é INDEFINIDO e o parser recusa o
+                 documento inteiro. Por isso os tl;dr entram como texto CRU.
+             transform.XMLEscape faz o escape correto; safeHTML impede o Hugo de escapar
+             de novo por cima (o que produziria &amp;lt;p&amp;gt;). */}}
+      {{- $abstract := "" -}}
+      {{- with .Params.tldr }}{{ $abstract = printf "<p>%s</p>" . }}{{ end -}}
+      {{- with .Params.tldr_long }}{{ $abstract = printf "%s<p>%s</p>" $abstract . }}{{ end }}
+      <description>{{ $abstract | transform.XMLEscape | safeHTML }}</description>
+      {{- range .Params.tags }}
+      <category>{{ . }}</category>
+      {{- end }}
+    </item>
+    {{- end }}
+  </channel>
+</rss>
