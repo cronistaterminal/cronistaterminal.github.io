@@ -1,0 +1,175 @@
+/* lost.css — a página 404.
+   Zero hex: tudo vem dos tokens, então a página segue os 8 temas como qualquer outra. */
+
+/* A grade do site é #main | #sidebar. No 404 a sidebar nem é renderizada (baseof), mas o
+   .content ainda carrega o max-width da coluna de leitura (864px) — e aqui não há coluna
+   de leitura, há uma página inteira. Este é o único lugar que solta o freio. */
+#layout-body[data-kind="404"] .content {
+    max-width: none;
+}
+
+.lost {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    align-items: start;
+}
+
+/* O "404" é decorativo (aria-hidden): quem usa leitor de tela já ouviu o <title> da
+   página. Grande, na cor do tema, sem competir com a mensagem. */
+.lost-code {
+    margin: 0;
+    font-family: var(--font-head);
+    font-size: clamp(3rem, 12vw, 6rem);
+    line-height: 1;
+    color: var(--accent);
+}
+
+.lost-msg {
+    margin: 0;
+    max-width: 60ch;
+    font-size: 1.1rem;
+    /* line-height folgado: o Zalgo empilha combining marks ACIMA e ABAIXO do glifo, e com
+       o line-height padrão ele invade a linha vizinha. Isto dá teto e chão para o texto
+       apodrecer sem atropelar o resto do parágrafo. */
+    line-height: 2;
+}
+
+/* O trecho que apodrece.
+   NÃO usar inline-block aqui (tentei): a caixa deixa de quebrar entre palavras, então
+   quando o texto não cabe no resto da linha ele desce INTEIRO e abre um buraco no
+   parágrafo. Inline normal, que flui como o texto que ele é.
+   overflow-wrap: anywhere é para o Zalgo — uma palavra empilhada de combining marks pode
+   ficar mais larga que a linha e vazar da caixa. */
+.lost-decay {
+    overflow-wrap: anywhere;
+    color: var(--accent-quiet);
+}
+
+/* --- contador + escape ---------------------------------------------------- */
+
+/* [hidden] precisa do override: o display:flex daqui venceria o display:none do atributo
+   (mesma armadilha da palette e da galeria). */
+.lost-timer {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.lost-timer[hidden] {
+    display: none;
+}
+
+.lost-timer-txt {
+    font-size: 0.9rem;
+    color: var(--accent-quiet);
+    /* tabular-nums: o número muda a cada segundo; sem isto a largura dança e o botão ao
+       lado escorrega. */
+    font-variant-numeric: tabular-nums;
+}
+
+/* O escape exigido pela WCAG 2.2.1. É um botão de verdade, focável e visível — não um
+   easter egg escondido: quem precisa dele precisa ACHÁ-LO. */
+.lost-stay {
+    font: inherit;
+    font-size: 0.9rem;
+    padding: 0.3rem 0.9rem;
+    color: var(--chip-text);
+    background: var(--accent-mute);
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.lost-stay:hover,
+.lost-stay:focus-visible {
+    background: var(--accent);
+    color: var(--background);
+}
+
+/* --- o vídeo -------------------------------------------------------------- */
+
+.lost-video {
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.lost-video[hidden] {
+    display: none;
+}
+
+/* A FACADE: o cartão é nosso, o iframe do YouTube só entra no clique. Ele ocupa
+   exatamente a caixa que o iframe vai ocupar (16/9), então o play não desloca a página. */
+.lost-play {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    padding: var(--pad);
+    font: inherit;
+    text-align: left;
+    color: var(--foreground);
+    background: var(--sidebar-bg);
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+}
+
+.lost-play:hover,
+.lost-play:focus-visible {
+    border-color: var(--accent);
+}
+
+/* Ícone via CSS mask, path ABSOLUTO (/icons/): relativo quebra no bundle fingerprinted.
+   currentColor -> segue o tema e o estado do botão. */
+.lost-play-ico {
+    flex: 0 0 auto;
+    width: 3rem;
+    height: 3rem;
+    background-color: var(--accent);
+    mask: url("/icons/play.svg") center / contain no-repeat;
+}
+
+.lost-play-txt {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+}
+
+.lost-play-canal {
+    font-size: 0.85rem;
+    color: var(--accent-quiet);
+}
+
+.lost-play-titulo {
+    font-family: var(--font-head);
+    font-size: 1.1rem;
+}
+
+/* O iframe substitui o botão in-place e herda a mesma caixa. */
+.lost-frame {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--accent-line);
+}
+
+/* O easter egg: a mensagem que o Nilton escreve por vídeo no data/404.toml. */
+.lost-video-msg {
+    margin: 0;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: color-mix(in oklab, var(--foreground) 75%, var(--background));
+}
+
+.lost-noscript {
+    margin: 0;
+    font-size: 0.9rem;
+}

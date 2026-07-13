@@ -14,12 +14,15 @@
            single. O #main é o painel .content.term-panel com prompt vivo (#body-typed);
            o block "main" preenche só o conteúdo interno (lista na home, corpo no single).
            A sidebar é partial irmã, sticky no desktop (layout.css). */ -}}
-    <div class="body" id="layout-body">
+    {{- /* data-kind alimenta o CSS: o 404 colapsa a grade para UMA coluna (layout.css).
+           A sidebar não é só escondida — ela não é RENDERIZADA: markup que ninguém vê
+           ainda é markup que o leitor de tela percorre. */ -}}
+    <div class="body" id="layout-body" data-kind="{{ .Kind }}">
       <main id="main" class="content term-panel" tabindex="-1">
         <span class="term-label" aria-hidden="true"><span class="prompt">$</span><span class="typed" id="body-typed"></span><span class="cursor"></span></span>
         {{ block "main" . }}{{ end }}
       </main>
-      {{ partial "sidebar.html" . }}
+      {{ if ne .Kind "404" }}{{ partial "sidebar.html" . }}{{ end }}
     </div>
     {{ partial "footer.html" . }}
   </div>
@@ -53,6 +56,7 @@
         (resources.Get "js/share.js")
         (resources.Get "js/theme.js")
         (resources.Get "js/mobile.js")
+        (resources.Get "js/lost.js")
         | resources.Concat "js/bundle.js" | minify | fingerprint -}}
   <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
 </body>

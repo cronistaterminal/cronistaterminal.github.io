@@ -108,9 +108,15 @@
    o corpo: o base.css não tem regra global p/ <a> — todo link do site até aqui
    pertencia a um componente com cor própria (.tag, .post-headline, .logo-link).
    Um <a> de prosa fora dessas caixas cai no azul do user-agent (#0000ee): 1.9:1
-   sobre o fundo escuro — Lighthouse color-contrast reprova. */
+   sobre o fundo escuro — Lighthouse color-contrast reprova.
+
+   .content-link é o OPT-IN para prosa fora do post (a 404 usa; o themes.css já a
+   lista na regra de underline 1.4.1). Ela existe porque a armadilha acima mordeu
+   DE NOVO ao escrever a 404: um <a> novo, fora do .post-body, nasceu azul. Link de
+   prosa em página nova -> ou está dentro de .post-body, ou leva .content-link. */
 .post-body a,
-.post-single-head .post-tldr a {
+.post-single-head .post-tldr a,
+.content-link {
     color: var(--accent);
     text-decoration: underline;
     text-underline-offset: 0.18em;
@@ -118,7 +124,8 @@
 }
 
 .post-body a:hover,
-.post-single-head .post-tldr a:hover {
+.post-single-head .post-tldr a:hover,
+.content-link:hover {
     text-decoration-thickness: 2px;
 }
 

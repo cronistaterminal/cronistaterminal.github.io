@@ -1,0 +1,90 @@
+{{ define "main" }}
+{{- /*
+  404 — "você deve estar perdido".
+
+  Todo o conteúdo (texto, ritmo, vídeos) vem de data/404.toml. Este template só monta
+  as caixas; quem dá vida é o assets/js/lost.js.
+
+  O CONTRATO DE A11Y desta página, que é o que a torna aceitável apesar do easter egg:
+    - O trecho que apodrece é aria-hidden, e ao lado dele vive um .sr-only com a frase
+      ORIGINAL. O leitor de tela ouve português estável; o Zalgo é só pixel.
+    - O redirect é VISÍVEL (contador) e CANCELÁVEL (botão "ficar aqui", ou dar play).
+      Um limite de tempo que age sozinho, sem escape, viola a WCAG 2.2.1 — teleportaria
+      quem lê devagar no meio da frase.
+    - prefers-reduced-motion desliga os dois: sem apodrecer, sem redirect.
+    - O <noscript> mantém a página ÚTIL sem JS: a frase e o link continuam lá.
+*/ -}}
+{{- /* hugo.Data, não site.Data: o segundo foi deprecado no Hugo 0.156. */ -}}
+{{- $d := index hugo.Data "404" -}}
+
+<div class="lost">
+  <h1 class="lost-code" aria-hidden="true">404</h1>
+
+  {{- /* Sem quebra de linha entre os pedaços: o whitespace do template vira espaço no
+         HTML, e um <span> seguido de "." numa linha nova imprimia "por aqui ." */ -}}
+  <p class="lost-msg">{{ $d.prefix }}<a class="content-link" href="{{ "/" | relURL }}">{{ $d.link }}</a>{{ $d.middle }}<span class="lost-decay" data-decay aria-hidden="true">{{ $d.decay }}</span><span class="sr-only">{{ $d.decay }}</span>{{ $d.suffix }}</p>
+
+  {{- /* Contador + escape. Fica oculto até o JS assumir: sem JS não há redirect, e
+         anunciar um prazo que não existe seria mentira. O aria-live é POLITE e o texto
+         só muda em marcos (não a cada segundo) — um contador tagarela anunciaria dez
+         vezes e viraria ruído. */ -}}
+  <p class="lost-timer" data-timer hidden>
+    <span class="lost-timer-txt" data-timer-txt aria-hidden="true"></span>
+    <button class="lost-stay" type="button" data-stay>ficar aqui</button>
+  </p>
+  <p class="sr-only" role="status" data-timer-sr></p>
+
+  {{- with $d.videos }}
+  {{- /* Facade: o cartão é NOSSO; o iframe do YouTube só é injetado no clique do play.
+         Duas razões, e a segunda é a que decide:
+           1. Nada de terceiro carrega antes de você escolher carregar.
+           2. É a ÚNICA forma de saber que houve play sem a API do YouTube. Um iframe de
+              terceiro é caixa opaca — perguntar "está tocando?" exigiria carregar o
+              script deles. Movendo o play para FORA do iframe, o evento vira um clique
+              nosso, num botão nosso. É esse clique que cancela o redirect. */ -}}
+  <div class="lost-video" data-video hidden>
+    {{- /* O "Reproduzir vídeo:" é sr-only e PREFIXA o texto visível — não o substitui.
+           Um aria-label reescrevendo o nome inteiro reprova a WCAG 2.5.3 (Label in Name):
+           quem navega por COMANDO DE VOZ fala o que vê ("clicar em Computerphile"), e o
+           nome acessível precisa CONTER o texto visível, na ordem. O Lighthouse pegou
+           isso (label-content-name-mismatch) mesmo dando a11y 100 — a nota não cobre. */ -}}
+    <button class="lost-play" type="button" data-play>
+      <span class="sr-only">Reproduzir vídeo: </span>
+      <span class="lost-play-ico" aria-hidden="true"></span>
+      <span class="lost-play-txt">
+        <span class="lost-play-canal" data-canal></span>
+        <span class="lost-play-titulo" data-titulo></span>
+      </span>
+    </button>
+    <p class="lost-video-msg" data-msg></p>
+  </div>
+
+  {{- /* A lista inteira vai para o cliente e o sorteio acontece lá. Se o Hugo sorteasse,
+         o "aleatório" congelaria até o próximo deploy — todo visitante veria o mesmo
+         vídeo. O jsonify do Go escapa <, > e & como <…, então um título com
+         "</script>" não consegue fechar esta tag.
+         safeJS é OBRIGATÓRIO: dentro de <script> o Hugo escapa a saída como string JS,
+         então sem ele o JSON chega ao cliente ESCAPADO — e o JSON.parse devolveria uma
+         string, não um objeto. */ -}}
+  <script type="application/json" data-videos>{{ $d.videos | jsonify | safeJS }}</script>
+  {{- end }}
+
+  {{- /* Sem JS: nada de contador, nada de sorteio — mas a página serve. */ -}}
+  <noscript>
+    <p class="lost-noscript">
+      Sem JavaScript não há vídeo nem contagem regressiva —
+      <a class="content-link" href="{{ "/" | relURL }}">volte para a home</a>.
+    </p>
+  </noscript>
+</div>
+
+{{- /* O ritmo vem do data, não de números mágicos no JS. */ -}}
+<script type="application/json" data-lost-config>
+  {{- dict
+    "redirectAfter" $d.timing.redirect_after
+    "decayStarts" $d.timing.decay_starts
+    "decaySteps" $d.decay_steps
+    "home" ("/" | relURL)
+  | jsonify | safeJS -}}
+</script>
+{{ end }}

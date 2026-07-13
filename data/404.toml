@@ -1,0 +1,62 @@
+# Tudo que constrói a página 404 mora aqui — texto, ritmo e vídeos.
+# Nada disto é código: mexer no easter egg não deveria exigir tocar num template.
+#
+# A frase é partida em pedaços porque UM deles apodrece:
+#
+#   {prefix}{link}{middle}{decay}{suffix}
+#   "Olá! Você deve estar perdido, [clique aqui para voltar]. Mas clique rápido pois
+#    «as coisas tendem a ficar estranhas por aqui»."
+#                                  ^^^^^^^^^^^^^^^^ este trecho é trocado a cada
+#                                  segundo, a partir de timing.decay_starts.
+
+prefix = "Olá! Você deve estar perdido, "
+link = "clique aqui para voltar"
+middle = ". Mas clique rápido pois "
+decay = "as coisas tendem a ficar estranhas por aqui"
+suffix = "."
+
+# Os estados do apodrecimento, um por segundo a partir de decay_starts.
+# Nilton: cole Zalgo/unicode à vontade aqui — o Zalgo fica SÓ no visual (aria-hidden);
+# o leitor de tela sempre ouve o `decay` original acima, estável e em português.
+# Placeholders por idioma até o texto real entrar (5 passos = segundos 5,6,7,8,9).
+decay_steps = [
+  "las cosas tienden a ponerse extrañas por aquí",
+  "things tend to get strange around here",
+  "les choses ont tendance à devenir étranges ici",
+  "тут всё начинает странно себя вести",
+  "こ̴こ̷で̶は̸物̷事̴が̸奇̷妙̶に̴な̷り̸が̶ち̴で̷す̸",
+]
+
+[timing]
+# Segundos até voltar sozinho para a home. O contador é VISÍVEL e cancelável —
+# senão a página teleportaria quem lê devagar ou usa leitor de tela (WCAG 2.2.1).
+redirect_after = 10
+# Quando o texto começa a apodrecer. Os decay_steps consomem um segundo cada.
+decay_starts = 5
+
+# ---------------------------------------------------------------------------
+# Vídeos. Um é sorteado NO CLIENTE a cada visita (se o Hugo sorteasse, seria o
+# mesmo vídeo até o próximo deploy — "aleatório" uma vez só).
+#
+# `mensagem` é o easter egg: aparece como legenda do cartão.
+# `link` aceita a URL normal do YouTube (watch?v=…) ou youtu.be — o template
+# extrai o id e monta a URL do youtube-nocookie sozinho, igual ao shortcode embed.
+# ---------------------------------------------------------------------------
+
+[[videos]]
+canal = "Computerphile"
+titulo = "The Most Difficult Program to Compute?"
+link = "https://www.youtube.com/watch?v=i7sm9dzFtEI"
+mensagem = "Alguns caminhos não terminam. Este aqui, por sorte, termina na home."
+
+[[videos]]
+canal = "8-bit Guy"
+titulo = "How Oldschool Sound/Music worked"
+link = "https://www.youtube.com/watch?v=q_3d1x2VPxk"
+mensagem = "Você errou o endereço, mas achou o chiptune. Nem toda perda é perda."
+
+[[videos]]
+canal = "Numberphile"
+titulo = "The Problem with 7825"
+link = "https://www.youtube.com/watch?v=LVxjagBQ4RE"
+mensagem = "Uma prova de 200 terabytes para uma pergunta de uma linha. Fique à vontade."
