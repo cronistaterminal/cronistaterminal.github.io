@@ -20,9 +20,11 @@
 <div class="lost">
   <h1 class="lost-code" aria-hidden="true">404</h1>
 
-  {{- /* Sem quebra de linha entre os pedaços: o whitespace do template vira espaço no
-         HTML, e um <span> seguido de "." numa linha nova imprimia "por aqui ." */ -}}
-  <p class="lost-msg">{{ $d.prefix }}<a class="content-link" href="{{ "/" | relURL }}">{{ $d.link }}</a>{{ $d.middle }}<span class="lost-decay" data-decay aria-hidden="true">{{ $d.decay }}</span><span class="sr-only">{{ $d.decay }}</span>{{ $d.suffix }}</p>
+  {{- /* Duas linhas: o convite, e a ameaça. O <br> é uma quebra de LINHA dentro da mesma
+         frase, não um parágrafo novo — o leitor de tela segue lendo em sequência.
+         Cuidado com o whitespace do template: ele vira espaço no HTML, e um <span>
+         numa linha nova antes do "." imprimia "por aqui ." (já aconteceu). */ -}}
+  <p class="lost-msg">{{ $d.prefix }}<a class="content-link" href="{{ "/" | relURL }}">{{ $d.link }}</a>{{ $d.after_link }}<br>{{ $d.middle }}<span class="lost-decay" data-decay aria-hidden="true">{{ $d.decay }}</span><span class="sr-only">{{ $d.decay }}</span>{{ $d.suffix }}</p>
 
   {{- /* Contador + escape. Fica oculto até o JS assumir: sem JS não há redirect, e
          anunciar um prazo que não existe seria mentira. O aria-live é POLITE e o texto
