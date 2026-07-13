@@ -39,6 +39,14 @@ vazia. O componente não pode ser validado — nem sequer *visto* — antes de e
 **Fork em aberto, a decidir quando o item voltar:** ramificar por `.Kind` dentro da
 partial, ou manter duas partials distintas.
 
+O protótipo já desenhou essa variante. Ela é **a única coisa em todo o projeto que ainda
+consulta o protótipo** — e ele vive na branch histórica `layout/standalone-pass`, não numa
+pasta:
+
+```sh
+git show layout/standalone-pass:missions/single-snippets/body-and-sidebar.html
+```
+
 ### O gatilho
 
 > **Quando existir um segundo post retratando a mesma época.**

@@ -1,5 +1,7 @@
-# Worktree do layout standalone (tag pre-alpha). Snapshot de referência fora do
-# versionamento da main — recriável com: git worktree add --detach __layout pre-alpha
+# O protótipo standalone é a branch `layout/standalone-pass` — consultar pelo git
+# (git show layout/standalone-pass:<caminho>), não por uma pasta espelhada.
+# A entrada abaixo cobre um worktree eventual, se alguém montar um de novo:
+#   git worktree add --detach __layout layout/standalone-pass
 __layout/
 
 # Estado local / sessão
