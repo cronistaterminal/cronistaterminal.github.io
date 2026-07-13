@@ -36,14 +36,15 @@
   {{ partial "lightbox.html" . }}
   {{- end }}
 
-  {{- /* JS deferred: roda após o parse, na ordem do README (prompt·palette·theme·mobile).
-         prompt.js monta o motor mountPrompt nos ids de prompt vivo que existirem
-         (#footer-typed + agora #palette-input; body/sidebar fazem no-op até chegarem).
-         palette.js liga Ctrl+K + os gatilhos [data-command]. theme.js sincroniza
-         tema/fonte (header); mobile.js liga o hambúrguer. gallery.js monta as
-         galerias + o lightbox: entra no bundle único (não por página) para o
-         arquivo continuar cacheável — onde não há [data-gallery] ele é um
-         querySelectorAll vazio e sai. */ -}}
+  {{- /* JS deferred: roda após o parse, na ordem abaixo (ver docs/template/README.md).
+         Nenhum módulo exporta símbolo p/ outro — a ordem é convenção de leitura, não
+         dependência; todo o acoplamento real é template<->JS, via id e data-*.
+         prompt.js monta mountPrompt nos ids de prompt vivo que existirem.
+         palette.js liga Ctrl+K + os gatilhos [data-command]. gallery.js monta as
+         galerias + o lightbox; audio.js o player; share.js as ações do post.
+         theme.js sincroniza tema/fonte (header); mobile.js liga o hambúrguer.
+         Tudo num bundle ÚNICO (não por página) para o arquivo continuar cacheável —
+         onde não há [data-gallery]/[data-audio], é um querySelectorAll vazio e sai. */ -}}
   {{- $js := slice
         (resources.Get "js/prompt.js")
         (resources.Get "js/palette.js")

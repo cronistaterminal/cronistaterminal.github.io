@@ -1,0 +1,535 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1036" height="2824" viewBox="0 0 1036 2824">
+<rect width="100%" height="100%" fill="#101013"/>
+<text x="28" y="30" font-family="monospace" font-size="19" font-weight="700" fill="#eceae5">dablog — os 8 temas, derivados dos tokens</text>
+<text x="28" y="47" font-family="monospace" font-size="11" fill="#eceae5" opacity="0.6">gerado por tools/theme-swatches.py a partir de assets/css/tokens.css + themes.css — não editar à mão</text>
+<g transform="translate(28,0)">
+<g transform="translate(0,60)">
+<rect width="980" height="320" fill="#1a170f" stroke="#eec35e" stroke-width="1.5"/>
+<rect x="20" y="-2" width="111" height="20" fill="#1a170f"/>
+<text x="28" y="13" font-family="monospace" font-size="15" font-weight="700" fill="#eec35e">$ fosforo</text>
+<text x="28" y="42" font-family="monospace" font-size="11.5" fill="#eceae5" opacity="0.75">âmbar de fósforo (CRT)  ·  data-theme="default"</text>
+<rect x="28" y="58" width="92" height="38" fill="#1a170f" stroke="#715e31" stroke-width="0.75"/>
+<text x="28" y="112" font-family="monospace" font-size="9.5" fill="#eceae5" opacity="0.85">bg</text>
+<text x="28" y="123" font-family="monospace" font-size="8.5" fill="#eceae5" opacity="0.55">#1a170f</text>
+<rect x="126" y="58" width="92" height="38" fill="#eceae5" stroke="#715e31" stroke-width="0.75"/>
+<text x="126" y="112" font-family="monospace" font-size="9.5" fill="#eceae5" opacity="0.85">fg</text>
+<text x="126" y="123" font-family="monospace" font-size="8.5" fill="#eceae5" opacity="0.55">#eceae5</text>
+<rect x="224" y="58" width="92" height="38" fill="#eec35e" stroke="#715e31" stroke-width="0.75"/>
+<text x="224" y="112" font-family="monospace" font-size="9.5" fill="#eceae5" opacity="0.85">accent</text>
+<text x="224" y="123" font-family="monospace" font-size="8.5" fill="#eceae5" opacity="0.55">#eec35e</text>
+<rect x="322" y="58" width="92" height="38" fill="#a78a45" stroke="#715e31" stroke-width="0.75"/>
+<text x="322" y="112" font-family="monospace" font-size="9.5" fill="#eceae5" opacity="0.85">dim</text>
+<text x="322" y="123" font-family="monospace" font-size="8.5" fill="#eceae5" opacity="0.55">#a78a45</text>
+<rect x="420" y="58" width="92" height="38" fill="#715e31" stroke="#715e31" stroke-width="0.75"/>
+<text x="420" y="112" font-family="monospace" font-size="9.5" fill="#eceae5" opacity="0.85">line</text>
+<text x="420" y="123" font-family="monospace" font-size="8.5" fill="#eceae5" opacity="0.55">#715e31</text>
+<rect x="518" y="58" width="92" height="38" fill="#5c4d2a" stroke="#715e31" stroke-width="0.75"/>
+<text x="518" y="112" font-family="monospace" font-size="9.5" fill="#eceae5" opacity="0.85">mute</text>
+<text x="518" y="123" font-family="monospace" font-size="8.5" fill="#eceae5" opacity="0.55">#5c4d2a</text>
+<rect x="616" y="58" width="92" height="38" fill="#845c00" stroke="#715e31" stroke-width="0.75"/>
+<text x="616" y="112" font-family="monospace" font-size="9.5" fill="#eceae5" opacity="0.85">dark</text>
+<text x="616" y="123" font-family="monospace" font-size="8.5" fill="#eceae5" opacity="0.55">#845c00</text>
+<rect x="714" y="58" width="92" height="38" fill="#14110a" stroke="#715e31" stroke-width="0.75"/>
+<text x="714" y="112" font-family="monospace" font-size="9.5" fill="#eceae5" opacity="0.85">side-bg</text>
+<text x="714" y="123" font-family="monospace" font-size="8.5" fill="#eceae5" opacity="0.55">#14110a</text>
+<rect x="812" y="58" width="92" height="38" fill="#14110a" stroke="#715e31" stroke-width="0.75"/>
+<text x="812" y="112" font-family="monospace" font-size="9.5" fill="#eceae5" opacity="0.85">code-bg</text>
+<text x="812" y="123" font-family="monospace" font-size="8.5" fill="#eceae5" opacity="0.55">#14110a</text>
+<text x="28" y="145" font-family="monospace" font-size="9.5" fill="#eceae5" opacity="0.6">--stripe-1..6 (TV do logo)</text>
+<rect x="196" y="135" width="24" height="12" fill="#E5141E"/>
+<rect x="222" y="135" width="24" height="12" fill="#D60270"/>
+<rect x="248" y="135" width="24" height="12" fill="#9B4F96"/>
+<rect x="274" y="135" width="24" height="12" fill="#0038A8"/>
+<rect x="300" y="135" width="24" height="12" fill="#3E31A2"/>
+<rect x="326" y="135" width="24" height="12" fill="#008F11"/>
+<rect x="28" y="158" width="560" height="104" fill="none" stroke="#eec35e" stroke-width="1"/>
+<text x="42" y="182" font-family="monospace" font-size="14" font-weight="700" fill="#eec35e">#1234 Um título de post</text>
+<text x="42" y="202" font-family="monospace" font-size="11.5" fill="#eceae5">corpo em foreground.</text>
+<text x="42" y="221" font-family="monospace" font-size="11.5" fill="#eec35e">um link aceso</text>
+<rect x="178" y="208" width="92" height="20" fill="#5c4d2a" stroke="#715e31" stroke-width="1"/>
+<text x="224" y="222" font-family="monospace" font-size="10.5" fill="#d2cec3" text-anchor="middle">#tag (12)</text>
+<rect x="298" y="170" width="276" height="80" fill="#14110a" stroke="#715e31" stroke-width="1"/>
+<text x="308" y="192" font-family="monospace" font-size="10.5" fill="#eec976">def contar_epoca(ano):</text>
+<text x="308" y="210" font-family="monospace" font-size="10.5" fill="#eceae5">    return ano // 10</text>
+<text x="308" y="236" font-family="monospace" font-size="9.5" fill="#eceae5" opacity="0.6">--code-bg = #14110a</text>
+<text x="612" y="162" font-family="monospace" font-size="10" fill="#eceae5" opacity="0.7">contraste WCAG</text>
+<text x="612" y="180" font-family="monospace" font-size="10" fill="#eceae5">fg/bg: 14.9:1</text>
+<text x="762" y="180" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="197" font-family="monospace" font-size="10" fill="#eceae5">accent/bg: 10.7:1</text>
+<text x="762" y="197" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="214" font-family="monospace" font-size="10" fill="#eceae5">chip/mute: 5.2:1</text>
+<text x="762" y="214" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
+<text x="612" y="231" font-family="monospace" font-size="10" fill="#eceae5">code-fn/code-bg: 11.9:1</text>
+<text x="762" y="231" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="248" font-family="monospace" font-size="10" fill="#eceae5">fg/code-bg: 15.7:1</text>
+<text x="762" y="248" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="265" font-family="monospace" font-size="10" fill="#eceae5">dim/sidebar-bg: 5.7:1</text>
+<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
+<text x="612" y="282" font-family="monospace" font-size="10" fill="#eceae5">line/bg (borda): 2.9:1</text>
+<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
+<text x="612" y="305" font-family="monospace" font-size="9.5" fill="#eceae5" opacity="0.6">link distinguível por cor</text>
+</g>
+<g transform="translate(0,402)">
+<rect width="980" height="320" fill="#0a0a0b" stroke="#ffffff" stroke-width="1.5"/>
+<rect x="20" y="-2" width="202" height="20" fill="#0a0a0b"/>
+<text x="28" y="13" font-family="monospace" font-size="15" font-weight="700" fill="#ffffff">$ alto-contraste</text>
+<text x="28" y="42" font-family="monospace" font-size="11.5" fill="#f4f4f5" opacity="0.75">branco máximo (AAA)  ·  data-theme="high-contrast"</text>
+<rect x="28" y="58" width="92" height="38" fill="#0a0a0b" stroke="#8a8a91" stroke-width="0.75"/>
+<text x="28" y="112" font-family="monospace" font-size="9.5" fill="#f4f4f5" opacity="0.85">bg</text>
+<text x="28" y="123" font-family="monospace" font-size="8.5" fill="#f4f4f5" opacity="0.55">#0a0a0b</text>
+<rect x="126" y="58" width="92" height="38" fill="#f4f4f5" stroke="#8a8a91" stroke-width="0.75"/>
+<text x="126" y="112" font-family="monospace" font-size="9.5" fill="#f4f4f5" opacity="0.85">fg</text>
+<text x="126" y="123" font-family="monospace" font-size="8.5" fill="#f4f4f5" opacity="0.55">#f4f4f5</text>
+<rect x="224" y="58" width="92" height="38" fill="#ffffff" stroke="#8a8a91" stroke-width="0.75"/>
+<text x="224" y="112" font-family="monospace" font-size="9.5" fill="#f4f4f5" opacity="0.85">accent</text>
+<text x="224" y="123" font-family="monospace" font-size="8.5" fill="#f4f4f5" opacity="0.55">#ffffff</text>
+<rect x="322" y="58" width="92" height="38" fill="#e6e6e9" stroke="#8a8a91" stroke-width="0.75"/>
+<text x="322" y="112" font-family="monospace" font-size="9.5" fill="#f4f4f5" opacity="0.85">dim</text>
+<text x="322" y="123" font-family="monospace" font-size="8.5" fill="#f4f4f5" opacity="0.55">#e6e6e9</text>
+<rect x="420" y="58" width="92" height="38" fill="#8a8a91" stroke="#8a8a91" stroke-width="0.75"/>
+<text x="420" y="112" font-family="monospace" font-size="9.5" fill="#f4f4f5" opacity="0.85">line</text>
+<text x="420" y="123" font-family="monospace" font-size="8.5" fill="#f4f4f5" opacity="0.55">#8a8a91</text>
+<rect x="518" y="58" width="92" height="38" fill="#26262a" stroke="#8a8a91" stroke-width="0.75"/>
+<text x="518" y="112" font-family="monospace" font-size="9.5" fill="#f4f4f5" opacity="0.85">mute</text>
+<text x="518" y="123" font-family="monospace" font-size="8.5" fill="#f4f4f5" opacity="0.55">#26262a</text>
+<rect x="616" y="58" width="92" height="38" fill="#cfcfd4" stroke="#8a8a91" stroke-width="0.75"/>
+<text x="616" y="112" font-family="monospace" font-size="9.5" fill="#f4f4f5" opacity="0.85">dark</text>
+<text x="616" y="123" font-family="monospace" font-size="8.5" fill="#f4f4f5" opacity="0.55">#cfcfd4</text>
+<rect x="714" y="58" width="92" height="38" fill="#050506" stroke="#8a8a91" stroke-width="0.75"/>
+<text x="714" y="112" font-family="monospace" font-size="9.5" fill="#f4f4f5" opacity="0.85">side-bg</text>
+<text x="714" y="123" font-family="monospace" font-size="8.5" fill="#f4f4f5" opacity="0.55">#050506</text>
+<rect x="812" y="58" width="92" height="38" fill="#050506" stroke="#8a8a91" stroke-width="0.75"/>
+<text x="812" y="112" font-family="monospace" font-size="9.5" fill="#f4f4f5" opacity="0.85">code-bg</text>
+<text x="812" y="123" font-family="monospace" font-size="8.5" fill="#f4f4f5" opacity="0.55">#050506</text>
+<text x="28" y="145" font-family="monospace" font-size="9.5" fill="#f4f4f5" opacity="0.6">--stripe-1..6 (TV do logo)</text>
+<rect x="196" y="135" width="24" height="12" fill="#f2f2f2"/>
+<rect x="222" y="135" width="24" height="12" fill="#c4c4c4"/>
+<rect x="248" y="135" width="24" height="12" fill="#959595"/>
+<rect x="274" y="135" width="24" height="12" fill="#696969"/>
+<rect x="300" y="135" width="24" height="12" fill="#484848"/>
+<rect x="326" y="135" width="24" height="12" fill="#2b2b2b"/>
+<rect x="28" y="158" width="560" height="104" fill="none" stroke="#ffffff" stroke-width="1"/>
+<text x="42" y="182" font-family="monospace" font-size="14" font-weight="700" fill="#ffffff">#1234 Um título de post</text>
+<text x="42" y="202" font-family="monospace" font-size="11.5" fill="#f4f4f5">corpo em foreground.</text>
+<text x="42" y="221" font-family="monospace" font-size="11.5" fill="#ffffff" text-decoration="underline">um link aceso</text>
+<rect x="178" y="208" width="92" height="20" fill="#26262a" stroke="#8a8a91" stroke-width="1"/>
+<text x="224" y="222" font-family="monospace" font-size="10.5" fill="#f4f4f5" text-anchor="middle">#tag (12)</text>
+<rect x="298" y="170" width="276" height="80" fill="#050506" stroke="#8a8a91" stroke-width="1"/>
+<text x="308" y="192" font-family="monospace" font-size="10.5" fill="#fdfdfd">def contar_epoca(ano):</text>
+<text x="308" y="210" font-family="monospace" font-size="10.5" fill="#f4f4f5">    return ano // 10</text>
+<text x="308" y="236" font-family="monospace" font-size="9.5" fill="#f4f4f5" opacity="0.6">--code-bg = #050506</text>
+<text x="612" y="162" font-family="monospace" font-size="10" fill="#f4f4f5" opacity="0.7">contraste WCAG</text>
+<text x="612" y="180" font-family="monospace" font-size="10" fill="#f4f4f5">fg/bg: 18.0:1</text>
+<text x="762" y="180" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="197" font-family="monospace" font-size="10" fill="#f4f4f5">accent/bg: 19.8:1</text>
+<text x="762" y="197" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="214" font-family="monospace" font-size="10" fill="#f4f4f5">chip/mute: 13.7:1</text>
+<text x="762" y="214" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="231" font-family="monospace" font-size="10" fill="#f4f4f5">code-fn/code-bg: 20.0:1</text>
+<text x="762" y="231" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="248" font-family="monospace" font-size="10" fill="#f4f4f5">fg/code-bg: 18.5:1</text>
+<text x="762" y="248" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="265" font-family="monospace" font-size="10" fill="#f4f4f5">dim/sidebar-bg: 16.4:1</text>
+<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="282" font-family="monospace" font-size="10" fill="#f4f4f5">line/bg (borda): 5.8:1</text>
+<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
+<text x="612" y="305" font-family="monospace" font-size="9.5" fill="#f4f4f5" opacity="0.6">link com underline (1.4.1)</text>
+</g>
+<g transform="translate(0,744)">
+<rect width="980" height="320" fill="#160a08" stroke="#ff4b3e" stroke-width="1.5"/>
+<rect x="20" y="-2" width="72" height="20" fill="#160a08"/>
+<text x="28" y="13" font-family="monospace" font-size="15" font-weight="700" fill="#ff4b3e">$ zuko</text>
+<text x="28" y="42" font-family="monospace" font-size="11.5" fill="#f5e3da" opacity="0.75">vermelho Nação do Fogo (Avatar)  ·  data-theme="zuko"</text>
+<rect x="28" y="58" width="92" height="38" fill="#160a08" stroke="#752820" stroke-width="0.75"/>
+<text x="28" y="112" font-family="monospace" font-size="9.5" fill="#f5e3da" opacity="0.85">bg</text>
+<text x="28" y="123" font-family="monospace" font-size="8.5" fill="#f5e3da" opacity="0.55">#160a08</text>
+<rect x="126" y="58" width="92" height="38" fill="#f5e3da" stroke="#752820" stroke-width="0.75"/>
+<text x="126" y="112" font-family="monospace" font-size="9.5" fill="#f5e3da" opacity="0.85">fg</text>
+<text x="126" y="123" font-family="monospace" font-size="8.5" fill="#f5e3da" opacity="0.55">#f5e3da</text>
+<rect x="224" y="58" width="92" height="38" fill="#ff4b3e" stroke="#752820" stroke-width="0.75"/>
+<text x="224" y="112" font-family="monospace" font-size="9.5" fill="#f5e3da" opacity="0.85">accent</text>
+<text x="224" y="123" font-family="monospace" font-size="8.5" fill="#f5e3da" opacity="0.55">#ff4b3e</text>
+<rect x="322" y="58" width="92" height="38" fill="#b1382d" stroke="#752820" stroke-width="0.75"/>
+<text x="322" y="112" font-family="monospace" font-size="9.5" fill="#f5e3da" opacity="0.85">dim</text>
+<text x="322" y="123" font-family="monospace" font-size="8.5" fill="#f5e3da" opacity="0.55">#b1382d</text>
+<rect x="420" y="58" width="92" height="38" fill="#752820" stroke="#752820" stroke-width="0.75"/>
+<text x="420" y="112" font-family="monospace" font-size="9.5" fill="#f5e3da" opacity="0.85">line</text>
+<text x="420" y="123" font-family="monospace" font-size="8.5" fill="#f5e3da" opacity="0.55">#752820</text>
+<rect x="518" y="58" width="92" height="38" fill="#5e211b" stroke="#752820" stroke-width="0.75"/>
+<text x="518" y="112" font-family="monospace" font-size="9.5" fill="#f5e3da" opacity="0.85">mute</text>
+<text x="518" y="123" font-family="monospace" font-size="8.5" fill="#f5e3da" opacity="0.55">#5e211b</text>
+<rect x="616" y="58" width="92" height="38" fill="#9d0000" stroke="#752820" stroke-width="0.75"/>
+<text x="616" y="112" font-family="monospace" font-size="9.5" fill="#f5e3da" opacity="0.85">dark</text>
+<text x="616" y="123" font-family="monospace" font-size="8.5" fill="#f5e3da" opacity="0.55">#9d0000</text>
+<rect x="714" y="58" width="92" height="38" fill="#120605" stroke="#752820" stroke-width="0.75"/>
+<text x="714" y="112" font-family="monospace" font-size="9.5" fill="#f5e3da" opacity="0.85">side-bg</text>
+<text x="714" y="123" font-family="monospace" font-size="8.5" fill="#f5e3da" opacity="0.55">#120605</text>
+<rect x="812" y="58" width="92" height="38" fill="#120605" stroke="#752820" stroke-width="0.75"/>
+<text x="812" y="112" font-family="monospace" font-size="9.5" fill="#f5e3da" opacity="0.85">code-bg</text>
+<text x="812" y="123" font-family="monospace" font-size="8.5" fill="#f5e3da" opacity="0.55">#120605</text>
+<text x="28" y="145" font-family="monospace" font-size="9.5" fill="#f5e3da" opacity="0.6">--stripe-1..6 (TV do logo)</text>
+<rect x="196" y="135" width="24" height="12" fill="#ffb09a"/>
+<rect x="222" y="135" width="24" height="12" fill="#ff806e"/>
+<rect x="248" y="135" width="24" height="12" fill="#ff4b3e"/>
+<rect x="274" y="135" width="24" height="12" fill="#c80000"/>
+<rect x="300" y="135" width="24" height="12" fill="#9d0000"/>
+<rect x="326" y="135" width="24" height="12" fill="#750000"/>
+<rect x="28" y="158" width="560" height="104" fill="none" stroke="#ff4b3e" stroke-width="1"/>
+<text x="42" y="182" font-family="monospace" font-size="14" font-weight="700" fill="#ff4b3e">#1234 Um título de post</text>
+<text x="42" y="202" font-family="monospace" font-size="11.5" fill="#f5e3da">corpo em foreground.</text>
+<text x="42" y="221" font-family="monospace" font-size="11.5" fill="#ff4b3e">um link aceso</text>
+<rect x="178" y="208" width="92" height="20" fill="#5e211b" stroke="#752820" stroke-width="1"/>
+<text x="224" y="222" font-family="monospace" font-size="10.5" fill="#dac0b8" text-anchor="middle">#tag (12)</text>
+<rect x="298" y="170" width="276" height="80" fill="#120605" stroke="#752820" stroke-width="1"/>
+<text x="308" y="192" font-family="monospace" font-size="10.5" fill="#ff6858">def contar_epoca(ano):</text>
+<text x="308" y="210" font-family="monospace" font-size="10.5" fill="#f5e3da">    return ano // 10</text>
+<text x="308" y="236" font-family="monospace" font-size="9.5" fill="#f5e3da" opacity="0.6">--code-bg = #120605</text>
+<text x="612" y="162" font-family="monospace" font-size="10" fill="#f5e3da" opacity="0.7">contraste WCAG</text>
+<text x="612" y="180" font-family="monospace" font-size="10" fill="#f5e3da">fg/bg: 15.6:1</text>
+<text x="762" y="180" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="197" font-family="monospace" font-size="10" fill="#f5e3da">accent/bg: 5.9:1</text>
+<text x="762" y="197" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
+<text x="612" y="214" font-family="monospace" font-size="10" fill="#f5e3da">chip/mute: 7.1:1</text>
+<text x="762" y="214" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="231" font-family="monospace" font-size="10" fill="#f5e3da">code-fn/code-bg: 7.0:1</text>
+<text x="762" y="231" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
+<text x="612" y="248" font-family="monospace" font-size="10" fill="#f5e3da">fg/code-bg: 16.0:1</text>
+<text x="762" y="248" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="265" font-family="monospace" font-size="10" fill="#f5e3da">dim/sidebar-bg: 3.3:1</text>
+<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#ed333b">FAIL</text>
+<text x="612" y="282" font-family="monospace" font-size="10" fill="#f5e3da">line/bg (borda): 1.9:1</text>
+<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
+<text x="612" y="305" font-family="monospace" font-size="9.5" fill="#f5e3da" opacity="0.6">link distinguível por cor</text>
+</g>
+<g transform="translate(0,1086)">
+<rect width="980" height="320" fill="#120a14" stroke="#d24a9e" stroke-width="1.5"/>
+<rect x="20" y="-2" width="150" height="20" fill="#120a14"/>
+<text x="28" y="13" font-family="monospace" font-size="15" font-weight="700" fill="#d24a9e">$ jabuticaba</text>
+<text x="28" y="42" font-family="monospace" font-size="11.5" fill="#f0e9ee" opacity="0.75">magenta da casca da fruta  ·  data-theme="jabuticaba"</text>
+<rect x="28" y="58" width="92" height="38" fill="#120a14" stroke="#61264d" stroke-width="0.75"/>
+<text x="28" y="112" font-family="monospace" font-size="9.5" fill="#f0e9ee" opacity="0.85">bg</text>
+<text x="28" y="123" font-family="monospace" font-size="8.5" fill="#f0e9ee" opacity="0.55">#120a14</text>
+<rect x="126" y="58" width="92" height="38" fill="#f0e9ee" stroke="#61264d" stroke-width="0.75"/>
+<text x="126" y="112" font-family="monospace" font-size="9.5" fill="#f0e9ee" opacity="0.85">fg</text>
+<text x="126" y="123" font-family="monospace" font-size="8.5" fill="#f0e9ee" opacity="0.55">#f0e9ee</text>
+<rect x="224" y="58" width="92" height="38" fill="#d24a9e" stroke="#61264d" stroke-width="0.75"/>
+<text x="224" y="112" font-family="monospace" font-size="9.5" fill="#f0e9ee" opacity="0.85">accent</text>
+<text x="224" y="123" font-family="monospace" font-size="8.5" fill="#f0e9ee" opacity="0.55">#d24a9e</text>
+<rect x="322" y="58" width="92" height="38" fill="#923670" stroke="#61264d" stroke-width="0.75"/>
+<text x="322" y="112" font-family="monospace" font-size="9.5" fill="#f0e9ee" opacity="0.85">dim</text>
+<text x="322" y="123" font-family="monospace" font-size="8.5" fill="#f0e9ee" opacity="0.55">#923670</text>
+<rect x="420" y="58" width="92" height="38" fill="#61264d" stroke="#61264d" stroke-width="0.75"/>
+<text x="420" y="112" font-family="monospace" font-size="9.5" fill="#f0e9ee" opacity="0.85">line</text>
+<text x="420" y="123" font-family="monospace" font-size="8.5" fill="#f0e9ee" opacity="0.55">#61264d</text>
+<rect x="518" y="58" width="92" height="38" fill="#4e203f" stroke="#61264d" stroke-width="0.75"/>
+<text x="518" y="112" font-family="monospace" font-size="9.5" fill="#f0e9ee" opacity="0.85">mute</text>
+<text x="518" y="123" font-family="monospace" font-size="8.5" fill="#f0e9ee" opacity="0.55">#4e203f</text>
+<rect x="616" y="58" width="92" height="38" fill="#7d0055" stroke="#61264d" stroke-width="0.75"/>
+<text x="616" y="112" font-family="monospace" font-size="9.5" fill="#f0e9ee" opacity="0.85">dark</text>
+<text x="616" y="123" font-family="monospace" font-size="8.5" fill="#f0e9ee" opacity="0.55">#7d0055</text>
+<rect x="714" y="58" width="92" height="38" fill="#0e0610" stroke="#61264d" stroke-width="0.75"/>
+<text x="714" y="112" font-family="monospace" font-size="9.5" fill="#f0e9ee" opacity="0.85">side-bg</text>
+<text x="714" y="123" font-family="monospace" font-size="8.5" fill="#f0e9ee" opacity="0.55">#0e0610</text>
+<rect x="812" y="58" width="92" height="38" fill="#0e0610" stroke="#61264d" stroke-width="0.75"/>
+<text x="812" y="112" font-family="monospace" font-size="9.5" fill="#f0e9ee" opacity="0.85">code-bg</text>
+<text x="812" y="123" font-family="monospace" font-size="8.5" fill="#f0e9ee" opacity="0.55">#0e0610</text>
+<text x="28" y="145" font-family="monospace" font-size="9.5" fill="#f0e9ee" opacity="0.6">--stripe-1..6 (TV do logo)</text>
+<rect x="196" y="135" width="24" height="12" fill="#ffb9ff"/>
+<rect x="222" y="135" width="24" height="12" fill="#ff8bde"/>
+<rect x="248" y="135" width="24" height="12" fill="#e35aae"/>
+<rect x="274" y="135" width="24" height="12" fill="#af267f"/>
+<rect x="300" y="135" width="24" height="12" fill="#86005d"/>
+<rect x="326" y="135" width="24" height="12" fill="#62003e"/>
+<rect x="28" y="158" width="560" height="104" fill="none" stroke="#d24a9e" stroke-width="1"/>
+<text x="42" y="182" font-family="monospace" font-size="14" font-weight="700" fill="#d24a9e">#1234 Um título de post</text>
+<text x="42" y="202" font-family="monospace" font-size="11.5" fill="#f0e9ee">corpo em foreground.</text>
+<text x="42" y="221" font-family="monospace" font-size="11.5" fill="#d24a9e">um link aceso</text>
+<rect x="178" y="208" width="92" height="20" fill="#4e203f" stroke="#61264d" stroke-width="1"/>
+<text x="224" y="222" font-family="monospace" font-size="10.5" fill="#d3c5ce" text-anchor="middle">#tag (12)</text>
+<rect x="298" y="170" width="276" height="80" fill="#0e0610" stroke="#61264d" stroke-width="1"/>
+<text x="308" y="192" font-family="monospace" font-size="10.5" fill="#d965aa">def contar_epoca(ano):</text>
+<text x="308" y="210" font-family="monospace" font-size="10.5" fill="#f0e9ee">    return ano // 10</text>
+<text x="308" y="236" font-family="monospace" font-size="9.5" fill="#f0e9ee" opacity="0.6">--code-bg = #0e0610</text>
+<text x="612" y="162" font-family="monospace" font-size="10" fill="#f0e9ee" opacity="0.7">contraste WCAG</text>
+<text x="612" y="180" font-family="monospace" font-size="10" fill="#f0e9ee">fg/bg: 16.3:1</text>
+<text x="762" y="180" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="197" font-family="monospace" font-size="10" fill="#f0e9ee">accent/bg: 4.8:1</text>
+<text x="762" y="197" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
+<text x="612" y="214" font-family="monospace" font-size="10" fill="#f0e9ee">chip/mute: 7.9:1</text>
+<text x="762" y="214" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="231" font-family="monospace" font-size="10" fill="#f0e9ee">code-fn/code-bg: 6.1:1</text>
+<text x="762" y="231" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
+<text x="612" y="248" font-family="monospace" font-size="10" fill="#f0e9ee">fg/code-bg: 16.7:1</text>
+<text x="762" y="248" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="265" font-family="monospace" font-size="10" fill="#f0e9ee">dim/sidebar-bg: 2.8:1</text>
+<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#ed333b">FAIL</text>
+<text x="612" y="282" font-family="monospace" font-size="10" fill="#f0e9ee">line/bg (borda): 1.8:1</text>
+<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
+<text x="612" y="305" font-family="monospace" font-size="9.5" fill="#f0e9ee" opacity="0.6">link distinguível por cor</text>
+</g>
+<g transform="translate(0,1428)">
+<rect width="980" height="320" fill="#140e1c" stroke="#b07bff" stroke-width="1.5"/>
+<rect x="20" y="-2" width="124" height="20" fill="#140e1c"/>
+<text x="28" y="13" font-family="monospace" font-size="15" font-weight="700" fill="#b07bff">$ ametista</text>
+<text x="28" y="42" font-family="monospace" font-size="11.5" fill="#ece6f5" opacity="0.75">violeta (Steven Universe)  ·  data-theme="ametista"</text>
+<rect x="28" y="58" width="92" height="38" fill="#140e1c" stroke="#543b79" stroke-width="0.75"/>
+<text x="28" y="112" font-family="monospace" font-size="9.5" fill="#ece6f5" opacity="0.85">bg</text>
+<text x="28" y="123" font-family="monospace" font-size="8.5" fill="#ece6f5" opacity="0.55">#140e1c</text>
+<rect x="126" y="58" width="92" height="38" fill="#ece6f5" stroke="#543b79" stroke-width="0.75"/>
+<text x="126" y="112" font-family="monospace" font-size="9.5" fill="#ece6f5" opacity="0.85">fg</text>
+<text x="126" y="123" font-family="monospace" font-size="8.5" fill="#ece6f5" opacity="0.55">#ece6f5</text>
+<rect x="224" y="58" width="92" height="38" fill="#b07bff" stroke="#543b79" stroke-width="0.75"/>
+<text x="224" y="112" font-family="monospace" font-size="9.5" fill="#ece6f5" opacity="0.85">accent</text>
+<text x="224" y="123" font-family="monospace" font-size="8.5" fill="#ece6f5" opacity="0.55">#b07bff</text>
+<rect x="322" y="58" width="92" height="38" fill="#7c57b3" stroke="#543b79" stroke-width="0.75"/>
+<text x="322" y="112" font-family="monospace" font-size="9.5" fill="#ece6f5" opacity="0.85">dim</text>
+<text x="322" y="123" font-family="monospace" font-size="8.5" fill="#ece6f5" opacity="0.55">#7c57b3</text>
+<rect x="420" y="58" width="92" height="38" fill="#543b79" stroke="#543b79" stroke-width="0.75"/>
+<text x="420" y="112" font-family="monospace" font-size="9.5" fill="#ece6f5" opacity="0.85">line</text>
+<text x="420" y="123" font-family="monospace" font-size="8.5" fill="#ece6f5" opacity="0.55">#543b79</text>
+<rect x="518" y="58" width="92" height="38" fill="#453162" stroke="#543b79" stroke-width="0.75"/>
+<text x="518" y="112" font-family="monospace" font-size="9.5" fill="#ece6f5" opacity="0.85">mute</text>
+<text x="518" y="123" font-family="monospace" font-size="8.5" fill="#ece6f5" opacity="0.55">#453162</text>
+<rect x="616" y="58" width="92" height="38" fill="#5f20a1" stroke="#543b79" stroke-width="0.75"/>
+<text x="616" y="112" font-family="monospace" font-size="9.5" fill="#ece6f5" opacity="0.85">dark</text>
+<text x="616" y="123" font-family="monospace" font-size="8.5" fill="#ece6f5" opacity="0.55">#5f20a1</text>
+<rect x="714" y="58" width="92" height="38" fill="#0f0917" stroke="#543b79" stroke-width="0.75"/>
+<text x="714" y="112" font-family="monospace" font-size="9.5" fill="#ece6f5" opacity="0.85">side-bg</text>
+<text x="714" y="123" font-family="monospace" font-size="8.5" fill="#ece6f5" opacity="0.55">#0f0917</text>
+<rect x="812" y="58" width="92" height="38" fill="#0f0917" stroke="#543b79" stroke-width="0.75"/>
+<text x="812" y="112" font-family="monospace" font-size="9.5" fill="#ece6f5" opacity="0.85">code-bg</text>
+<text x="812" y="123" font-family="monospace" font-size="8.5" fill="#ece6f5" opacity="0.55">#0f0917</text>
+<text x="28" y="145" font-family="monospace" font-size="9.5" fill="#ece6f5" opacity="0.6">--stripe-1..6 (TV do logo)</text>
+<rect x="196" y="135" width="24" height="12" fill="#ffd2ff"/>
+<rect x="222" y="135" width="24" height="12" fill="#d8a4ff"/>
+<rect x="248" y="135" width="24" height="12" fill="#a974f7"/>
+<rect x="274" y="135" width="24" height="12" fill="#7c44c4"/>
+<rect x="300" y="135" width="24" height="12" fill="#5b199c"/>
+<rect x="326" y="135" width="24" height="12" fill="#3e0078"/>
+<rect x="28" y="158" width="560" height="104" fill="none" stroke="#b07bff" stroke-width="1"/>
+<text x="42" y="182" font-family="monospace" font-size="14" font-weight="700" fill="#b07bff">#1234 Um título de post</text>
+<text x="42" y="202" font-family="monospace" font-size="11.5" fill="#ece6f5">corpo em foreground.</text>
+<text x="42" y="221" font-family="monospace" font-size="11.5" fill="#b07bff">um link aceso</text>
+<rect x="178" y="208" width="92" height="20" fill="#453162" stroke="#543b79" stroke-width="1"/>
+<text x="224" y="222" font-family="monospace" font-size="10.5" fill="#cec5db" text-anchor="middle">#tag (12)</text>
+<rect x="298" y="170" width="276" height="80" fill="#0f0917" stroke="#543b79" stroke-width="1"/>
+<text x="308" y="192" font-family="monospace" font-size="10.5" fill="#b88cff">def contar_epoca(ano):</text>
+<text x="308" y="210" font-family="monospace" font-size="10.5" fill="#ece6f5">    return ano // 10</text>
+<text x="308" y="236" font-family="monospace" font-size="9.5" fill="#ece6f5" opacity="0.6">--code-bg = #0f0917</text>
+<text x="612" y="162" font-family="monospace" font-size="10" fill="#ece6f5" opacity="0.7">contraste WCAG</text>
+<text x="612" y="180" font-family="monospace" font-size="10" fill="#ece6f5">fg/bg: 15.5:1</text>
+<text x="762" y="180" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="197" font-family="monospace" font-size="10" fill="#ece6f5">accent/bg: 6.4:1</text>
+<text x="762" y="197" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
+<text x="612" y="214" font-family="monospace" font-size="10" fill="#ece6f5">chip/mute: 6.8:1</text>
+<text x="762" y="214" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
+<text x="612" y="231" font-family="monospace" font-size="10" fill="#ece6f5">code-fn/code-bg: 7.7:1</text>
+<text x="762" y="231" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="248" font-family="monospace" font-size="10" fill="#ece6f5">fg/code-bg: 16.1:1</text>
+<text x="762" y="248" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="265" font-family="monospace" font-size="10" fill="#ece6f5">dim/sidebar-bg: 3.6:1</text>
+<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#ed333b">FAIL</text>
+<text x="612" y="282" font-family="monospace" font-size="10" fill="#ece6f5">line/bg (borda): 2.1:1</text>
+<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
+<text x="612" y="305" font-family="monospace" font-size="9.5" fill="#ece6f5" opacity="0.6">link distinguível por cor</text>
+</g>
+<g transform="translate(0,1770)">
+<rect width="980" height="320" fill="#0000aa" stroke="#aecbff" stroke-width="1.5"/>
+<rect x="20" y="-2" width="72" height="20" fill="#0000aa"/>
+<text x="28" y="13" font-family="monospace" font-size="15" font-weight="700" fill="#aecbff">$ bsod</text>
+<text x="28" y="42" font-family="monospace" font-size="11.5" fill="#ffffff" opacity="0.75">blue screen (Windows 9x)  ·  data-theme="bsod"</text>
+<rect x="28" y="58" width="92" height="38" fill="#0000aa" stroke="#416fd3" stroke-width="0.75"/>
+<text x="28" y="112" font-family="monospace" font-size="9.5" fill="#ffffff" opacity="0.85">bg</text>
+<text x="28" y="123" font-family="monospace" font-size="8.5" fill="#ffffff" opacity="0.55">#0000aa</text>
+<rect x="126" y="58" width="92" height="38" fill="#ffffff" stroke="#416fd3" stroke-width="0.75"/>
+<text x="126" y="112" font-family="monospace" font-size="9.5" fill="#ffffff" opacity="0.85">fg</text>
+<text x="126" y="123" font-family="monospace" font-size="8.5" fill="#ffffff" opacity="0.55">#ffffff</text>
+<rect x="224" y="58" width="92" height="38" fill="#aecbff" stroke="#416fd3" stroke-width="0.75"/>
+<text x="224" y="112" font-family="monospace" font-size="9.5" fill="#ffffff" opacity="0.85">accent</text>
+<text x="224" y="123" font-family="monospace" font-size="8.5" fill="#ffffff" opacity="0.55">#aecbff</text>
+<rect x="322" y="58" width="92" height="38" fill="#7199e8" stroke="#416fd3" stroke-width="0.75"/>
+<text x="322" y="112" font-family="monospace" font-size="9.5" fill="#ffffff" opacity="0.85">dim</text>
+<text x="322" y="123" font-family="monospace" font-size="8.5" fill="#ffffff" opacity="0.55">#7199e8</text>
+<rect x="420" y="58" width="92" height="38" fill="#416fd3" stroke="#416fd3" stroke-width="0.75"/>
+<text x="420" y="112" font-family="monospace" font-size="9.5" fill="#ffffff" opacity="0.85">line</text>
+<text x="420" y="123" font-family="monospace" font-size="8.5" fill="#ffffff" opacity="0.55">#416fd3</text>
+<rect x="518" y="58" width="92" height="38" fill="#2e5dca" stroke="#416fd3" stroke-width="0.75"/>
+<text x="518" y="112" font-family="monospace" font-size="9.5" fill="#ffffff" opacity="0.85">mute</text>
+<text x="518" y="123" font-family="monospace" font-size="8.5" fill="#ffffff" opacity="0.55">#2e5dca</text>
+<rect x="616" y="58" width="92" height="38" fill="#4b6492" stroke="#416fd3" stroke-width="0.75"/>
+<text x="616" y="112" font-family="monospace" font-size="9.5" fill="#ffffff" opacity="0.85">dark</text>
+<text x="616" y="123" font-family="monospace" font-size="8.5" fill="#ffffff" opacity="0.55">#4b6492</text>
+<rect x="714" y="58" width="92" height="38" fill="#04009c" stroke="#416fd3" stroke-width="0.75"/>
+<text x="714" y="112" font-family="monospace" font-size="9.5" fill="#ffffff" opacity="0.85">side-bg</text>
+<text x="714" y="123" font-family="monospace" font-size="8.5" fill="#ffffff" opacity="0.55">#04009c</text>
+<rect x="812" y="58" width="92" height="38" fill="#12007d" stroke="#416fd3" stroke-width="0.75"/>
+<text x="812" y="112" font-family="monospace" font-size="9.5" fill="#ffffff" opacity="0.85">code-bg</text>
+<text x="812" y="123" font-family="monospace" font-size="8.5" fill="#ffffff" opacity="0.55">#12007d</text>
+<text x="28" y="145" font-family="monospace" font-size="9.5" fill="#ffffff" opacity="0.6">--stripe-1..6 (TV do logo)</text>
+<rect x="196" y="135" width="24" height="12" fill="#d5f3ff"/>
+<rect x="222" y="135" width="24" height="12" fill="#a8c5f9"/>
+<rect x="248" y="135" width="24" height="12" fill="#7a96c7"/>
+<rect x="274" y="135" width="24" height="12" fill="#4f6997"/>
+<rect x="300" y="135" width="24" height="12" fill="#2f4773"/>
+<rect x="326" y="135" width="24" height="12" fill="#142952"/>
+<rect x="28" y="158" width="560" height="104" fill="none" stroke="#aecbff" stroke-width="1"/>
+<text x="42" y="182" font-family="monospace" font-size="14" font-weight="700" fill="#aecbff">#1234 Um título de post</text>
+<text x="42" y="202" font-family="monospace" font-size="11.5" fill="#ffffff">corpo em foreground.</text>
+<text x="42" y="221" font-family="monospace" font-size="11.5" fill="#aecbff">um link aceso</text>
+<rect x="178" y="208" width="92" height="20" fill="#2e5dca" stroke="#416fd3" stroke-width="1"/>
+<text x="224" y="222" font-family="monospace" font-size="10.5" fill="#d9e2f5" text-anchor="middle">#tag (12)</text>
+<rect x="298" y="170" width="276" height="80" fill="#12007d" stroke="#416fd3" stroke-width="1"/>
+<text x="308" y="192" font-family="monospace" font-size="10.5" fill="#bad3ff">def contar_epoca(ano):</text>
+<text x="308" y="210" font-family="monospace" font-size="10.5" fill="#ffffff">    return ano // 10</text>
+<text x="308" y="236" font-family="monospace" font-size="9.5" fill="#ffffff" opacity="0.6">--code-bg = #12007d</text>
+<text x="612" y="162" font-family="monospace" font-size="10" fill="#ffffff" opacity="0.7">contraste WCAG</text>
+<text x="612" y="180" font-family="monospace" font-size="10" fill="#ffffff">fg/bg: 13.3:1</text>
+<text x="762" y="180" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="197" font-family="monospace" font-size="10" fill="#ffffff">accent/bg: 8.1:1</text>
+<text x="762" y="197" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="214" font-family="monospace" font-size="10" fill="#ffffff">chip/mute: 4.6:1</text>
+<text x="762" y="214" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
+<text x="612" y="231" font-family="monospace" font-size="10" fill="#ffffff">code-fn/code-bg: 10.5:1</text>
+<text x="762" y="231" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="248" font-family="monospace" font-size="10" fill="#ffffff">fg/code-bg: 15.9:1</text>
+<text x="762" y="248" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="265" font-family="monospace" font-size="10" fill="#ffffff">dim/sidebar-bg: 5.0:1</text>
+<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
+<text x="612" y="282" font-family="monospace" font-size="10" fill="#ffffff">line/bg (borda): 2.8:1</text>
+<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
+<text x="612" y="305" font-family="monospace" font-size="9.5" fill="#ffffff" opacity="0.6">link distinguível por cor</text>
+</g>
+<g transform="translate(0,2112)">
+<rect width="980" height="320" fill="#0a0a16" stroke="#8f84ec" stroke-width="1.5"/>
+<rect x="20" y="-2" width="59" height="20" fill="#0a0a16"/>
+<text x="28" y="13" font-family="monospace" font-size="15" font-weight="700" fill="#8f84ec">$ c64</text>
+<text x="28" y="42" font-family="monospace" font-size="11.5" fill="#e6e3f5" opacity="0.75">azul Commodore (clareado p/ AA)  ·  data-theme="c64"</text>
+<rect x="28" y="58" width="92" height="38" fill="#0a0a16" stroke="#403c6d" stroke-width="0.75"/>
+<text x="28" y="112" font-family="monospace" font-size="9.5" fill="#e6e3f5" opacity="0.85">bg</text>
+<text x="28" y="123" font-family="monospace" font-size="8.5" fill="#e6e3f5" opacity="0.55">#0a0a16</text>
+<rect x="126" y="58" width="92" height="38" fill="#e6e3f5" stroke="#403c6d" stroke-width="0.75"/>
+<text x="126" y="112" font-family="monospace" font-size="9.5" fill="#e6e3f5" opacity="0.85">fg</text>
+<text x="126" y="123" font-family="monospace" font-size="8.5" fill="#e6e3f5" opacity="0.55">#e6e3f5</text>
+<rect x="224" y="58" width="92" height="38" fill="#8f84ec" stroke="#403c6d" stroke-width="0.75"/>
+<text x="224" y="112" font-family="monospace" font-size="9.5" fill="#e6e3f5" opacity="0.85">accent</text>
+<text x="224" y="123" font-family="monospace" font-size="8.5" fill="#e6e3f5" opacity="0.55">#8f84ec</text>
+<rect x="322" y="58" width="92" height="38" fill="#635ba4" stroke="#403c6d" stroke-width="0.75"/>
+<text x="322" y="112" font-family="monospace" font-size="9.5" fill="#e6e3f5" opacity="0.85">dim</text>
+<text x="322" y="123" font-family="monospace" font-size="8.5" fill="#e6e3f5" opacity="0.55">#635ba4</text>
+<rect x="420" y="58" width="92" height="38" fill="#403c6d" stroke="#403c6d" stroke-width="0.75"/>
+<text x="420" y="112" font-family="monospace" font-size="9.5" fill="#e6e3f5" opacity="0.85">line</text>
+<text x="420" y="123" font-family="monospace" font-size="8.5" fill="#e6e3f5" opacity="0.55">#403c6d</text>
+<rect x="518" y="58" width="92" height="38" fill="#333058" stroke="#403c6d" stroke-width="0.75"/>
+<text x="518" y="112" font-family="monospace" font-size="9.5" fill="#e6e3f5" opacity="0.85">mute</text>
+<text x="518" y="123" font-family="monospace" font-size="8.5" fill="#e6e3f5" opacity="0.55">#333058</text>
+<rect x="616" y="58" width="92" height="38" fill="#463393" stroke="#403c6d" stroke-width="0.75"/>
+<text x="616" y="112" font-family="monospace" font-size="9.5" fill="#e6e3f5" opacity="0.85">dark</text>
+<text x="616" y="123" font-family="monospace" font-size="8.5" fill="#e6e3f5" opacity="0.55">#463393</text>
+<rect x="714" y="58" width="92" height="38" fill="#070712" stroke="#403c6d" stroke-width="0.75"/>
+<text x="714" y="112" font-family="monospace" font-size="9.5" fill="#e6e3f5" opacity="0.85">side-bg</text>
+<text x="714" y="123" font-family="monospace" font-size="8.5" fill="#e6e3f5" opacity="0.55">#070712</text>
+<rect x="812" y="58" width="92" height="38" fill="#070712" stroke="#403c6d" stroke-width="0.75"/>
+<text x="812" y="112" font-family="monospace" font-size="9.5" fill="#e6e3f5" opacity="0.85">code-bg</text>
+<text x="812" y="123" font-family="monospace" font-size="8.5" fill="#e6e3f5" opacity="0.55">#070712</text>
+<text x="28" y="145" font-family="monospace" font-size="9.5" fill="#e6e3f5" opacity="0.6">--stripe-1..6 (TV do logo)</text>
+<rect x="196" y="135" width="24" height="12" fill="#eae2ff"/>
+<rect x="222" y="135" width="24" height="12" fill="#bdb4ff"/>
+<rect x="248" y="135" width="24" height="12" fill="#8f84ec"/>
+<rect x="274" y="135" width="24" height="12" fill="#6557ba"/>
+<rect x="300" y="135" width="24" height="12" fill="#453393"/>
+<rect x="326" y="135" width="24" height="12" fill="#2c0d70"/>
+<rect x="28" y="158" width="560" height="104" fill="none" stroke="#8f84ec" stroke-width="1"/>
+<text x="42" y="182" font-family="monospace" font-size="14" font-weight="700" fill="#8f84ec">#1234 Um título de post</text>
+<text x="42" y="202" font-family="monospace" font-size="11.5" fill="#e6e3f5">corpo em foreground.</text>
+<text x="42" y="221" font-family="monospace" font-size="11.5" fill="#8f84ec">um link aceso</text>
+<rect x="178" y="208" width="92" height="20" fill="#333058" stroke="#403c6d" stroke-width="1"/>
+<text x="224" y="222" font-family="monospace" font-size="10.5" fill="#c6c3d9" text-anchor="middle">#tag (12)</text>
+<rect x="298" y="170" width="276" height="80" fill="#070712" stroke="#403c6d" stroke-width="1"/>
+<text x="308" y="192" font-family="monospace" font-size="10.5" fill="#9b93ee">def contar_epoca(ano):</text>
+<text x="308" y="210" font-family="monospace" font-size="10.5" fill="#e6e3f5">    return ano // 10</text>
+<text x="308" y="236" font-family="monospace" font-size="9.5" fill="#e6e3f5" opacity="0.6">--code-bg = #070712</text>
+<text x="612" y="162" font-family="monospace" font-size="10" fill="#e6e3f5" opacity="0.7">contraste WCAG</text>
+<text x="612" y="180" font-family="monospace" font-size="10" fill="#e6e3f5">fg/bg: 15.6:1</text>
+<text x="762" y="180" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="197" font-family="monospace" font-size="10" fill="#e6e3f5">accent/bg: 6.3:1</text>
+<text x="762" y="197" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
+<text x="612" y="214" font-family="monospace" font-size="10" fill="#e6e3f5">chip/mute: 7.2:1</text>
+<text x="762" y="214" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="231" font-family="monospace" font-size="10" fill="#e6e3f5">code-fn/code-bg: 7.4:1</text>
+<text x="762" y="231" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="248" font-family="monospace" font-size="10" fill="#e6e3f5">fg/code-bg: 15.9:1</text>
+<text x="762" y="248" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="265" font-family="monospace" font-size="10" fill="#e6e3f5">dim/sidebar-bg: 3.4:1</text>
+<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#ed333b">FAIL</text>
+<text x="612" y="282" font-family="monospace" font-size="10" fill="#e6e3f5">line/bg (borda): 2.0:1</text>
+<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
+<text x="612" y="305" font-family="monospace" font-size="9.5" fill="#e6e3f5" opacity="0.6">link distinguível por cor</text>
+</g>
+<g transform="translate(0,2454)">
+<rect width="980" height="320" fill="#0d0208" stroke="#00ff41" stroke-width="1.5"/>
+<rect x="20" y="-2" width="98" height="20" fill="#0d0208"/>
+<text x="28" y="13" font-family="monospace" font-size="15" font-weight="700" fill="#00ff41">$ hacker</text>
+<text x="28" y="42" font-family="monospace" font-size="11.5" fill="#bff5c8" opacity="0.75">verde Matrix (digital rain)  ·  data-theme="hacker"</text>
+<rect x="28" y="58" width="92" height="38" fill="#0d0208" stroke="#306529" stroke-width="0.75"/>
+<text x="28" y="112" font-family="monospace" font-size="9.5" fill="#bff5c8" opacity="0.85">bg</text>
+<text x="28" y="123" font-family="monospace" font-size="8.5" fill="#bff5c8" opacity="0.55">#0d0208</text>
+<rect x="126" y="58" width="92" height="38" fill="#bff5c8" stroke="#306529" stroke-width="0.75"/>
+<text x="126" y="112" font-family="monospace" font-size="9.5" fill="#bff5c8" opacity="0.85">fg</text>
+<text x="126" y="123" font-family="monospace" font-size="8.5" fill="#bff5c8" opacity="0.55">#bff5c8</text>
+<rect x="224" y="58" width="92" height="38" fill="#00ff41" stroke="#306529" stroke-width="0.75"/>
+<text x="224" y="112" font-family="monospace" font-size="9.5" fill="#bff5c8" opacity="0.85">accent</text>
+<text x="224" y="123" font-family="monospace" font-size="8.5" fill="#bff5c8" opacity="0.55">#00ff41</text>
+<rect x="322" y="58" width="92" height="38" fill="#32a836" stroke="#306529" stroke-width="0.75"/>
+<text x="322" y="112" font-family="monospace" font-size="9.5" fill="#bff5c8" opacity="0.85">dim</text>
+<text x="322" y="123" font-family="monospace" font-size="8.5" fill="#bff5c8" opacity="0.55">#32a836</text>
+<rect x="420" y="58" width="92" height="38" fill="#306529" stroke="#306529" stroke-width="0.75"/>
+<text x="420" y="112" font-family="monospace" font-size="9.5" fill="#bff5c8" opacity="0.85">line</text>
+<text x="420" y="123" font-family="monospace" font-size="8.5" fill="#bff5c8" opacity="0.55">#306529</text>
+<rect x="518" y="58" width="92" height="38" fill="#2b4c23" stroke="#306529" stroke-width="0.75"/>
+<text x="518" y="112" font-family="monospace" font-size="9.5" fill="#bff5c8" opacity="0.85">mute</text>
+<text x="518" y="123" font-family="monospace" font-size="8.5" fill="#bff5c8" opacity="0.55">#2b4c23</text>
+<rect x="616" y="58" width="92" height="38" fill="#008b00" stroke="#306529" stroke-width="0.75"/>
+<text x="616" y="112" font-family="monospace" font-size="9.5" fill="#bff5c8" opacity="0.85">dark</text>
+<text x="616" y="123" font-family="monospace" font-size="8.5" fill="#bff5c8" opacity="0.55">#008b00</text>
+<rect x="714" y="58" width="92" height="38" fill="#0a0106" stroke="#306529" stroke-width="0.75"/>
+<text x="714" y="112" font-family="monospace" font-size="9.5" fill="#bff5c8" opacity="0.85">side-bg</text>
+<text x="714" y="123" font-family="monospace" font-size="8.5" fill="#bff5c8" opacity="0.55">#0a0106</text>
+<rect x="812" y="58" width="92" height="38" fill="#0a0106" stroke="#306529" stroke-width="0.75"/>
+<text x="812" y="112" font-family="monospace" font-size="9.5" fill="#bff5c8" opacity="0.85">code-bg</text>
+<text x="812" y="123" font-family="monospace" font-size="8.5" fill="#bff5c8" opacity="0.55">#0a0106</text>
+<text x="28" y="145" font-family="monospace" font-size="9.5" fill="#bff5c8" opacity="0.6">--stripe-1..6 (TV do logo)</text>
+<rect x="196" y="135" width="24" height="12" fill="#4fff66"/>
+<rect x="222" y="135" width="24" height="12" fill="#00ee28"/>
+<rect x="248" y="135" width="24" height="12" fill="#00bb00"/>
+<rect x="274" y="135" width="24" height="12" fill="#008a00"/>
+<rect x="300" y="135" width="24" height="12" fill="#006500"/>
+<rect x="326" y="135" width="24" height="12" fill="#004300"/>
+<rect x="28" y="158" width="560" height="104" fill="none" stroke="#00ff41" stroke-width="1"/>
+<text x="42" y="182" font-family="monospace" font-size="14" font-weight="700" fill="#00ff41">#1234 Um título de post</text>
+<text x="42" y="202" font-family="monospace" font-size="11.5" fill="#bff5c8">corpo em foreground.</text>
+<text x="42" y="221" font-family="monospace" font-size="11.5" fill="#00ff41" text-decoration="underline">um link aceso</text>
+<rect x="178" y="208" width="92" height="20" fill="#2b4c23" stroke="#306529" stroke-width="1"/>
+<text x="224" y="222" font-family="monospace" font-size="10.5" fill="#a4d7aa" text-anchor="middle">#tag (12)</text>
+<rect x="298" y="170" width="276" height="80" fill="#0a0106" stroke="#306529" stroke-width="1"/>
+<text x="308" y="192" font-family="monospace" font-size="10.5" fill="#49fe5f">def contar_epoca(ano):</text>
+<text x="308" y="210" font-family="monospace" font-size="10.5" fill="#bff5c8">    return ano // 10</text>
+<text x="308" y="236" font-family="monospace" font-size="9.5" fill="#bff5c8" opacity="0.6">--code-bg = #0a0106</text>
+<text x="612" y="162" font-family="monospace" font-size="10" fill="#bff5c8" opacity="0.7">contraste WCAG</text>
+<text x="612" y="180" font-family="monospace" font-size="10" fill="#bff5c8">fg/bg: 16.6:1</text>
+<text x="762" y="180" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="197" font-family="monospace" font-size="10" fill="#bff5c8">accent/bg: 14.9:1</text>
+<text x="762" y="197" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="214" font-family="monospace" font-size="10" fill="#bff5c8">chip/mute: 6.0:1</text>
+<text x="762" y="214" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
+<text x="612" y="231" font-family="monospace" font-size="10" fill="#bff5c8">code-fn/code-bg: 15.3:1</text>
+<text x="762" y="231" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="248" font-family="monospace" font-size="10" fill="#bff5c8">fg/code-bg: 16.8:1</text>
+<text x="762" y="248" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AAA</text>
+<text x="612" y="265" font-family="monospace" font-size="10" fill="#bff5c8">dim/sidebar-bg: 6.7:1</text>
+<text x="762" y="265" font-family="monospace" font-size="10" font-weight="700" fill="#2ec27e">AA</text>
+<text x="612" y="282" font-family="monospace" font-size="10" fill="#bff5c8">line/bg (borda): 2.9:1</text>
+<text x="762" y="282" font-family="monospace" font-size="10" font-weight="700" fill="#8a8a91">info</text>
+<text x="612" y="305" font-family="monospace" font-size="9.5" fill="#bff5c8" opacity="0.6">link com underline (1.4.1)</text>
+</g>
+</g>
+</svg>

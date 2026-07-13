@@ -2,15 +2,14 @@
   head.html — <head> do dablog.
 
   CSS: bundle único, concatenado na ORDEM DA CASCATA documentada em
-  __layout/layouts/README.md. NÃO reordenar — há traps de especificidade
-  (ex.: .term-panel depois de .sidebar/.content; mobile.css por ÚLTIMO p/ as
-  @media sobrescreverem o desktop por ordem de fonte). A lista cresce conforme
-  os componentes chegam (layout/panels/posts/pagination/palette entram ANTES
-  de mobile.css). Concat -> minify -> fingerprint = um arquivo cache-busted.
+  docs/template/README.md. NÃO reordenar — há traps de especificidade (ex.:
+  .term-panel depois de .sidebar/.content; mobile.css por ÚLTIMO p/ as @media
+  sobrescreverem o desktop por ordem de fonte). Concat -> minify -> fingerprint
+  = um arquivo cache-busted.
 
   JS: theme-init é INLINE e blocking (aplica tema+fonte de localStorage antes
-  do 1º paint p/ evitar flash; inline evita um round-trip blocking extra). O
-  resto (theme, mobile) vai no fim do <body> com defer.
+  do 1º paint p/ evitar flash; inline evita um round-trip blocking extra). Todo
+  o resto vai num bundle único com defer no fim do <body> — ver o baseof.
 */ -}}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">

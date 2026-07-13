@@ -54,6 +54,15 @@ build:
 serve:
     hugo server -D --disableFastRender
 
+# Regenera docs/themes/swatches.svg e mede o contraste dos 8 temas.
+# Existe porque o Lighthouse só audita o TEMA ATIVO: um a11y 100 não diz nada sobre os
+# outros 7. A ferramenta reimplementa as fórmulas de cor do tokens.css/themes.css em
+# Python, então o SVG é preview fiel do que o browser renderiza — não um mock pintado à
+# mão. Sai com código 1 se algum par de TEXTO reprovar 4.5:1 (bordas são informativas).
+# Se um token mudar no CSS, mude também em tools/theme-swatches.py, senão a folha mente.
+swatches:
+    python3 tools/theme-swatches.py
+
 # Preview do build de produção (o mesmo bytes-a-bytes que o audit mede).
 preview: build
     @echo "→ http://localhost:{{ port }}"
