@@ -20,3 +20,6 @@ public/
 .hugo_build.lock
 *.log
 session-report-*.html
+
+# Bytecode do Python (tools/). Artefato, não fonte.
+__pycache__/
