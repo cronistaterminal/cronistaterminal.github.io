@@ -1,6 +1,14 @@
-# baseURL fica como placeholder até o domínio sair (ver CLAUDE.md). Cloudflare
-# Pages fixa HUGO_VERSION na mesma versão do `hugo version` local.
-baseURL = 'https://example.org/'
+# Host: GitHub Pages (decisão do Nilton, 2026-07-13 — antes era Cloudflare Pages).
+#
+# cronistaterminal.github.io é um site de USUÁRIO/ORG, então o GitHub serve na RAIZ do
+# domínio — não num subpath. Isso NÃO é detalhe: o site tem paths ABSOLUTOS hardcoded
+# (/icons/, /logo/, /fonts/ nos favicons, no wordmark e nas masks de CSS) que não passam
+# por relURL. Num project page (…github.io/dablog/) todos quebrariam de uma vez.
+# -> Se um dia o site virar project page ou ganhar subpath, ESTES paths são o que quebra.
+#
+# A barra final importa: o Hugo concatena baseURL + path, e sem ela as URLs absolutas do
+# RSS/sitemap saem grudadas.
+baseURL = 'https://cronistaterminal.github.io/'
 locale = 'pt-br'
 defaultContentLanguage = 'pt-br'
 title = 'dablog'

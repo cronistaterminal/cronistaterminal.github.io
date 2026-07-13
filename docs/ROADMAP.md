@@ -59,7 +59,7 @@ Blocos ainda não abertos, em ordem. Detalhe no `TODO.txt`.
 
 | | O quê | Nota |
 |---|---|---|
-| 6 | Páginas que faltam | `/cronista/` é **link morto** hoje; 404; `baseURL` ainda é placeholder |
+| 6 | Páginas que faltam | **Em andamento.** RSS, sitemap e `baseURL` fechados. Restam `/cronista/` (**link morto** hoje) e o 404 |
 | 7 | Categorias | Decidido: **uma** por post (o build tem que validar). Falta o vocabulário, a UI e o idioma das rotas |
 | 8 | SEO + arquivo por data/época | Data e época são **links que apontam pro próprio post** — ou ganham destino real, ou perdem o `href` |
-| 9 | Deploy (Cloudflare) | O comando de build **mudou no Bloco 2** e o Cloudflare não sabe: sem o passo do Pagefind, o site vai ao ar com a busca morta |
+| 9 | Deploy (**GitHub Pages**) | O site é servido em `https://cronistaterminal.github.io/`. O GitHub Pages **não constrói nada** — precisa de um workflow com Hugo *extended* **e Node**, senão o site sobe com a busca morta (o passo do Pagefind é do Bloco 2 e nenhum host sabe dele ainda) |
