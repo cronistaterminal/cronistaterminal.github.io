@@ -1,21 +1,21 @@
 +++
-# A página "sobre mim". O LAYOUT está pronto; o conteúdo abaixo é PLACEHOLDER —
+# A página "sobre mim". O LAYOUT está pronto; a prosa abaixo é PLACEHOLDER —
 # troque à vontade sem tocar no template (layouts/_default/cronista.html).
-title = "O Cronista"
+#
+# O bloco de identidade tem TRÊS linhas, todas dirigidas pelo front matter:
+#   title    -> a ALCUNHA (a persona) — vira o <h1> e o <title> da página
+#   name     -> o NOME real, sob a alcunha (opcional; vazio -> some)
+#   tagline  -> o BORDÃO, uma linha de sabor (opcional; vazio -> some)
+title = "O Cronista Terminal"
 layout = "cronista"
 
-# ── bloco de identidade (tudo opcional) ───────────────────────────────────────
-# role     : a linha de papel sob o nome. Vazio -> some.
-# since     : "desde …". Vazio -> some. É string livre (pode ser "1998", "sempre").
-# portrait  : caminho de uma imagem (ex.: "/img/cronista.png", de static/).
-#             Não definido -> mostra um placeholder de moldura (útil enquanto não há foto).
-#             portrait = false -> remove o slot inteiro; o texto ocupa a largura toda.
-role = "historiador lírico, metódico"
-since = "20XX"
-# portrait = "/img/cronista.png"
+name = "Nilton Frederico Teixeira"
+tagline = "Demagogo de plantão. Sabe de tudo. Gosta de meias."
 
-# A contagem de crônicas NÃO é campo: o template a calcula das páginas em /posts/,
-# então nunca envelhece.
+# portrait : caminho de uma imagem (ex.: "/img/cronista.png", de static/).
+#            Não definido -> placeholder de moldura (útil enquanto não há foto).
+#            portrait = false -> remove o slot; o texto ocupa a largura toda.
+# portrait = "/img/cronista.png"
 +++
 
 <!-- PLACEHOLDER — a prosa real entra aqui. Markdown normal: parágrafos, listas,

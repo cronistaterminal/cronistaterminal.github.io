@@ -4,9 +4,10 @@
    Só o cartão de identidade vive aqui. A prosa reusa .post-body (post-body.css) e a
    régua reusa .post-rule (posts.css) — esta folha não repete nada disso. */
 
-/* O cartão: retrato ao lado do bloco de nome/papel/fatos. align-items:center equilibra
-   o retrato (96px) com as ~3 linhas de texto. flex-wrap deixa empilhar sozinho quando a
-   largura não dá — sem media query: numa coluna estreita o retrato sobe, o texto desce. */
+/* O cartão: retrato ao lado do bloco de alcunha/nome/tagline. align-items:center
+   equilibra o retrato (150px) com as ~3 linhas de texto. flex-wrap deixa empilhar
+   sozinho quando a largura não dá — sem media query: numa coluna estreita o retrato
+   sobe, o texto desce. */
 .cronista-head {
     display: flex;
     flex-wrap: wrap;
@@ -23,8 +24,8 @@
    for a proporção do arquivo que o Nilton colocar. */
 .cronista-portrait img {
     display: block;
-    width: 96px;
-    height: 96px;
+    width: 150px;
+    height: 150px;
     object-fit: cover;
     border: 1px solid var(--accent-line);
     border-radius: var(--radius);
@@ -37,10 +38,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 96px;
-    height: 96px;
+    width: 150px;
+    height: 150px;
     font-family: var(--font-body);
-    font-size: 1.5rem;
+    font-size: 1.9rem;
     color: var(--accent);
     background: var(--sidebar-bg);
     border: 1px dashed var(--accent-line);
@@ -54,38 +55,26 @@
     min-width: 0;
 }
 
-.cronista-name {
+/* A alcunha: a persona, o <h1>. O maior peso do cartão. */
+.cronista-alias {
     margin: 0;
     font-family: var(--font-head);
     font-size: clamp(1.8rem, 5vw, 2.4rem);
     line-height: 1.1;
 }
 
-/* A linha de papel. --accent-quiet é o token de texto-accent verificado (7.25:1 sobre o
-   fundo do painel, folga AAA) — não afunda em nenhum dos 8 temas. Itálico separa o papel
-   do nome sem depender só de tamanho. */
-.cronista-role {
+/* O nome real, sob a alcunha. --foreground (não o accent-quiet do bordão): é a pessoa,
+   merece o peso do texto normal, não a voz baixa de um subtítulo. */
+.cronista-name {
+    margin: 0;
+    font-size: 1.05rem;
+}
+
+/* O bordão. --accent-quiet (7.25:1 sobre o fundo do painel, folga AAA — não afunda em
+   nenhum dos 8 temas) + itálico: a linha de sabor, visivelmente secundária ao nome sem
+   sumir. */
+.cronista-tagline {
     margin: 0;
     color: var(--accent-quiet);
     font-style: italic;
-}
-
-/* Fatos curtos numa linha, separados por ponto médio. A lista perde os marcadores; o "·"
-   entra ENTRE itens (li+li), então nunca sobra um separador solto na ponta. */
-.cronista-facts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 0.75rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    font-size: 0.9rem;
-    color: var(--accent-quiet);
-}
-
-.cronista-facts li + li::before {
-    content: "·";
-    margin-right: 0.75rem;
-    /* separador cosmético; cor discreta para não competir com os fatos. */
-    color: var(--accent-line);
 }

@@ -5,37 +5,37 @@
   toda página ($ O Cronista).
 
   Herda o painel de terminal do baseof (#main.term-panel, com o prompt vivo em
-  cima), então NÃO reinventa moldura: o "$ whoami" já está lá. Aqui vive só o
-  cartão de identidade + a régua + a prosa.
+  cima), então NÃO reinventa moldura. Aqui vive só o cartão de identidade + a
+  régua + a prosa.
 
-  Espelha o single.html no que dá (a régua .post-rule, o corpo .post-body — que é
-  escopado por CLASSE, não por article.post-single, então reusa limpo). O que ele
-  NÃO herda é o cabeçalho de POST (tags, datas, TL;DR): esta página é uma pessoa,
-  não uma crônica.
+  O cartão tem TRÊS linhas; só a alcunha é obrigatória, o resto some se vazio:
+    .Title           -> a ALCUNHA (a persona) — o <h1> e o <title> da página
+    .Params.name     -> o NOME real, sob a alcunha
+    .Params.tagline  -> o BORDÃO, a linha de sabor
 
-  Tudo no cartão é OPCIONAL e dirigido pelo front matter (ver content/cronista.md):
-  um campo vazio simplesmente não renderiza — a página degrada para só-prosa sem
-  buraco no layout.
+  Não herda o cabeçalho de POST (tags, datas, TL;DR): esta página é uma pessoa,
+  não uma crônica. Reusa .post-body (escopado por CLASSE, não por article.post-single)
+  para a prosa e .post-rule para a régua — cronista.css só estiliza o cartão.
 
-  BUSCA: a página fica FORA do índice do Pagefind de propósito (não leva
-  data-pagefind-body). O escopo atual é "só post é resultado" (decisão de 2026-07-12);
-  indexar o Cronista é uma decisão de conteúdo para quando o texto real existir.
+  BUSCA: fica FORA do índice do Pagefind de propósito (não leva data-pagefind-body).
+  O escopo atual é "só post é resultado" (decisão de 2026-07-12); indexar o Cronista
+  é decisão de conteúdo para quando o texto real existir.
 */ -}}
 {{- $portrait := .Params.portrait -}}
-{{- $chronicles := len (where site.RegularPages "Type" "posts") -}}
 
 <div class="cronista">
   <header class="cronista-head">
     {{- /* Slot do retrato. Três estados (ver o comentário no content):
-             - caminho de imagem -> <img> com alt que NOMEIA o autor (foto é
-               conteúdo, não decoração; alt vazio esconderia uma informação).
-             - não definido       -> moldura placeholder, aria-hidden (é andaime
+             - caminho de imagem -> <img> com alt que NOMEIA a pessoa (foto é
+               conteúdo, não decoração; alt vazio esconderia uma informação). O alt
+               usa o nome real quando existe, e cai na alcunha se não houver.
+             - não definido       -> moldura placeholder, aria-hidden (andaime
                visual enquanto não há foto — nada para o leitor de tela ouvir).
              - false              -> nada; a coluna de texto ocupa tudo. */ -}}
     {{- if ne $portrait false }}
     <div class="cronista-portrait">
       {{- if and $portrait (ne $portrait true) }}
-      <img src="{{ $portrait | relURL }}" alt="Retrato de {{ .Title }}" width="96" height="96">
+      <img src="{{ $portrait | relURL }}" alt="Retrato de {{ .Params.name | default .Title }}" width="150" height="150">
       {{- else }}
       <span class="cronista-portrait-empty" aria-hidden="true">$_</span>
       {{- end }}
@@ -43,22 +43,12 @@
     {{- end }}
 
     <div class="cronista-id">
-      <h1 class="cronista-name">{{ .Title }}</h1>
-      {{- with .Params.role }}
-      <p class="cronista-role">{{ . }}</p>
+      <h1 class="cronista-alias">{{ .Title }}</h1>
+      {{- with .Params.name }}
+      <p class="cronista-name">{{ . }}</p>
       {{- end }}
-
-      {{- /* Fatos curtos. A contagem de crônicas é computada (nunca envelhece);
-             "desde" é opcional. Se nenhum existir, a lista inteira some. */ -}}
-      {{- if or .Params.since $chronicles }}
-      <ul class="cronista-facts">
-        {{- with .Params.since }}
-        <li>desde {{ . }}</li>
-        {{- end }}
-        {{- with $chronicles }}
-        <li>{{ . }} crônica{{ if ne . 1 }}s{{ end }}</li>
-        {{- end }}
-      </ul>
+      {{- with .Params.tagline }}
+      <p class="cronista-tagline">{{ . }}</p>
       {{- end }}
     </div>
   </header>
