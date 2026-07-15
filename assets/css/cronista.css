@@ -1,0 +1,91 @@
+/* cronista.css — a página "sobre o autor" (/cronista/).
+   Zero hex: tudo dos tokens, então o cartão segue os 8 temas como o resto do site.
+
+   Só o cartão de identidade vive aqui. A prosa reusa .post-body (post-body.css) e a
+   régua reusa .post-rule (posts.css) — esta folha não repete nada disso. */
+
+/* O cartão: retrato ao lado do bloco de nome/papel/fatos. align-items:center equilibra
+   o retrato (96px) com as ~3 linhas de texto. flex-wrap deixa empilhar sozinho quando a
+   largura não dá — sem media query: numa coluna estreita o retrato sobe, o texto desce. */
+.cronista-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.cronista-portrait {
+    flex: 0 0 auto;
+}
+
+/* A foto, quando existir. object-fit:cover garante o quadrado sem distorção seja qual
+   for a proporção do arquivo que o Nilton colocar. */
+.cronista-portrait img {
+    display: block;
+    width: 96px;
+    height: 96px;
+    object-fit: cover;
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius);
+}
+
+/* O placeholder enquanto não há foto. Tracejado e com o glifo do prompt ($_) para ler
+   como ANDAIME, não como retrato de verdade — ninguém confunde com uma pessoa. É
+   aria-hidden no template: é decoração visual, sem nada para o leitor de tela anunciar. */
+.cronista-portrait-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 96px;
+    height: 96px;
+    font-family: var(--font-body);
+    font-size: 1.5rem;
+    color: var(--accent);
+    background: var(--sidebar-bg);
+    border: 1px dashed var(--accent-line);
+    border-radius: var(--radius);
+}
+
+.cronista-id {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    min-width: 0;
+}
+
+.cronista-name {
+    margin: 0;
+    font-family: var(--font-head);
+    font-size: clamp(1.8rem, 5vw, 2.4rem);
+    line-height: 1.1;
+}
+
+/* A linha de papel. --accent-quiet é o token de texto-accent verificado (7.25:1 sobre o
+   fundo do painel, folga AAA) — não afunda em nenhum dos 8 temas. Itálico separa o papel
+   do nome sem depender só de tamanho. */
+.cronista-role {
+    margin: 0;
+    color: var(--accent-quiet);
+    font-style: italic;
+}
+
+/* Fatos curtos numa linha, separados por ponto médio. A lista perde os marcadores; o "·"
+   entra ENTRE itens (li+li), então nunca sobra um separador solto na ponta. */
+.cronista-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.9rem;
+    color: var(--accent-quiet);
+}
+
+.cronista-facts li + li::before {
+    content: "·";
+    margin-right: 0.75rem;
+    /* separador cosmético; cor discreta para não competir com os fatos. */
+    color: var(--accent-line);
+}
