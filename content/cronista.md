@@ -15,7 +15,7 @@ tagline = "Demagogo de plantão. Sabe de tudo. Gosta de meias."
 # portrait : caminho de uma imagem (ex.: "/img/cronista.png", de static/).
 #            Não definido -> placeholder de moldura (útil enquanto não há foto).
 #            portrait = false -> remove o slot; o texto ocupa a largura toda.
-# portrait = "/img/cronista.png"
+portrait = "/img/cronista.jpg"
 +++
 
 <!-- PLACEHOLDER — a prosa real entra aqui. Markdown normal: parágrafos, listas,
