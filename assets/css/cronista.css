@@ -78,3 +78,44 @@
     color: var(--accent-quiet);
     font-style: italic;
 }
+
+/* Conteúdo recomendado: a curadoria, depois da prosa. Margem no topo separa da régua. */
+.cronista-rec {
+    margin-top: 1.5rem;
+}
+
+/* O título da seção: mesmo tom terminal-quieto do .sidebar-heading (lowercase, --accent-
+   quiet, letter-spacing), mas na coluna de leitura — marco discreto pro olho, sem competir
+   com os títulos dos itens abaixo. */
+.cronista-rec-heading {
+    margin: 0 0 1rem;
+    font-family: var(--font-head);
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: var(--accent-quiet);
+}
+
+/* A lista: sem marcadores; cada item é título-link + tldr, empilhados com respiro. */
+.cronista-rec-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+
+/* O título do item domina o par — font-head, maior que o tldr. A cor/underline vêm de
+   .content-link (post-body.css), então segue o accent do tema como um link de prosa. */
+.cronista-rec-title {
+    font-family: var(--font-head);
+    font-size: 1.15rem;
+}
+
+/* O tldr: o teaser curto sob o título. --foreground cheio (é conteúdo, não legenda) e
+   line-height de leitura. */
+.cronista-rec-tldr {
+    margin: 0.3rem 0 0;
+    line-height: 1.5;
+}

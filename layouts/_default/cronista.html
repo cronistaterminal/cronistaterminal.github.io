@@ -61,5 +61,28 @@
   <div class="cronista-body post-body">
     {{ .Content }}
   </div>
+
+  {{- /* Conteúdo recomendado: a curadoria do Cronista. O critério é a FLAG
+         `recomendado = true` no front matter do post — NÃO uma tag (decisão de
+         2026-07-17): curadoria não é assunto, então não vaza para /tags/, para os
+         destaques da sidebar, nem vira chip no rodapé do post. Mostra título (link) +
+         tldr CURTO, ordenado por num desc (a ordem da listagem). O `with` some com a
+         seção inteira — régua incluída — quando nenhum post está marcado. */ -}}
+  {{- with sort (where site.RegularPages "Params.recomendado" true) "Params.num" "desc" }}
+  <hr class="post-rule">
+  <section class="cronista-rec" aria-labelledby="cronista-rec-h">
+    <h2 id="cronista-rec-h" class="cronista-rec-heading">conteúdo recomendado</h2>
+    <ul class="cronista-rec-list">
+      {{- range . }}
+      <li class="cronista-rec-item">
+        <a class="cronista-rec-title content-link" href="{{ .RelPermalink }}">{{ .Title }}</a>
+        {{- with .Params.tldr }}
+        <p class="cronista-rec-tldr">{{ . }}</p>
+        {{- end }}
+      </li>
+      {{- end }}
+    </ul>
+  </section>
+  {{- end }}
 </div>
 {{ end }}
