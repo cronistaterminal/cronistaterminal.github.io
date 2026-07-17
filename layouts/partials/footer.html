@@ -4,9 +4,11 @@
     mountPrompt nesse id (cursor pisca via CSS .cursor). aria-hidden (chrome decorativo).
   - .social     : ícones via CSS mask (cor = tema via background-color, hover = accent).
     Vendorizados em static/icons/social/ (antes selfh.st @main no CDN — @main não é
-    imutável; vendorizar foi decisão de README p/ a fase Hugo). O RSS aponta pro feed
-    REAL gerado pelo Hugo (.OutputFormats rss). Os demais hrefs ficam "#" até as URLs de
-    perfil entrarem (idealmente [params.social] no hugo.toml).
+    imutável; vendorizar foi decisão de README p/ a fase Hugo). O RSS aponta pro feed-
+    -mestre do site (.Site.Home.OutputFormats rss = /index.xml), o MESMO em toda página:
+    é um componente global, não o feed da página atual (que só existe em home/section/
+    /taxonomy — numa `single` como um post ou o /cronista/ o link sumiria). Os demais
+    hrefs ficam "#" até as URLs de perfil entrarem (idealmente [params.social] no hugo.toml).
   - .copyright  : ano dinâmico via now.Year (não recodificar a cada virada de ano).
 */ -}}
 <footer id="footer" class="site-footer term-panel">
@@ -16,7 +18,7 @@
     <a class="icon" href="#" aria-label="GitHub" style="--icon: url('/icons/social/github.svg')"></a>
     <a class="icon" href="#" aria-label="Bluesky" style="--icon: url('/icons/social/bluesky.svg')"></a>
     <a class="icon" href="#" aria-label="LinkedIn" style="--icon: url('/icons/social/linkedin.svg')"></a>
-    {{- with .OutputFormats.Get "rss" }}
+    {{- with .Site.Home.OutputFormats.Get "rss" }}
     <a class="icon" href="{{ .RelPermalink }}" aria-label="RSS" style="--icon: url('/icons/social/rss.svg')"></a>
     {{- end }}
   </nav>
