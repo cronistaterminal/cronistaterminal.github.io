@@ -150,13 +150,13 @@
 /* Número do atalho ([1]..[9]) e contagem: dim via OPACITY, não cor — o chip
    inverte texto<->fundo ao ligar, e opacity escurece relativo ao texto vigente
    nos DOIS estados (mesmo truque do .tag-count). */
-.filter-num {
-    opacity: 0.6;
-    font-size: 0.9em;
-}
-
+.filter-num,
 .filter-count {
     opacity: 0.6;
+}
+
+.filter-num {
+    font-size: 0.9em;
 }
 
 /* Status da busca ("3 posts encontrados", "nenhum post encontrado…"). É uma

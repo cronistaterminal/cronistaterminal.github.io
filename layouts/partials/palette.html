@@ -51,13 +51,13 @@
       {{- range first 9 site.Taxonomies.tags.ByCount }}
       <button type="button" class="palette-filter" tabindex="-1" aria-pressed="false"
         data-filter-type="tag" data-filter-value="{{ .Name }}"
-        aria-label="filtrar por {{ .Name }} ({{ .Count }} posts)"><span class="filter-label">{{ .Name }}</span><span class="filter-count" aria-hidden="true">{{ .Count }}</span></button>
+        aria-label="filtrar por {{ .Name }} ({{ .Count }} posts)">{{ .Name }}<span class="filter-count" aria-hidden="true">{{ .Count }}</span></button>
       {{- end }}
       {{- range (where site.RegularPages "Type" "posts").GroupByParam "epoca" }}
       {{- if ge (len .Pages) 2 }}
       <button type="button" class="palette-filter" tabindex="-1" aria-pressed="false"
         data-filter-type="epoca" data-filter-value="{{ .Key }}"
-        aria-label="filtrar por época {{ .Key }} ({{ len .Pages }} posts)"><span class="filter-label">{{ .Key }}</span><span class="filter-count" aria-hidden="true">{{ len .Pages }}</span></button>
+        aria-label="filtrar por época {{ .Key }} ({{ len .Pages }} posts)">{{ .Key }}<span class="filter-count" aria-hidden="true">{{ len .Pages }}</span></button>
       {{- end }}
       {{- end }}
     </div>

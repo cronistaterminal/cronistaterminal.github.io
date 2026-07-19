@@ -56,12 +56,14 @@
         ? Array.from(filtersRegion.querySelectorAll(".palette-filter"))
         : [];
 
+    // O predicado "está ligado" mora AQUI e só aqui — activeFilters(), o sufixo
+    // do status e a decisão de estado-zero todos derivam desta lista.
+    const activeButtons = () => filterBtns.filter((b) => b.getAttribute("aria-pressed") === "true");
+
     const activeFilters = () => {
         const byType = {};
-        filterBtns.forEach((b) => {
-            if (b.getAttribute("aria-pressed") === "true") {
-                (byType[b.dataset.filterType] ||= []).push(b.dataset.filterValue);
-            }
+        activeButtons().forEach((b) => {
+            (byType[b.dataset.filterType] ||= []).push(b.dataset.filterValue);
         });
         // { any: [...] } = OU DENTRO da faceta (somar tags amplia o conjunto). A
         // Pagefind combina chaves diferentes (tag vs época) com E — faceta clássica:
@@ -169,20 +171,26 @@
     // os resultados de "com", se a resposta dele chegar por último.
     let token = 0;
 
-    const showZeroState = () => {
+    // O status do estado zero é do CALLER, não hardcoded aqui: quem transita
+    // para o estado zero (input limpo -> ""; último filtro desligado -> "filtro
+    // X removido") passa a mensagem. Um dono de status por transição — sem
+    // corrida de ordem entre um say() e o say("") que este método fazia antes.
+    const showZeroState = (msg = "") => {
         list.innerHTML = zeroStateHTML;
-        say("");
+        say(msg);
         syncOptions();
     };
 
-    const runSearch = async () => {
+    const runSearch = async (zeroMsg = "") => {
         const mine = ++token;
         const q = input.value.trim();
         const filters = activeFilters();
         const filtered = Object.keys(filters).length > 0;
 
-        // Sem termo E sem filtro: volta ao estado zero (a lista do Hugo).
-        if (!q && !filtered) { showZeroState(); return; }
+        // Sem termo E sem filtro: volta ao estado zero (a lista do Hugo), com a
+        // mensagem que o caller pediu (vazia no input-limpo; nomeando o filtro
+        // removido quando um toggle nos trouxe aqui).
+        if (!q && !filtered) { showZeroState(zeroMsg); return; }
 
         let pf;
         try {
@@ -210,9 +218,7 @@
         // Sufixo com os filtros ligados: a contagem sozinha não diz POR QUE o
         // conjunto encolheu. Como é o texto FINAL do status, sobrevive à
         // coalescência do aria-live polite (o ponto do achado do review).
-        const on = filterBtns
-            .filter((b) => b.getAttribute("aria-pressed") === "true")
-            .map((b) => b.dataset.filterValue);
+        const on = activeButtons().map((b) => b.dataset.filterValue);
         const suffix = on.length ? ` · filtro: ${on.join(", ")}` : "";
 
         if (!hits.length) {
@@ -240,23 +246,14 @@
     // ── Toggle de filtro ──────────────────────────────────────────────────
     // Alterna o aria-pressed do chip e re-roda a busca. O foco VOLTA pro input:
     // clicar um <button> o roubaria, e o contrato é "foco sempre no input".
-    // Anuncia o estado no status (região viva) — o único sinal para quem não vê
-    // a cor do chip mudar.
-    const anyFilterOn = () => filterBtns.some((b) => b.getAttribute("aria-pressed") === "true");
-
     const toggleFilter = (btn) => {
         const on = btn.getAttribute("aria-pressed") === "true";
         btn.setAttribute("aria-pressed", on ? "false" : "true");
-        runSearch();
+        // Se este toggle DESLIGA e nos leva ao estado zero, esta é a mensagem —
+        // o runSearch só a usa se de fato cair no estado zero (senão o count, com
+        // os filtros sobreviventes, vence). Um único dono do status por transição.
+        runSearch(on ? `filtro ${btn.dataset.filterValue} removido.` : "");
         input.focus();
-        // Anunciar DEPOIS do trecho síncrono do runSearch: ao desligar o ÚLTIMO
-        // filtro (sem termo), o runSearch cai no estado zero e faz say("") na
-        // mesma pilha — um anúncio ANTES seria apagado antes do leitor de tela
-        // vê-lo. No caminho de busca, o say(count) nomeia os filtros ativos; aqui
-        // só cobrimos a volta ao estado zero, onde não há count para carregá-los.
-        if (!input.value.trim() && !anyFilterOn()) {
-            say(`filtro ${btn.dataset.filterValue} removido.`);
-        }
     };
 
     filterBtns.forEach((b) => {
