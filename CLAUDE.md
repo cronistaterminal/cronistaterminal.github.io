@@ -71,6 +71,7 @@ editor e destroem o diff. O base64 é o artefato versionado.
 | Arquivo | O que é |
 |---|---|
 | `docs/template/README.md` | O mapa do template: caixas, cascata, contrato dos overlays, shortcodes. **Canônico.** |
+| `docs/deploy.md` | O runbook do GitHub Pages: workflow, versões pinadas, o pré-requisito não-versionável, o que o `act` valida. |
 | `docs/themes/README.md` | Os 8 temas e todas as cores derivadas. |
 | `docs/ROADMAP.md` | O que foi adiado de propósito, e o gatilho de cada item. |
 | `docs/template/terminal-reference.md` | Nota histórica sobre o `panr/hugo-theme-terminal`. Não é spec. |

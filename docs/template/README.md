@@ -161,7 +161,7 @@ Todo o acoplamento real é **template ↔ JS**, via `id` e `data-*`.
 | `share.js` | compartilhar / copiar link | `[data-share]`, `[data-copy-link]` | — |
 | `mobile.js` | menu hambúrguer | `#menu-btn`, `#sidebar` | — |
 
-**Teclado.** Só a palette (`Ctrl+K`, `Esc`, `↑↓`, `Enter`, `Tab`) e o menu mobile (`Esc`,
+**Teclado.** Só a palette (`Ctrl+K`, `Esc`, `↑↓`, `Enter`, `Tab`, `Alt+1..9`) e o menu mobile (`Esc`,
 `Tab`, e só com o menu aberto) escutam em `document`. A **galeria escuta no próprio root**,
 de propósito, para não colidir com o `Ctrl+K` — e ela ignora o evento inteiro se o alvo for
 um campo de texto, para não sequestrar as setas de quem está digitando.
@@ -174,6 +174,27 @@ efeito colateral registrado abaixo.
 tecla digitada. O índice é escrito pelo passo `npx pagefind` do build — então **sob
 `hugo server` ele não existe**, e a palette degrada com "busca indisponível — rode o build
 completo". Isso é esperado, não um bug. Use `just preview` para testar busca.
+
+**Filtros de faceta.** As tags e a época já entram no índice como facetas
+(`data-pagefind-filter` no `single.html`); a palette as expõe como chips toggle. O modelo é
+**"filtros quietos"**: o foco nunca sai do input. Os chips têm `tabindex="-1"` (fora da ordem
+de `Tab`, que segue no toggle do TL;DR) e alternam por **clique** ou por **`Alt+1..9`** a
+partir do input. O `aria-pressed` do chip é a única fonte da verdade — `activeButtons()` lê o
+DOM, sem estado paralelo.
+
+Composição das facetas, **medida no índice** (não presumida): a Pagefind trata um array cru
+como **E**, então `activeFilters()` emite `{ any: [...] }` por faceta — **OU dentro** de uma
+faceta (somar tags amplia), **E entre** facetas (tag ∧ época). Faceta clássica.
+
+Os chips são renderizados pelo Hugo (progressive enhancement) e começam `hidden`;
+`syncFilters()` os revela e numera (`[1]..[9]`). `tag`: os 9 mais usados (`first 9 .ByCount`).
+`época`: só as que **agrupam ≥ 2 posts** — com posts 1:1 por época, um chip casaria um único
+post, então o caminho existe e liga sozinho quando uma época ganha o 2º post.
+
+O status (`#palette-status`, `aria-live`) tem **um dono por transição**: a contagem carrega o
+nome dos filtros ativos (`"3 posts · filtro: python"`) — é o texto final, sobrevive à
+coalescência do `polite`; e `showZeroState(msg)` recebe a mensagem do caller (input limpo →
+`""`; último filtro desligado → `"filtro X removido"`).
 
 ---
 
@@ -251,6 +272,9 @@ Registradas porque são contratos frágeis, não porque estão erradas.
 7. **Três dos quatro ícones sociais são `href="#"`** — falta `[params.social]` no `hugo.toml`.
 8. **`#nav.header-nav` é uma caixa vazia**, e `pagination` é o único componente de chrome
    sem `id`.
+9. **Os chips de filtro além do 9º são só-clique**: `Alt+1..9` endereça os 9 primeiros, e os
+   chips têm `tabindex="-1"`, então a cauda não tem alcance por teclado. Hoje há 8 tags; se
+   passar de 9, curar o conjunto (o backstop é o `ver todas` da sidebar).
 
 ---
 
@@ -276,6 +300,8 @@ há disclosure: os dois TL;DR aparecem juntos.
 **O índice de busca é só metadado.** O `data-pagefind-body` existe apenas no `single.html`
 — então só posts entram no índice — e o corpo é explicitamente excluído
 (`data-pagefind-ignore` no `.post-body`). Busca-se por título, tags, datas, época e TL;DR.
+`tag` e `época` também são **facetas** (`data-pagefind-filter`): os chips da palette filtram
+por elas (ver `## JavaScript`).
 
 ---
 
