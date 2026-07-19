@@ -1,0 +1,520 @@
+================================================================================
+ARQUIVADO em 2026-07-19. Registro HISTÓRICO do porte standalone -> Hugo (Blocos
+1 a 9): o que foi feito, as decisões do Nilton e as armadilhas que custaram caro.
+Superseded pelo TODO.txt enxuto na raiz, que carrega só o que ficou em aberto.
+NÃO editar aqui — este é o snapshot congelado do fim do porte.
+================================================================================
+
+TODO — o que falta portar do template standalone para o Hugo
+=============================================================
+
+O protótipo standalone vive na branch `layout/standalone-pass` (topo = 0267c97).
+Ela é HISTÓRICO: nada em aberto depende dela (só o item adiado da sidebar
+contextual — ver docs/ROADMAP.md). Consultar direto pelo git, sem montar worktree:
+
+    git ls-tree -r --name-only layout/standalone-pass      # listar
+    git show layout/standalone-pass:<caminho>              # ler um arquivo
+
+(O worktree `__layout/` foi REMOVIDO em 2026-07-13 — decisão do Nilton: a branch
+é a referência, não uma pasta espelhada. Se precisar de novo:
+    git worktree add --detach __layout layout/standalone-pass  )
+
+Este arquivo é gitignorado. É um scratchpad de porte, não um roadmap público.
+Riscar (~~assim~~) ou remover o item conforme for portado.
+
+
+ESTADO ATUAL (2026-07-12)
+-------------------------
+Portado e commitado no main:
+  - baseof + head + header + logo (anim. de troca de tema)
+  - footer, term-panels, prompt vivo
+  - home: lista de posts (post-card), sidebar sticky, paginação
+  - command palette: shell + contrato de a11y (Ctrl+K, inert, foco, setas)
+    -> resultados AINDA são estáticos (site.RegularPages), sem filtro por digitação
+  - BLOCO 1: página de post (texto), seção /posts/, taxonomia /tags/
+  - justfile: build/gate/clean, serve/preview/up/down/hit,
+    check = links+xml+svg+js+swatches, audit (Lighthouse), decay-edit/save.
+    Inventário completo e comentado no CLAUDE.md e no próprio justfile.
+
+RESOLVIDO — o site não tem link quebrado (`just links` reporta ZERO):
+  - [x] /cronista/  <- a página EXISTE (Bloco 6, commit 56bd1e2). Era o último quebrado.
+  - [x] baseURL: era o placeholder example.org, hoje é o do GitHub Pages (Bloco 6).
+
+
+------------------------------------------------------------------
+BLOCO 1 — PÁGINA DE POST, MÍNIMA  (destrava permalinks)   << FEITO
+------------------------------------------------------------------
+Fechado. Lighthouse nas 4 rotas novas: a11y 100 / best-practices 100 / SEO 100 /
+perf 99. Palette -> Enter -> post real verificado no Brave.
+
+  [x] layouts/_default/single.html    (header, abstract c/ os 2 TL;DR, corpo)
+  [x] assets/css/post-body.css        (adaptado: markdown do Hugo emite <a>/<code>/
+        <ul>/<blockquote> NUS — os seletores .content-* do protótipo não casariam.
+        E `.post-tags` foi ESCOPADO em .post-single: no standalone cada página tinha
+        seu CSS, aqui o bundle é único e o seletor cru vazaria para a home.)
+  [x] layouts/_default/list.html      (seção /posts/ — o Hugo avisava "no layout
+        for kind section" e a rota era 404 em produção)
+  [x] layouts/_default/term.html + terms.html   (as tags já eram linkadas e 404avam)
+  [x] hugo.toml: só a taxonomia `tag` (o default do Hugo criava /categories/ vazia)
+  [x] hugo.toml + baseof: languageCode -> locale (deprecação do Hugo 0.158)
+
+  ARMADILHA APRENDIDA (custou um a11y 96): o base.css NÃO tem regra global para
+  <a>. Todo link do site pertencia a um componente com cor própria (.tag,
+  .post-headline, .logo-link). Os primeiros links de PROSA fora do .post-body
+  (nos cabeçalhos de list/term/terms) caíram no azul do user-agent (#0000ee):
+  1.9:1 sobre o fundo escuro. Corrigido estendendo a regra de link de prosa.
+  -> Ao criar QUALQUER link novo fora de um componente, checar a cor.
+
+  [x] .post-actions (share / copiar link)   -> FEITO no Bloco 4 (commit 1a444fc)
+
+  ADIADOS -> saíram deste arquivo, agora vivem em docs/ROADMAP.md (versionado):
+    - corpo real nos outros 5 posts
+    - sidebar contextual no single ("relacionados" / "outros da mesma época")
+  Decisão do Nilton (2026-07-13): os dois têm o MESMO gatilho — o segundo post
+  de uma mesma época. Antes disso, "outros da mesma época" é caixa vazia e não
+  há o que validar. Não mexer neles aqui; o roadmap é a fonte.
+
+  BLOCO 1 ESTÁ FECHADO.
+
+
+------------------------------------------------------------------
+BLOCO 2 — BUSCA REAL (Pagefind)                        << FEITO
+------------------------------------------------------------------
+  [x] justfile: `build` = hugo --cleanDestinationDir + `npx pagefind --site public`
+  [x] single.html: marcação do índice (data-pagefind-body / -ignore / -meta / -filter)
+  [x] palette.js: motor Pagefind, carregado sob demanda (import dinâmico)
+  [x] estado vazio + contagem (região #palette-status, aria-live)
+  [x] contrato de a11y revalidado sobre a lista DINÂMICA (foco, inert,
+        aria-activedescendant, Esc->gatilho, Enter->post). Lighthouse 100/99.
+
+  ESCOPO DO ÍNDICE (decisão do Nilton): só METADADO — tags, título, data de
+  publicação, época e os dois tl;dr. O corpo fica de fora (data-pagefind-ignore
+  no .post-body). Verificado: buscar "placeholder" (palavra que só existe no
+  corpo) devolve ZERO. Quando houver post real, reavaliar se o corpo entra —
+  é remover UM atributo no single.html.
+  Efeito colateral bom: o índice tem só 6 páginas (home, /posts/ e /tags/ ficam
+  de fora sozinhas — quando ALGUMA página tem data-pagefind-body, o Pagefind
+  passa a indexar só as que têm).
+
+  DOIS ESTADOS: campo vazio -> lista renderizada pelo Hugo (estado zero, e
+  fallback sem JS); campo cheio -> Pagefind. O markup do hit vive em DOIS
+  lugares (palette.html e hitHTML() do palette.js) — mexeu num, mexa no outro.
+
+  FUZZY ACEITO DE PROPÓSITO (decisão do Nilton): o Pagefind casa por distância de
+  edição, então uma palavra que NÃO existe no arquivo cola no vizinho:
+      "commodore"  -> 3 posts (colou em com…: computador, compartilhado)
+      "pythonzzzz" -> os mesmos 3 de "python"
+  O outro lado é a tolerância a erro de digitação, que é o que se quer numa busca.
+  NÃO tentar resolver mexendo no ranking: o Pagefind pontua por RARIDADE, e o
+  ruído de palavra rara (1.38) supera o acerto de palavra comum (1.21) — limiar
+  por score derruba os bons junto. Se um dia incomodar: pós-filtro por prefixo
+  no cliente.
+
+  PENDENTE deste bloco:
+  (o ajuste do build do Cloudflare Pages saiu daqui -> BLOCO 9, no fim: decisão
+   do Nilton de não pensar em deploy por ora)
+  [ ] destacar os termos no hit (<mark>). Hoje o hit mostra o tl;dr limpo; o
+        r.excerpt do Pagefind sairia costurando tags e datas, porque o índice é
+        só de metadado. Reavaliar quando/se o corpo entrar no índice.
+  [ ] filtros por faceta: `tag` e `epoca` JÁ estão indexados como filtro
+        (data-pagefind-filter) — a UI ainda não os usa. Habilitar depois não
+        exige re-marcar nada.
+
+
+------------------------------------------------------------------
+BLOCO 3 — SYNTAX HIGHLIGHT: CHROMA (opção A)           << FEITO
+------------------------------------------------------------------
+Decisão do Nilton (2026-07-12): Opção A, Chroma. Zero JS no critical path
+(o prism.js de 33KB nunca chegou a entrar), HTML já sai colorido do build
+(sem flash), e o lexer `fish` é de verdade — verificado no HTML cru.
+
+  [x] hugo.toml: [markup.highlight] noClasses=false (o que torna o highlight
+        TEMÁVEL — com noClasses=true o Chroma inlinaria hex e a cor ficaria
+        surda ao data-theme), guessSyntax=false, lineNos=false,
+        wrapperClass='code-block'
+  [x] assets/css/code.css   portado do Prism p/ Chroma + plugado no head.html
+  [x] corpo real no post basic-lingua-franca (fixture: um bloco `basic` e um
+        `fish` — sem código no site não havia o que validar)
+
+  O QUE MUDOU no port (não foi find-replace):
+  O Chroma é mais GRANULAR que o Prism — onde havia um .token.string existem
+  .s .s1 .s2 .sd .se .sh …. As classes finas foram agrupadas nos mesmos BALDES
+  visuais (distinguir dez variedades de string não ajuda ninguém a ler código).
+  Ganhamos dois tokens que o Prism não tinha: .gp (prompt `$` de sessão de
+  shell) e .go (saída de comando) — ambos tratados como ANDAIME.
+  O .err foi NEUTRALIZADO: o default do Pygments pinta erro de lexer em
+  vermelho com borda, o que salpica o bloco de alarme falso quando o lexer só
+  conhece a linguagem pela metade.
+
+  BUG HERDADO DO PROTÓTIPO, corrigido aqui (medido nos 8 temas × 15 tokens):
+  o .token.function usava var(--accent-dim), que mistura accent com o
+  BACKGROUND (escurece). Sobre o --sidebar-bg do bloco ele AFUNDA: reprovava
+  4.5:1 em quatro temas (jabuticaba 2.87, zuko 3.27, c64 3.39, ametista 3.62).
+  Nunca apareceu porque o Lighthouse só mede o tema DEFAULT. Corrigido
+  misturando com o FOREGROUND (clareia): color-mix(accent 85%, foreground).
+  Comentário subiu de 55% p/ 60% (media 4.48 no tema `hacker` — reprovava por
+  um fio). Estado final: 120 pares medidos, 0 reprovados, pior caso 5.00:1.
+  -> LIÇÃO GERAL: --accent-dim sobre --sidebar-bg é uma combinação suspeita.
+     Vale auditar os outros usos de --accent-dim no site com o mesmo método.
+
+
+------------------------------------------------------------------
+BLOCO 4 — COMPONENTES RICOS DO POST                    << FEITO
+------------------------------------------------------------------
+Portado em 5 commits (16ee761 code-figure+ícones, 85a3bdc media, 21a0313
+gallery+lightbox, 82ea2b6 audio, 1a444fc share). Lighthouse no post e na home:
+a11y 100 / bp 100 / SEO 100 / perf 99.
+
+  [x] figure / embed / clear / gallery+slide / audio  (layouts/shortcodes/)
+  [x] media.css, gallery.css, audio.css, code.css; post-actions no post-body.css
+  [x] gallery.js, audio.js, share.js no bundle; lightbox.html irmão do #page
+  [x] 8 ícones em static/icons/; assets/demo/ (5 jpg + 1 mp3)
+
+  DECISÕES DO PORTE (não foi cópia):
+  - Shortcode resolve a imagem como RESOURCE (assets/ ou page bundle) -> emite
+    width/height reais -> CLS 0 (o protótipo escrevia <img> à mão e não podia).
+  - alt / title de iframe / label de galeria são OBRIGATÓRIOS: o build FALHA sem
+    eles (errorf). alt="" continua legal p/ imagem decorativa — o que se recusa
+    é não passar o parâmetro.
+  - {{< embed yt="ID" >}} monta a URL do youtube-nocookie sozinho: ninguém
+    esquece o domínio sem rastreio se não for possível escrevê-lo errado.
+  - Galeria = shortcodes ANINHADOS (gallery + slide), não um blob de JSON.
+    Os aria-label ("2 de 3") são gerados pelo JS, que sabe o total.
+  - Controles da galeria só aparecem quando o JS monta (data-gallery-ready);
+    sem JS os slides empilham visíveis. Botão que não navega é mentira de UI.
+  - aria-live no label do share: "copiado!" era mudança de texto SILENCIOSA.
+
+  BUGS CORRIGIDOS (herdados do protótipo):
+  - Foco morria na galeria: navegar por seta escondia o slide focado -> foco ia
+    pro <body> -> como o listener é escopado no root, a navegação MORRIA depois
+    de uma tecla. render() agora resgata o foco pro slide que entra.
+  - --accent-dim como texto reprovou contraste em 4 dos 8 temas, em TRÊS lugares
+    (código, contador da galeria, tempo do áudio). Ver memória
+    accent-dim-sinks-as-text. AINDA SUSPEITO: .sidebar-era-tag (sidebar variante,
+    não portada) usa o mesmo token.
+  - justfile: --cleanDestinationDir relatava "Cleaned 0" e deixava HTML velho ->
+    trocado por `rm -rf public` explícito.
+
+  VERIFICADO PELO NILTON (2026-07-13), num browser de verdade:
+  [x] PLAYBACK do áudio — funciona. (O browser automatizado nunca passava de
+      readyState 0, e dar await no play() CONGELAVA o renderer: era limite do
+      ambiente headless, não bug do player. O mp3 sempre foi válido — ffprobe:
+      4s, MPEG layer III, 96kbps.)
+  [x] EMBED com iframe real — funciona.
+
+  Shortcodes criados (layouts/shortcodes/):
+    [x] figure  -> .media-figure (inline-left / inline-right / break-full /
+                   break-box, --media-w, figcaption)
+    [x] gallery + slide -> .media-gallery (viewport/track/slides + controles)
+    [x] audio   -> .media-audio (player custom, preload=none)
+    [x] embed   -> .media-embed-generic (iframe com --media-ratio; modo yt=)
+    [x] clear   -> .brk-clear (encerra o wrap de um float)
+    [x] code    -> a MOLDURA do bloco: .code-figure + .term-label.code-label (o
+                   "$ /usr/bin/env <lang> <script>" que corta a borda superior).
+                   Via render hook (_markup/render-codeblock.html), então o autor
+                   usa ``` cru no markdown. Label sai de ```lang {file="x.py"}.
+
+  CSS  [x] media.css  [x] gallery.css  [x] audio.css  [x] code.css  — todos no
+       bundle do head.html (verificado 2026-07-13).
+  JS   [x] gallery.js  [x] audio.js  [x] share.js — todos no bundle do baseof.
+       (prism-fish.js e vendor/prism/, 33KB: MORTOS pela decisão do Bloco 3.)
+  [x] layouts/partials/lightbox.html — irmão do #page, condicional a
+      .HasShortcode "gallery". Ver memória modal-a11y-contract.
+  [x] 10 ícones em static/icons/ (chevron-first/last/prev/next, play, pause,
+      link, share, close, search) + static/icons/social/.
+      CSS mask usa caminho ABSOLUTO /icons/... — relativo quebra no bundle
+      fingerprinted. Ver memória css-mask-icons-absolute-path.
+  [x] assets/demo/ — 6 jpg + recado.mp3.
+
+  RESOLVIDO desde então: o "AINDA SUSPEITO .sidebar-era-tag" ficou sem objeto —
+  a sidebar variante do single nunca foi portada, E o --accent-dim foi REMOVIDO
+  do design system no Bloco 5 (virou --accent-quiet). Ver accent-dim-sinks-as-text.
+
+  NÃO É DÍVIDA, É OPÇÃO: nenhum post usa {{< embed >}} hoje (o shortcode existe e
+  foi validado). O post-vitrine dos componentes é basic-lingua-franca (figure,
+  gallery+slide, audio, clear).
+
+
+------------------------------------------------------------------
+BLOCO 5 — DOCUMENTAÇÃO / TOOLING                       << FEITO
+------------------------------------------------------------------
+Decisão do Nilton (2026-07-13): NÃO portar o README do protótipo — escrever
+documentação NOVA a partir da codebase. Onde a codebase diverge, a codebase
+vence (havendo registro em commit/comentário/TODO/memória). Fechado em 2 commits:
+fbf3bef (doc + swatches) e fe65dec (o fix de contraste que a auditoria destravou).
+
+  [x] docs/template/README.md   mapa canônico do template.
+        NÃO pode morar em layouts/ — o Hugo parseia TUDO ali como template,
+        inclusive .md: um README com {{< shortcode >}} quebra o build.
+        Escrito da codebase e depois VERIFICADO por um revisor adversarial
+        contra o fonte — que achou 8 erros de fato no 1º rascunho (ex.: "#page
+        recebe a classe .inert" — é a PROPRIEDADE inert). Todos corrigidos.
+  [x] docs/themes/README.md     os 8 temas, todas as cores derivadas, contraste.
+  [x] tools/theme-swatches.py   regenera docs/themes/swatches.svg. Reimplementa
+        as fórmulas do CSS em Python -> o SVG é preview FIEL, não mock. Ganhou
+        --code-bg e as faixas do logo (a versão antiga não os conhecia).
+        Vira GATE: `just swatches` sai 1 se um par de TEXTO reprovar 4.5:1.
+        Bordas são medidas mas NÃO gated (gate que mente ensina a ser ignorado).
+  [x] justfile: receita `swatches`.
+
+  O QUE A AUDITORIA DESTRAVOU (não estava previsto):
+  O --accent-dim reprovava contraste como TEXTO em 4 dos 8 temas, em NOVE lugares
+  (não só a sidebar: h3/h4 do corpo do post, ::marker, #num, page-status...).
+  O token foi REMOVIDO, não corrigido — o nome prometia "accent quieto" e a
+  fórmula entregava "accent perto do fundo"; enquanto existisse, seria reusado.
+  No lugar: --accent-quiet (mistura com o FOREGROUND). Ver memória
+  accent-dim-sinks-as-text.
+  E apareceu um caso PIOR, nunca listado: o HIT SELECIONADO da palette (fundo
+  vira --accent-mute) reprovava no título (5 temas), no #id (7) e no tl;dr (2).
+  É o estado NORMAL da busca — o 1º resultado já nasce selecionado.
+
+  [x] docs/template/terminal-reference.md — como NOTA HISTÓRICA (o
+        layout de hoje é próprio; o doc só responde "de onde veio a estética").
+  [x] justfile                  build / serve / preview / audit
+        GOTCHA do Lighthouse: o CHROME_PATH aponta DIRETO em
+        /opt/brave.com/brave-origin-nightly/brave-origin, não no
+        /usr/bin/brave-origin-nightly. Este último é um wrapper shell que faz
+        `exec brave-origin "$USER_FLAGS" "$BRAVE_FLAGS" "$FLAG" "$@"` — com as
+        vars vazias E entre aspas, viram argumentos VAZIOS, que o Chromium lê
+        como URLs-alvo: "Multiple targets are not supported in headless mode".
+  [x] assets/sass/_colors.scss — NÃO PORTAR. Verificado (2026-07-13):
+        - não existe no main (nenhum .scss versionado; nada em layouts/ ou
+          hugo.toml referencia sass/scss/toCSS)
+        - no PRÓPRIO protótipo ele já era ÓRFÃO: era o único arquivo Sass do
+          repo e ninguém o importava — nunca chegou a ser compilado.
+        - o conteúdo eram 3 cores (#1a170f / #eceae5 / #eec35e), que hoje são o
+          trio MASTER do tema `default` no tokens.css — junto com os outros 7
+          temas e todos os derivados. Absorvido com folga.
+        Resíduo inofensivo: o regex `files:` do hook hugo-build no
+        .pre-commit-config.yaml ainda lista `scss`. Não casa nada. Deixar.
+
+  >> BLOCO 5 FECHADO.
+
+
+------------------------------------------------------------------
+BLOCO 6 — PÁGINAS QUE O SITE AINDA NÃO TEM
+------------------------------------------------------------------
+Subtasks fechadas UMA A UMA, sob revisão do Nilton (decisão dele: "não parece
+grande de desenvolvimento, mas é grande de VALIDAÇÃO").
+
+  [x] /cronista/  — FEITO (layout; conteúdo depois). Commit 56bd1e2. Lighthouse:
+                    a11y 100 / bp 100 / SEO 100 / perf 99, ZERO audits reprovados.
+                    layout="cronista" (content/cronista.md -> _default/cronista.html).
+                    NÃO é post: sem cabeçalho de post, com cartão de identidade
+                    (retrato opcional + papel + fatos). Contagem de crônicas COMPUTADA.
+                    Prosa reusa .post-body. Corpo é PLACEHOLDER marcado — Nilton troca.
+                    `just links` agora reporta ZERO quebrados (era o último).
+                    ABERTO (opcional): o prompt vivo do #main digita comandos de POST
+                    ("ls -t posts/") mesmo aqui; poderia digitar "whoami"/"cat sobre.md"
+                    nesta rota. É mudança no prompt.js (hoje monta por id fixo, não por
+                    rota) — anotado, não feito. Fora do escopo "layout".
+  [x] 404.html — FEITO. Lighthouse: a11y 100 / bp 100 / SEO 100 / perf 98,
+        ZERO audits reprovados. Header e footer permanecem; a sidebar não é
+        renderizada (baseof, .Kind == "404") e o #main solta o max-width.
+        TUDO vem de data/404.toml: a frase (partida em prefix/link/middle/decay/
+        suffix), os 5 passos do apodrecimento, os timings e a lista de vídeos.
+        Mexer no easter egg não exige tocar em template.
+        >> Nilton: cole o Zalgo em decay_steps (hoje há placeholders por idioma).
+           O Zalgo fica SÓ no visual — o leitor de tela ouve o `decay` original.
+        DECISÕES DO NILTON: cancelar o redirect exige gesto DELIBERADO (play ou o
+        botão "ficar aqui" — scroll/mouse NÃO salvam); prefers-reduced-motion
+        desliga tudo (sem apodrecer, sem redirect).
+        A11Y (o que torna o easter egg aceitável): redirect VISÍVEL e CANCELÁVEL
+        (WCAG 2.2.1 — um prazo sem escape teleportaria quem lê devagar); o trecho
+        podre é aria-hidden com um .sr-only estável ao lado; o aviso ao leitor de
+        tela é dito UMA vez, não a cada segundo.
+        FACADE DO VÍDEO: o cartão é nosso e o iframe do youtube-nocookie só entra
+        no clique. Não é só privacidade — é a ÚNICA forma de saber que houve play
+        sem carregar a API do YouTube (um iframe de terceiro é caixa opaca).
+        ARMADILHAS (as duas já documentadas, e mordi as duas de novo):
+          - <a> de prosa fora do .post-body nasce AZUL do user-agent (1.9:1).
+            Criei .content-link como o opt-in oficial (post-body.css).
+          - JSON dentro de <script> precisa de | safeJS: sem ele o Hugo escapa e o
+            JSON.parse do cliente devolve uma STRING, não um objeto.
+        NÃO VERIFICADO no browser: prefers-reduced-motion (o ambiente automatizado
+        não emula a media query). O guard é uma linha (matchMedia) e está lá, mas
+        quem confirma é você: ligue "reduzir movimento" no SO e recarregue — não
+        deve haver contador nem apodrecimento.
+  [x] RSS       — FEITO (commit cd057bc). O Hugo já gerava; ninguém tinha olhado
+        DENTRO. Três defeitos corrigidos:
+          - feed INVISÍVEL: faltava <link rel=alternate> no head (o ícone do
+            footer não substitui — leitores procuram exatamente essa tag).
+          - o template embutido despejava o CORPO no <description>: markup de
+            shortcode ia junto, e 5 dos 6 posts entregariam "placeholder" ao
+            assinante. Trocado pelo ABSTRACT (tldr + tldr_long) — decisão do
+            Nilton. Template próprio: layouts/_default/rss.xml.
+          - description do canal era "Recent content on dablog" (string default
+            do Hugo, em INGLÊS, num site pt-BR que já declara a sua).
+        11 feeds MANTIDOS (home + /posts/ + 1 por tag): dá pra assinar um
+        recorte. O autodiscovery anuncia o feed DA PÁGINA ATUAL.
+        ARMADILHAS (as duas pegas pelo xmllint, não pela leitura):
+          - CDATA NÃO sobrevive: o Hugo escapa a saída do template -> o <p> vira
+            &lt;p&gt; e o ]]> fica solto. RSS 2.0 quer HTML ESCAPADO, não CDATA.
+          - markdownify emite entidades HTML nomeadas (&lsquo;/&rsquo;, do
+            smartypants). XML só define CINCO — &lsquo; é indefinido e o parser
+            recusa o documento INTEIRO. Os tl;dr entram crus.
+  [x] sitemap.xml — FEITO/CONFERIDO (mesmo commit). Nada a mudar: 17 URLs
+        (6 posts + 8 tags + 3 índices), lastmod em datetime W3C, tudo absoluto,
+        sem duplicata, sem listar os próprios .xml.
+        VALIDAÇÃO usada (não basta "xmllint passa"): parsear como um LEITOR faria
+        — campos obrigatórios do RSS 2.0, pubDate em RFC-822, <category> por tag,
+        e conferir que HTML de shortcode/placeholder NÃO vazou pro resumo.
+
+  [x] baseURL real em hugo.toml — FEITO. https://cronistaterminal.github.io/
+        Decisão do Nilton (2026-07-13): o host passa a ser GITHUB PAGES, não mais
+        Cloudflare Pages. Ver Bloco 9, reescrito.
+        Verificado: zero 'example.org' no build; 12 XML ainda válidos; as 17 urls
+        do sitemap e todos os links do RSS agora absolutos no domínio real.
+        >> É um site de USUÁRIO/ORG (…github.io na RAIZ), não project page. Isso
+           NEUTRALIZA a dívida dos paths absolutos hardcoded (/icons/, /logo/,
+           /fonts/ — nenhum passa por relURL): na raiz eles funcionam. Num
+           project page (…github.io/dablog/) quebrariam TODOS de uma vez.
+           Se um dia mudar para subpath, é ISSO que quebra primeiro.
+
+
+------------------------------------------------------------------
+BLOCO 7 — CATEGORIAS (novo eixo do modelo de dados)
+------------------------------------------------------------------
+Pedido do Nilton (2026-07-12). A tese: CATEGORIA é o eixo EDITORIAL — poucas,
+fixas, estáveis (a "seção" do arquivo). TAG é o assunto — muitas, livres,
+acumuláveis. Um post PERTENCE A uma categoria e FALA SOBRE n tags.
+
+No Hugo as duas são a mesma máquina (ambas `taxonomies`), e term.html/terms.html
+já servem as duas sem código novo. O custo real não é técnico — é editorial.
+
+  DECIDIDO:
+  [x] cardinalidade: EXATAMENTE UMA categoria por post.
+        É o que dá sentido a "mais fixa que as tags": vira eixo de navegação
+        confiável e o post-card pode exibi-la como rótulo único (não lista).
+        -> o build tem que VALIDAR: nenhum post sem categoria, nenhum com duas.
+           (Hugo não impõe cardinalidade — a checagem é nossa, no template ou
+           num hook de pre-commit.)
+
+  EM ABERTO (decidir COM o Nilton quando o bloco chegar — não assumir):
+  [ ] quais são as categorias? o vocabulário fechado precisa existir antes de
+        qualquer post ser marcado.
+  [ ] onde a categoria aparece na UI? candidatos discutidos, nenhum escolhido:
+        - rótulo no post-card e no single (forma DISTINTA do chip .tag — os dois
+          eixos não podem se confundir visualmente)
+        - itens fixos na nav da sidebar (é o que explora serem poucas e estáveis)
+        - página índice /categorias/ (pode ser redundante se já estão na nav)
+        - na palette / filtro do Pagefind (acopla ao Bloco 2)
+  [ ] idioma das URLs: /categorias/ (pt, consistente com o site) vs /categories/
+        (default do Hugo, consistente com o /tags/ que JÁ está no ar e linkado).
+        Se for pt, decidir se /tags/ também migra (/marcadores/?) — misturar os
+        dois idiomas nas rotas é o pior dos mundos.
+
+  IMPLEMENTAÇÃO (depende das decisões acima):
+  [ ] hugo.toml: religar a taxonomia `category`.
+        ATENÇÃO: o commit f4bc9da a DESLIGOU de propósito ([taxonomies] só com
+        `tag`), porque o default do Hugo gerava um /categories/ órfão e vazio.
+        Religar sem conteúdo real recria exatamente esse problema.
+  [ ] front matter dos posts: campo `categoria`/`category` nos 6 seeds
+        (+ archetypes/posts.md, p/ o próximo post já nascer com o campo)
+  [ ] CSS do rótulo de categoria (distinto do .tag)
+  [ ] atualizar a memória post-data-model (o modelo de dados muda: hoje ela
+        lista data/época/tldr/tldr_long/tags — categoria entra)
+
+
+------------------------------------------------------------------
+BLOCO 8 — SEO + ARQUIVO POR DATA/PERÍODO
+------------------------------------------------------------------
+Pedido do Nilton (2026-07-12). Duas frentes que se cruzam: o SEO do blog, e a
+decisão de linkar (ou não) as datas para recortes do arquivo.
+
+  FIO SOLTO QUE JÁ EXISTE NO CÓDIGO:
+  No post-card, a data E a época SÃO links — mas os dois apontam para o PRÓPRIO
+  post (.RelPermalink), o mesmo destino do título. Um link que promete um recorte
+  ("ver o período") e entrega a página do post. No single eles viraram <span>
+  (não-link), porque ali "linkar pro próprio post" não significa nada.
+  -> ou as datas ganham um destino REAL (o arquivo), ou deixam de ser links.
+     Hoje é o pior dos dois: cheiro de link sem função de link.
+
+  DECIDIDO (2026-07-17/19, commit f662015 — FRENTE A fechada):
+  [x] a data de publicação vira arquivo? NÃO como página navegável. Virou o
+        PERMALINK do post: /aaaa/mm/dd/<slug>/, slug = <kebab-titulo>-<4rand>
+        congelado no front matter (Hugo não tem random no permalink; tools/new-post.py
+        gera os 4 chars uma vez). /aaaa/ e /aaaa/mm/ NÃO são índices navegáveis.
+  [x] a ÉPOCA vira eixo navegável? NÃO. Os valores são FAIXAS ('1991–2016') que não
+        agrupam nem normalizam por década (cruzam 3) — viravam termos órfãos. Fica
+        texto de sabor. Reabrir só se virar vocabulário fechado.
+  [x] remover o href das datas no post-card. FEITO: data E época viram <span>
+        (espelham o single.html). Removidos os :hover junto — texto não-clicável
+        que acende ao mouse mente que é botão. Fim do "fio solto".
+
+  SEO — FRENTE B FECHADA (2026-07-19). Tudo no layouts/partials/head.html:
+  [x] <meta name="description"> por PÁGINA — tldr do post; fora de post cai na do site.
+  [x] Open Graph + Twitter Card — og:type article/website conforme .Type; og:image =
+        /og/card.png (o card 1200x630 renderizado da mãe c-term-icon.svg, absoluto).
+        summary_large_image no Twitter.
+  [x] canonical link — .Permalink absoluto.
+  [x] JSON-LD BlogPosting (só em post) — headline/description/datePublished/dateModified/
+        author(persona)/publisher/image. jsonify + safeJS (senão vira entidade HTML).
+        Verificado: parseia como JSON válido.
+  [x] robots.txt — enableRobotsTXT + layouts/robots.txt; Sitemap absoluto pela baseURL.
+  [x] sitemap.xml — FEITO/CONFERIDO no Bloco 6 (cd057bc). 17 urls, lastmod W3C.
+  [x] RSS — FEITO no Bloco 6 (cd057bc): autodiscovery no head + template próprio
+        (feed leva o ABSTRACT, não o corpo). 11 feeds, um por tag.
+  [x] baseURL real — FEITO no Bloco 6: https://cronistaterminal.github.io/
+        DESBLOQUEIA canonical, og:url e o sitemap (todos exigem url absoluta).
+  [x] <html lang> — ok (pt-br, via .Site.Language.Locale). Confirmado no build.
+  [x] títulos de página — ok (.Title · dablog; taxonomia usa o termo cru). Confirmado.
+
+
+------------------------------------------------------------------
+BLOCO 9 — DEPLOY (GitHub Pages)                << POR ÚLTIMO, DE PROPÓSITO
+------------------------------------------------------------------
+Decisão do Nilton (2026-07-12): deploy fica para o fim. Nada aqui bloqueia o
+desenvolvimento local — mas TUDO aqui bloqueia o site funcionar no ar.
+Decisão do Nilton (2026-07-13): o host é GITHUB PAGES, não Cloudflare Pages.
+URL: https://cronistaterminal.github.io/  (já fixada no hugo.toml — Bloco 6)
+
+  NÃO É PROBLEMA (registrado p/ não ser levantado de novo): o nome da PASTA local
+  é temporário e irrelevante — o que decide a URL é o repo/origin, e o Nilton
+  aponta a origin corretamente. Serve na RAIZ (site de usuário/org), não em
+  subpath — que é o que mantém os paths absolutos (/icons/, /logo/) funcionando.
+
+  [x] baseURL real   -> FEITO no Bloco 6.
+
+  [ ] GITHUB ACTIONS — a diferença REAL para o Cloudflare.
+        O CF Pages tinha build nativo (você dava o comando na UI). O GitHub Pages
+        NÃO constrói nada: ou você publica HTML pronto, ou monta um workflow.
+        Então o `just build` precisa virar um .github/workflows/*.yml:
+          hugo (EXTENDED, versão pinada) -> npx pagefind --site public -> deploy
+        Passos: actions/configure-pages, actions/upload-pages-artifact (public/),
+        actions/deploy-pages.
+
+  [ ] NODE no workflow — o build MUDOU no Bloco 2 e exige `npx pagefind`.
+        Se subir sem isso: o site vai ao ar com a palette em ESTADO ZERO e a busca
+        MORTA ao digitar (o import de /pagefind/pagefind.js dá 404; o palette.js
+        degrada suave e mostra "busca indisponível", mas busca não existe).
+
+  [ ] HUGO_VERSION pinada no workflow = a do `hugo version` local
+        (hoje: v0.164.0+extended+withdeploy). Tem que ser a EXTENDED.
+
+  [ ] .nojekyll — VERIFICAR, não assumir. O GitHub Pages roda Jekyll por padrão,
+        e o Jekyll IGNORA arquivos/pastas que começam com underscore. Publicando
+        via artifact (actions/deploy-pages) o Jekyll não entra no caminho; via
+        branch gh-pages, entra. Confirmar qual caminho usamos e, na dúvida, um
+        .nojekyll na raiz do public/ custa nada.
+
+  [ ] /pagefind/ servido corretamente — CONFERIR NO AR, não assumir.
+        O GitHub Pages NÃO permite custom headers (o CF permitia). O Pagefind
+        carrega .wasm e binários do índice; se o Content-Type de .wasm vier
+        errado, a busca morre em produção e passa no local. Testar a busca DEPOIS
+        do deploy, não só no preview.
+
+  [ ] 404 — sinergia com o Bloco 6: o GitHub Pages serve /404.html
+        automaticamente. Fazer o do Bloco 6 já resolve este.
+
+  [ ] domínio próprio / DNS — só se sair do …github.io (CNAME + config).
+
+
+------------------------------------------------------------------
+GATES antes de considerar qualquer bloco pronto
+------------------------------------------------------------------
+  - pre-commit passa (inclui `hugo` build validando templates/config/SCSS)
+  - navegação por teclado à mão (Tab / Esc / setas)
+  - Lighthouse a11y + perf = 100 (Brave via CHROME_PATH; ver memória
+    local-dev-validation)
+  - revisão com Claude-in-Chrome no estado cru, não no veredito de script
