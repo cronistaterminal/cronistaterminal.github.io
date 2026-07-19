@@ -101,6 +101,64 @@
     mask: url(/icons/close.svg) center / contain no-repeat;
 }
 
+/* ── Filtros de faceta ─────────────────────────────────────────────────
+   Chips toggle (tag/época) que reusam a FAMÍLIA visual da .tag: fundo chapado
+   --accent-mute + texto apagado --chip-text (par calibrado >= AA nos 8 temas).
+   Um toggle precisa de 3 estados distintos, não 2: repouso, hover (só a borda
+   acende, sem mexer no par de cor) e LIGADO (aria-pressed -> accent cheio +
+   texto invertido, o mesmo salto do .tag:hover). Começa [hidden] no template;
+   o palette.js revela — o filtro é recurso JS+Pagefind. */
+.palette-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.palette-filters[hidden] {
+    display: none;
+}
+
+.palette-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4ch;
+    padding: 0.12rem 0.6rem;
+    background-color: var(--accent-mute);
+    color: var(--chip-text);
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    font: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+/* Hover de um chip DESLIGADO: só a borda acende — sinaliza "clicável" sem virar
+   o par de cor (--accent sobre --accent-mute reprova em vários temas). */
+.palette-filter[aria-pressed="false"]:hover {
+    border-color: var(--accent);
+}
+
+/* LIGADO: o mesmo salto do .tag:hover — fundo accent cheio, texto invertido.
+   Inconfundível ao lado dos chips apagados. */
+.palette-filter[aria-pressed="true"] {
+    background-color: var(--accent);
+    color: var(--background);
+    border-color: var(--accent);
+}
+
+/* Número do atalho ([1]..[9]) e contagem: dim via OPACITY, não cor — o chip
+   inverte texto<->fundo ao ligar, e opacity escurece relativo ao texto vigente
+   nos DOIS estados (mesmo truque do .tag-count). */
+.filter-num {
+    opacity: 0.6;
+    font-size: 0.9em;
+}
+
+.filter-count {
+    opacity: 0.6;
+}
+
 /* Status da busca ("3 posts encontrados", "nenhum post encontrado…"). É uma
    região viva (role=status/aria-live): a lista se reescreve enquanto o foco fica
    no input, e sem isto a troca seria SILENCIOSA para o leitor de tela.

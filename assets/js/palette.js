@@ -35,6 +35,7 @@
     const list = document.getElementById("palette-results");
     const status = document.getElementById("palette-status");
     const page = document.getElementById("page");
+    const filtersRegion = document.getElementById("palette-filters");
     if (!backdrop || !input || !list) return;
 
     const DEFAULT_COMMAND = "search"; // buscar é o default — novos comandos entram aqui
@@ -43,8 +44,33 @@
     const isOpen = () => !backdrop.hidden;
 
     // O HTML do estado zero, guardado ANTES de qualquer busca: é para cá que a
-    // lista volta quando o campo é limpo.
+    // lista volta quando o campo é limpo E nenhum filtro está ligado.
     const zeroStateHTML = list.innerHTML;
+
+    // ── Filtros de faceta (tag/época) ─────────────────────────────────────
+    // "Filtros quietos" (decisão do Nilton, 2026-07-19): o foco fica no input;
+    // os chips (tabindex=-1) alternam por clique ou por Alt+N. O aria-pressed do
+    // botão é a ÚNICA fonte da verdade — activeFilters() lê o DOM, sem estado
+    // paralelo para dessincronizar. Vazio se nada estiver ligado.
+    const filterBtns = filtersRegion
+        ? Array.from(filtersRegion.querySelectorAll(".palette-filter"))
+        : [];
+
+    const activeFilters = () => {
+        const byType = {};
+        filterBtns.forEach((b) => {
+            if (b.getAttribute("aria-pressed") === "true") {
+                (byType[b.dataset.filterType] ||= []).push(b.dataset.filterValue);
+            }
+        });
+        // { any: [...] } = OU DENTRO da faceta (somar tags amplia o conjunto). A
+        // Pagefind combina chaves diferentes (tag vs época) com E — faceta clássica:
+        // OU dentro, E entre. MEDIDO no índice: o array cru default seria E (o
+        // oposto do que se quer), então o { any } é obrigatório, não estilo.
+        const f = {};
+        for (const t in byType) f[t] = { any: byType[t] };
+        return f;
+    };
 
     // ── Navegação por teclado (combobox + aria-activedescendant) ──────────
     // O foco FICA no input; ↑/↓ movem um "ativo" virtual; Enter abre o post.
@@ -149,10 +175,14 @@
         syncOptions();
     };
 
-    const runSearch = async (q) => {
+    const runSearch = async () => {
         const mine = ++token;
+        const q = input.value.trim();
+        const filters = activeFilters();
+        const filtered = Object.keys(filters).length > 0;
 
-        if (!q) { showZeroState(); return; }
+        // Sem termo E sem filtro: volta ao estado zero (a lista do Hugo).
+        if (!q && !filtered) { showZeroState(); return; }
 
         let pf;
         try {
@@ -166,7 +196,10 @@
         }
         if (mine !== token) return; // já fui superado enquanto carregava
 
-        const search = await pf.search(q);
+        // Termo vazio + filtro ligado: passar null como termo devolve TODOS os
+        // docs que batem no filtro (a Pagefind aceita busca só-por-filtro). Sem
+        // filtro, não mandamos a chave — search(q) puro preserva o ranking fuzzy.
+        const search = await pf.search(q || null, filtered ? { filters } : undefined);
         if (mine !== token) return; // idem, enquanto buscava
 
         // Só pedimos os dados dos hits que vamos DESENHAR: o data() de cada
@@ -176,7 +209,7 @@
 
         if (!hits.length) {
             list.innerHTML = "";
-            say(`nenhum post encontrado para “${q}”.`);
+            say(q ? `nenhum post encontrado para “${q}”.` : "nenhum post com esse filtro.");
             syncOptions();
             return;
         }
@@ -192,9 +225,40 @@
     let timer = null;
     input.addEventListener("input", () => {
         clearTimeout(timer);
-        const q = input.value.trim();
-        timer = setTimeout(() => runSearch(q), 120);
+        timer = setTimeout(runSearch, 120);
     });
+
+    // ── Toggle de filtro ──────────────────────────────────────────────────
+    // Alterna o aria-pressed do chip e re-roda a busca. O foco VOLTA pro input:
+    // clicar um <button> o roubaria, e o contrato é "foco sempre no input".
+    // Anuncia o estado no status (região viva) — o único sinal para quem não vê
+    // a cor do chip mudar.
+    const toggleFilter = (btn) => {
+        const on = btn.getAttribute("aria-pressed") === "true";
+        btn.setAttribute("aria-pressed", on ? "false" : "true");
+        say(`${on ? "removido" : "aplicado"} o filtro ${btn.dataset.filterValue}.`);
+        runSearch();
+        input.focus();
+    };
+    filterBtns.forEach((b) => b.addEventListener("click", () => toggleFilter(b)));
+
+    // Numera os 9 primeiros chips ([1]..[9]) e anuncia o atalho via
+    // aria-keyshortcuts, e revela a região (começa [hidden] no template: o
+    // filtro é um recurso JS+Pagefind). O número é aria-hidden — dica de mouse
+    // redundante; quem lê tela ouve o atalho pelo aria-keyshortcuts.
+    const syncFilters = () => {
+        if (!filterBtns.length) return;
+        filtersRegion.hidden = false;
+        filterBtns.forEach((b, i) => {
+            if (i >= 9) return; // Alt+1..9 cobre os 9 primeiros; a cauda é só-clique
+            b.setAttribute("aria-keyshortcuts", `Alt+${i + 1}`);
+            const num = document.createElement("span");
+            num.className = "filter-num";
+            num.setAttribute("aria-hidden", "true");
+            num.textContent = i + 1;
+            b.prepend(num);
+        });
+    };
 
     const open = (command = DEFAULT_COMMAND) => {
         if (isOpen()) return;
@@ -204,6 +268,8 @@
         document.body.style.overflow = "hidden";  // scroll lock
         // (command só diferencia quando houver >1; hoje todos caem na busca)
         input.value = "";
+        // reabre limpa: sem termo E sem filtro ligado, senão o estado zero mentiria
+        filterBtns.forEach((b) => b.setAttribute("aria-pressed", "false"));
         showZeroState();                          // reabre sempre no estado zero
         input.focus();
     };
@@ -225,6 +291,13 @@
         } else if (e.key === "Escape" && isOpen()) {
             close();
         } else if (isOpen()) {
+            // Alt+1..9: liga/desliga o chip de filtro N sem tirar o foco do input.
+            // e.code (tecla física) em vez de e.key: com Alt segurado alguns
+            // layouts trocam o e.key do dígito, mas Digit1..9 é estável.
+            if (e.altKey && /^Digit[1-9]$/.test(e.code)) {
+                const btn = filterBtns[Number(e.code.slice(5)) - 1];
+                if (btn) { e.preventDefault(); toggleFilter(btn); return; }
+            }
             // Foco fica no input (modal + #page inert -> sem escape). ↑/↓ movem a
             // seleção; Tab alterna o tl;dr do resultado ativo; Enter abre o post.
             // ←/→ ficam livres p/ editar o texto da busca.
@@ -256,5 +329,6 @@
         });
     });
 
+    syncFilters(); // numera/revela os chips de filtro
     syncOptions(); // liga o teclado à lista do estado zero
 })();

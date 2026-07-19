@@ -33,6 +33,35 @@
         aria-expanded="true" aria-controls="palette-results" aria-autocomplete="list">
     </div>
 
+    {{- /* Facetas de filtro. As tags e a época já entram no índice do Pagefind
+           por marcação no single.html (data-pagefind-filter); aqui a UI as usa.
+           Renderizadas pelo Hugo (progressive enhancement), mas a região começa
+           [hidden]: o palette.js a revela e numera os chips ([1]..[9]) — o filtro
+           é um recurso JS+Pagefind, e sem JS a palette nem abre.
+
+           MODELO (decisão do Nilton, 2026-07-19): "filtros quietos". O foco NUNCA
+           sai do input; os chips têm tabindex=-1 (fora da ordem de Tab, que segue
+           expandindo o tl;dr) e alternam por clique OU por Alt+N a partir do input.
+
+           tag: os 9 mais usados (first 9 .ByCount) — cabe no Alt+1..9, e "ver todas"
+                na sidebar cobre a cauda. época: só as que AGRUPAM (>= 2 posts); com
+                posts 1:1 por época (hoje) um chip de época casaria 1 post — ruído.
+                O caminho existe e liga sozinho quando uma época ganhar o 2o post. */ -}}
+    <div id="palette-filters" class="palette-filters" role="group" aria-label="Filtrar resultados" hidden>
+      {{- range first 9 site.Taxonomies.tags.ByCount }}
+      <button type="button" class="palette-filter" tabindex="-1" aria-pressed="false"
+        data-filter-type="tag" data-filter-value="{{ .Name }}"
+        aria-label="filtrar por {{ .Name }} ({{ .Count }} posts)"><span class="filter-label">{{ .Name }}</span><span class="filter-count" aria-hidden="true">{{ .Count }}</span></button>
+      {{- end }}
+      {{- range (where site.RegularPages "Type" "posts").GroupByParam "epoca" }}
+      {{- if ge (len .Pages) 2 }}
+      <button type="button" class="palette-filter" tabindex="-1" aria-pressed="false"
+        data-filter-type="epoca" data-filter-value="{{ .Key }}"
+        aria-label="filtrar por época {{ .Key }} ({{ len .Pages }} posts)"><span class="filter-label">{{ .Key }}</span><span class="filter-count" aria-hidden="true">{{ len .Pages }}</span></button>
+      {{- end }}
+      {{- end }}
+    </div>
+
     {{- /* Região viva: anuncia ao leitor de tela quantos resultados a busca
            devolveu (a lista muda sem que o foco saia do input — sem isto, a
            troca seria silenciosa). aria-live="polite" não interrompe a digitação.
@@ -54,7 +83,8 @@
     </ul>
 
     <p class="palette-hint" aria-hidden="true"><kbd>↑</kbd><kbd>↓</kbd> mover · <kbd>Tab</kbd> tl;dr ·
-      <kbd>Enter</kbd> abrir · <span class="hint-close"><kbd>Esc</kbd> fechar</span>
+      <kbd>Alt</kbd><kbd>N</kbd> filtrar · <kbd>Enter</kbd> abrir ·
+      <span class="hint-close"><kbd>Esc</kbd> fechar</span>
     </p>
   </div>
 </div>
