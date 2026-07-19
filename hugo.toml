@@ -13,10 +13,17 @@ locale = 'pt-br'
 defaultContentLanguage = 'pt-br'
 title = 'dablog'
 
+# robots.txt gerado pelo Hugo (layouts/robots.txt) em vez de estático: assim ele
+# aponta o Sitemap pela baseURL, sem hardcode de domínio.
+enableRobotsTXT = true
+
 # O blog é arquivo cronológico; sumários/listas vêm dos campos do front matter,
 # não do markdown bruto. Mantido enxuto por ora — cresce com os componentes.
 [params]
   description = 'Crônicas de um terminal — histórias de computação, contadas por época.'
+  # author: usado no JSON-LD (schema.org author/publisher) e no article:author. É a
+  # PERSONA (a alcunha do /cronista/), não o nome real — é a voz que assina o blog.
+  author = 'O Cronista Terminal'
 
 # pagerSize baixo de propósito enquanto há poucos posts seed: força >1 página p/
 # validar o componente de paginação (janela primeira/prev/atual/próxima). Subir

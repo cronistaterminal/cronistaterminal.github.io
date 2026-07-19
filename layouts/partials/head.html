@@ -17,7 +17,55 @@
        .Data.Term traz o termo cru do front matter — mesmo texto dos chips .tag. */ -}}
 {{- $name := or .Data.Term .Title -}}
 <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ $name }} · {{ .Site.Title }}{{ end }}</title>
-{{ with .Site.Params.description }}<meta name="description" content="{{ . }}">{{ end }}
+
+{{- /* SEO. A description por PÁGINA usa o tldr do post (a description natural); fora de
+       post cai na do site. og:image é o card 1200x630, sempre absoluto (baseURL fixado).
+       article:* e o JSON-LD BlogPosting só saem em post (eq .Type "posts" — o /cronista/
+       é .Type "page", fica de fora). $ptitle espelha a regra do <title>: título do site
+       na home, $name (que prefere o termo cru da taxonomia) no resto. */ -}}
+{{- $desc := .Params.tldr | default .Params.description | default .Site.Params.description -}}
+{{- $ptitle := cond .IsHome .Site.Title $name -}}
+{{- $isPost := eq .Type "posts" -}}
+{{- $ogimg := "og/card.png" | absURL -}}
+<meta name="description" content="{{ $desc }}">
+<link rel="canonical" href="{{ .Permalink }}">
+
+<meta property="og:type" content="{{ cond $isPost "article" "website" }}">
+<meta property="og:site_name" content="{{ .Site.Title }}">
+<meta property="og:title" content="{{ $ptitle }}">
+<meta property="og:description" content="{{ $desc }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:image" content="{{ $ogimg }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+{{- if $isPost }}
+<meta property="article:published_time" content="{{ .Date.Format "2006-01-02" }}">
+{{- with .Site.Params.author }}<meta property="article:author" content="{{ . }}">{{ end }}
+{{- end }}
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ $ptitle }}">
+<meta name="twitter:description" content="{{ $desc }}">
+<meta name="twitter:image" content="{{ $ogimg }}">
+{{- if $isPost }}
+{{- /* JSON-LD BlogPosting. jsonify + safeJS: sem safeJS o Hugo escapa a saída e o
+       parser do buscador recebe entidades HTML em vez de JSON (a mesma armadilha do
+       CLAUDE.md). datePublished é date-only — o front matter não tem hora. */ -}}
+{{- $ld := dict
+  "@context" "https://schema.org"
+  "@type" "BlogPosting"
+  "headline" .Title
+  "description" $desc
+  "datePublished" (.Date.Format "2006-01-02")
+  "dateModified" (.Lastmod.Format "2006-01-02")
+  "url" .Permalink
+  "mainEntityOfPage" .Permalink
+  "image" $ogimg
+  "author" (dict "@type" "Person" "name" (.Site.Params.author | default .Site.Title))
+  "publisher" (dict "@type" "Organization" "name" .Site.Title)
+-}}
+<script type="application/ld+json">{{ $ld | jsonify | safeJS }}</script>
+{{- end }}
 
 {{- /* Autodiscovery do RSS. Sem isto o feed EXISTE mas ninguém o acha: leitores de feed e
        browsers procuram exatamente esta tag, e o ícone do footer não substitui.
