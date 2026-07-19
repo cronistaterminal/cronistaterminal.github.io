@@ -1,0 +1,42 @@
+<!-- c-term-icon.svg — a MAE do icone C.T (fonte-de-verdade, recuperada em 2026-07-19).
+     Os PNGs de favicon foram queimados desta forma; o SVG original nunca tinha sido salvo.
+
+     Composicao, na viewBox "16 5 100 100" (a mesma do .logo-icon em layouts/partials/logo.html):
+       - 6 faixas CRT + scanline: geometria VETORIAL reaproveitada verbatim do logo.html.
+       - cores: snapshot FIXO do tema default (tokens stripe-1 a stripe-6). Auto-contido de
+         proposito (um .svg nao tem contexto de tema); casa com o favicon, que tambem e default.
+       - "C.T": glifos REAIS da 3270 Nerd Font (Regular), extraidos como path via fontTools
+         (NAO e tracado a mao). Gap proprio (a fonte e mono-ish; advance widths deixariam
+         buracos), escala uniforme pela altura, centralizado.
+       - glifo em #ECEAE5 (a cor foreground do default, medida no favicon).
+
+     Re-render em PNG: rsvg-convert -w N -h N c-term-icon.svg. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="16 5 100 100">
+  <defs>
+    <pattern id="scan" patternUnits="userSpaceOnUse" width="380" height="3">
+      <rect width="380" height="1" y="2" fill="#000000" fill-opacity="0.60"/>
+    </pattern>
+    <clipPath id="bands">
+      <path d="M 24.00 12.00 Q 66.00 -2.00 108.00 12.00 L 110.40 20.10 Q 66.00 8.70 21.60 20.10 Z"/>
+      <path d="M 21.10 22.10 Q 66.00 11.30 110.90 22.10 L 113.40 34.80 Q 66.00 28.20 18.60 34.80 Z"/>
+      <path d="M 18.30 36.80 Q 66.00 30.80 113.70 36.80 L 115.00 54.00 Q 66.00 53.70 17.00 54.00 Z"/>
+      <path d="M 17.00 56.00 Q 66.00 56.30 115.00 56.00 L 113.70 73.20 Q 66.00 79.20 18.30 73.20 Z"/>
+      <path d="M 18.60 75.20 Q 66.00 81.80 113.40 75.20 L 110.90 87.90 Q 66.00 98.70 21.10 87.90 Z"/>
+      <path d="M 21.60 89.90 Q 66.00 101.30 110.40 89.90 L 108.00 98.00 Q 66.00 112.00 24.00 98.00 Z"/>
+    </clipPath>
+  </defs>
+  <g>
+    <path fill="#E5141E" d="M 24.00 12.00 Q 66.00 -2.00 108.00 12.00 L 110.40 20.10 Q 66.00 8.70 21.60 20.10 Z"/>
+    <path fill="#D60270" d="M 21.10 22.10 Q 66.00 11.30 110.90 22.10 L 113.40 34.80 Q 66.00 28.20 18.60 34.80 Z"/>
+    <path fill="#9B4F96" d="M 18.30 36.80 Q 66.00 30.80 113.70 36.80 L 115.00 54.00 Q 66.00 53.70 17.00 54.00 Z"/>
+    <path fill="#0038A8" d="M 17.00 56.00 Q 66.00 56.30 115.00 56.00 L 113.70 73.20 Q 66.00 79.20 18.30 73.20 Z"/>
+    <path fill="#3E31A2" d="M 18.60 75.20 Q 66.00 81.80 113.40 75.20 L 110.90 87.90 Q 66.00 98.70 21.10 87.90 Z"/>
+    <path fill="#008F11" d="M 21.60 89.90 Q 66.00 101.30 110.40 89.90 L 108.00 98.00 Q 66.00 112.00 24.00 98.00 Z"/>
+  </g>
+  <rect x="10" y="0" width="120" height="120" fill="url(#scan)" clip-path="url(#bands)"/>
+  <g fill="#ECEAE5">
+    <path d="M59.70 41.34 57.02 44.03 53.63 40.77H47.44L36.96 51.24V57.69L47.50 68.17H53.57L56.89 64.66L59.70 67.34L55.80 71.43Q55.23 72.00 54.40 72.00H46.73Q46.03 72.00 45.39 71.36L33.71 59.86Q33.13 59.29 33.13 58.52V50.48Q33.13 49.65 33.64 49.14L45.33 37.51Q45.84 37.00 46.67 37.00H54.40Q55.29 37.00 55.74 37.45Z"/>
+    <path d="M62.20 64.85H69.80V71.94H62.20Z"/>
+    <path d="M72.30 37.00H98.87V40.83H87.50V72.00H83.67V40.83H72.30Z"/>
+  </g>
+</svg>
