@@ -1,0 +1,91 @@
+# Deploy do dablog no GitHub Pages.
+#
+# O GitHub Pages NÃO constrói Hugo — ele só serve arquivos. Este workflow faz o
+# build (Hugo extended + Pagefind) e publica o public/ como artefato de Pages.
+#
+# PRÉ-REQUISITO no repositório (Settings › Pages › Build and deployment): a
+# fonte tem que ser "GitHub Actions", não "Deploy from a branch". Sem isso o
+# passo deploy-pages falha — é a única peça que não dá para versionar aqui.
+#
+# Site de USUÁRIO/ORG (cronistaterminal.github.io) → servido na RAIZ. A baseURL
+# já está fixada no hugo.toml e NÃO a sobrescrevemos aqui: um subpath quebraria
+# os paths absolutos /icons/, /logo/, /fonts/ de uma vez.
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  # Dispara à mão pela aba Actions, sem precisar de um push.
+  workflow_dispatch:
+
+# Permissões mínimas para publicar em Pages via OIDC (id-token).
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Uma publicação por vez. cancel-in-progress: false deixa uma publicação em
+# curso TERMINAR em vez de abortá-la no meio — um deploy cancelado na metade
+# serve um site parcial.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # Pinado = o `hugo version` local. TEM que ser a extended (SCSS + withdeploy).
+      HUGO_VERSION: 0.164.0
+      # Pinado para build determinístico: o índice de busca não deve variar entre
+      # publicações porque um @latest andou. (O `just build` local usa @latest; o
+      # deploy prefere reprodutibilidade.)
+      PAGEFIND_VERSION: 1.5.2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Instala o Hugo extended (versão pinada)
+        # .deb oficial em vez de uma action de terceiro: menos superfície de
+        # confiança e a versão casa exatamente com a local. -f falha em HTTP 4xx/5xx
+        # (curl não trata 404 como erro por padrão) — sem isso um release inexistente
+        # baixaria uma página de erro e o dpkg quebraria com uma mensagem obscura.
+        run: |
+          curl -sSLf -o /tmp/hugo.deb \
+            "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb"
+          sudo dpkg -i /tmp/hugo.deb
+
+      - name: Setup Node (para o Pagefind)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build do Hugo
+        # A mesma linha do `just build`: --minify liga o strip de comentários do
+        # bundle JS/CSS. Sem --baseURL: a do hugo.toml é a correta (site na raiz).
+        run: hugo --gc --minify
+
+      - name: Índice de busca (Pagefind)
+        # Roda DEPOIS do Hugo, sobre o HTML já renderizado em public/. Sem este
+        # passo o /pagefind/pagefind.js dá 404 e a busca sobe morta (o palette.js
+        # degrada suave, mas não há busca).
+        run: npx --yes "pagefind@${PAGEFIND_VERSION}" --site public
+
+      - name: Upload do artefato
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy no Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
