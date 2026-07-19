@@ -1,5 +1,6 @@
 +++
 title = 'Watchmen e a arquitetura de uma conspiração'
+slug = 'watchmen-e-a-arquitetura-de-uma-conspiracao-75x3'
 date = 2026-04-27
 draft = false
 num = 1220

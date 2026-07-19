@@ -1,5 +1,6 @@
 +++
 title = 'O verão em que aprendi a quebrar (e respeitar) criptografia'
+slug = 'o-verao-em-que-aprendi-a-quebrar-e-respeitar-criptografia-3d15'
 date = 2026-05-11
 draft = false
 num = 1225

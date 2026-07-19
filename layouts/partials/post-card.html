@@ -29,16 +29,20 @@
          tela), então vai acompanhado de um .sr-only. */ -}}
   <div class="post-row">
     <div class="post-meta">
+      {{- /* Data e época NÃO são links (decisão 2026-07-17): /aaaa/ e /aaaa/mm/ não
+             são navegáveis, então não há recorte para apontar. Viram <span> (as classes
+             seguem p/ o CSS reusar), igual ao single.html. O <a href=".RelPermalink">
+             daqui era o "fio solto" — prometia um recorte e entregava o próprio post. */ -}}
       <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}" title="Data de publicação">
-        <a class="post-date-link" href="{{ .RelPermalink }}">
+        <span class="post-date-link">
           <span class="sr-only">Publicado em: </span>
           <span class="post-day">{{ .Date.Format "02" }}</span>
           <span class="post-month" data-mon="{{ index $monthsAbbr $mi }}">{{ index $monthsFull $mi }}</span>
           <span class="post-year">{{ .Date.Format "2006" }}</span>
-        </a>
+        </span>
       </time>
       {{- with .Params.epoca }}
-      <a class="post-era" href="{{ $.RelPermalink }}" title="Período retratado"><span class="sr-only">Época retratada: </span>{{ . }}</a>
+      <span class="post-era" title="Período retratado"><span class="sr-only">Época retratada: </span>{{ . }}</span>
       {{- end }}
     </div>
 

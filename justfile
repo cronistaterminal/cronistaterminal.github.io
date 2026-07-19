@@ -195,3 +195,8 @@ decay-edit:
 # Recodifica .decay.txt -> data/decay.toml (base64), com round-trip verificado.
 decay-save:
     python3 tools/decay.py encode
+
+# Cria um post com o slug já congelado (kebab do título + 4 chars aleatórios). Os 4
+# chars são gerados AQUI, uma vez — o Hugo não tem random no permalink. Ver tools/new-post.py.
+new-post title:
+    @python3 tools/new-post.py "{{ title }}"

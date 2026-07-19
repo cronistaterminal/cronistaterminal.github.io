@@ -1,5 +1,6 @@
 +++
 title = 'Django, o framework que nasceu numa redação de jornal'
+slug = 'django-o-framework-que-nasceu-numa-redacao-de-jornal-yckh'
 date = 2026-05-25
 draft = false
 num = 1228

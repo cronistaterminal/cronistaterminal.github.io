@@ -1,5 +1,6 @@
 +++
 title = 'A história do funeral do meu pai'
+slug = 'a-historia-do-funeral-do-meu-pai-7auj'
 date = 2026-07-06
 draft = false
 num = 1234

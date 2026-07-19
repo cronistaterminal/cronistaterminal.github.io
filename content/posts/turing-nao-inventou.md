@@ -1,5 +1,6 @@
 +++
 title = 'Turing não inventou o computador (e por que isso importa)'
+slug = 'turing-nao-inventou-o-computador-e-por-que-isso-importa-85dz'
 date = 2026-06-08
 draft = false
 num = 1230

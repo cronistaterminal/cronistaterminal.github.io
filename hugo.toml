@@ -44,3 +44,13 @@ title = 'dablog'
 # categoria — ver o front matter: num/epoca/tldr/tldr_long/tags).
 [taxonomies]
   tag = 'tags'
+
+# URL dos posts: /aaaa/mm/dd/<slug>/. O :slug vem do front matter (NÃO do title
+# urlizado): cada post carrega um `slug = "<kebab-do-titulo>-<4rand>"` congelado —
+# os 4 caracteres aleatórios são gerados UMA vez (tools/new-post.py) e nunca mudam,
+# porque URL é contrato. O Hugo não tem token de random no permalink (build é
+# determinístico), então a entropia mora no conteúdo, não aqui.
+# /aaaa/ e /aaaa/mm/ NÃO são páginas navegáveis (decisão do Nilton, 2026-07-17) —
+# são só segmentos de caminho; a data no post-card é texto, não link.
+[permalinks]
+  posts = '/:year/:month/:day/:slug/'

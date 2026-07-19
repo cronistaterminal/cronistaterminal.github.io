@@ -94,8 +94,8 @@
     border: 1px solid var(--accent-line);
     border-radius: var(--radius);
     text-align: center;
-    transition: border-color 0.15s ease, color 0.15s ease;
-    /* acende a borda no hover (data/época são links agora) */
+    /* NÃO são links (nem no card, nem no single): sem :hover — texto não-clicável
+       que acende ao mouse mente que é botão. Ver decisão de 2026-07-17. */
 }
 
 .post-date {
@@ -117,9 +117,8 @@
     background: var(--bar);
 }
 
-/* O <a> da data preenche a caixa (padding aqui -> área clicável = box todo).
-   Empilha dia/mês/ano. Hover acende o texto; a borda acende junto via
-   .post-date:hover (link preenche o box, então hover no box = hover no link). */
+/* A caixa da data (<span>): o padding aqui dá o respiro interno do box.
+   Empilha dia/mês/ano. */
 .post-date-link {
     display: flex;
     flex-direction: column;
@@ -127,15 +126,6 @@
     padding: 0.7rem 1.3rem;
     line-height: 1.15;
     color: var(--foreground);
-    text-decoration: none;
-}
-
-.post-date:hover {
-    border-color: var(--accent);
-}
-
-.post-date-link:hover {
-    color: var(--accent);
 }
 
 .post-day {
@@ -152,12 +142,6 @@
     padding: 0.35rem 0.6rem;
     font-size: 0.95rem;
     color: color-mix(in srgb, var(--foreground) 80%, transparent);
-    text-decoration: none;
-}
-
-.post-era:hover {
-    border-color: var(--accent);
-    color: var(--accent);
 }
 
 /* Coluna de conteúdo: título, TL;DRs, ações. */

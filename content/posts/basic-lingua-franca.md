@@ -1,5 +1,6 @@
 +++
 title = 'Quando o BASIC era a língua franca dos quartos'
+slug = 'quando-o-basic-era-a-lingua-franca-dos-quartos-2wn8'
 date = 2026-06-22
 draft = false
 num = 1233
