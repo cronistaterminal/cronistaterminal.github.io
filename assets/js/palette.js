@@ -207,16 +207,25 @@
         const hits = await Promise.all(search.results.slice(0, 20).map((r) => r.data()));
         if (mine !== token) return;
 
+        // Sufixo com os filtros ligados: a contagem sozinha não diz POR QUE o
+        // conjunto encolheu. Como é o texto FINAL do status, sobrevive à
+        // coalescência do aria-live polite (o ponto do achado do review).
+        const on = filterBtns
+            .filter((b) => b.getAttribute("aria-pressed") === "true")
+            .map((b) => b.dataset.filterValue);
+        const suffix = on.length ? ` · filtro: ${on.join(", ")}` : "";
+
         if (!hits.length) {
             list.innerHTML = "";
-            say(q ? `nenhum post encontrado para “${q}”.` : "nenhum post com esse filtro.");
+            const base = q ? `nenhum post encontrado para “${q}”` : "nenhum post com esse filtro";
+            say(`${base}${suffix}.`);
             syncOptions();
             return;
         }
 
         list.innerHTML = hits.map(hitHTML).join("");
         const n = search.results.length;
-        say(`${n} ${n === 1 ? "post encontrado" : "posts encontrados"}.`);
+        say(`${n} ${n === 1 ? "post encontrado" : "posts encontrados"}${suffix}.`);
         syncOptions();
     };
 
@@ -233,14 +242,30 @@
     // clicar um <button> o roubaria, e o contrato é "foco sempre no input".
     // Anuncia o estado no status (região viva) — o único sinal para quem não vê
     // a cor do chip mudar.
+    const anyFilterOn = () => filterBtns.some((b) => b.getAttribute("aria-pressed") === "true");
+
     const toggleFilter = (btn) => {
         const on = btn.getAttribute("aria-pressed") === "true";
         btn.setAttribute("aria-pressed", on ? "false" : "true");
-        say(`${on ? "removido" : "aplicado"} o filtro ${btn.dataset.filterValue}.`);
         runSearch();
         input.focus();
+        // Anunciar DEPOIS do trecho síncrono do runSearch: ao desligar o ÚLTIMO
+        // filtro (sem termo), o runSearch cai no estado zero e faz say("") na
+        // mesma pilha — um anúncio ANTES seria apagado antes do leitor de tela
+        // vê-lo. No caminho de busca, o say(count) nomeia os filtros ativos; aqui
+        // só cobrimos a volta ao estado zero, onde não há count para carregá-los.
+        if (!input.value.trim() && !anyFilterOn()) {
+            say(`filtro ${btn.dataset.filterValue} removido.`);
+        }
     };
-    filterBtns.forEach((b) => b.addEventListener("click", () => toggleFilter(b)));
+
+    filterBtns.forEach((b) => {
+        // preventDefault no mousedown: um <button> rouba o foco no mousedown
+        // (mesmo com tabindex=-1). Impedi-lo mantém o foco no input DE FATO — o
+        // contrato "foco sempre no input" literal, não só restaurado depois.
+        b.addEventListener("mousedown", (e) => e.preventDefault());
+        b.addEventListener("click", () => toggleFilter(b));
+    });
 
     // Numera os 9 primeiros chips ([1]..[9]) e anuncia o atalho via
     // aria-keyshortcuts, e revela a região (começa [hidden] no template: o
@@ -294,7 +319,9 @@
             // Alt+1..9: liga/desliga o chip de filtro N sem tirar o foco do input.
             // e.code (tecla física) em vez de e.key: com Alt segurado alguns
             // layouts trocam o e.key do dígito, mas Digit1..9 é estável.
-            if (e.altKey && /^Digit[1-9]$/.test(e.code)) {
+            // !ctrlKey && !metaKey exclui o AltGr (= ctrl+alt), que em ABNT2 e
+            // layouts EU compõe caractere — sem o guard, eu comeria a digitação.
+            if (e.altKey && !e.ctrlKey && !e.metaKey && /^Digit[1-9]$/.test(e.code)) {
                 const btn = filterBtns[Number(e.code.slice(5)) - 1];
                 if (btn) { e.preventDefault(); toggleFilter(btn); return; }
             }
