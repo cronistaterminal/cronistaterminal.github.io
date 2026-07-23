@@ -1,7 +1,8 @@
 ================================================================================
 ARQUIVADO em 2026-07-19. Registro HISTÓRICO do porte standalone -> Hugo (Blocos
 1 a 9): o que foi feito, as decisões do Nilton e as armadilhas que custaram caro.
-Superseded pelo TODO.txt enxuto na raiz, que carrega só o que ficou em aberto.
+O que ficou em aberto vive nas issues do GitHub (`gh issue list`). O TODO.txt que
+sucedia este arquivo foi removido em 2026-07-23.
 NÃO editar aqui — este é o snapshot congelado do fim do porte.
 ================================================================================
 

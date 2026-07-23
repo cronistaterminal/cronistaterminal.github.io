@@ -74,6 +74,7 @@ editor e destroem o diff. O base64 é o artefato versionado.
 | `docs/deploy.md` | O runbook do GitHub Pages: workflow, versões pinadas, o pré-requisito não-versionável, o que o `act` valida. |
 | `docs/themes/README.md` | Os 8 temas e todas as cores derivadas. |
 | `docs/template/terminal-reference.md` | Nota histórica sobre o `panr/hugo-theme-terminal`. Não é spec. |
+| `docs/porte-standalone.txt` | Registro congelado do porte standalone → Hugo (Blocos 1–9): decisões e armadilhas. Arquivado, **não editar**. |
 
 O que ainda falta fazer não mora em arquivo — mora nas **issues do GitHub**
 (`cronistaterminal/cronistaterminal.github.io`). Antes havia um `TODO.txt` gitignorado e
