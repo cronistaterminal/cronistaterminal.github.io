@@ -73,8 +73,13 @@ editor e destroem o diff. O base64 é o artefato versionado.
 | `docs/template/README.md` | O mapa do template: caixas, cascata, contrato dos overlays, shortcodes. **Canônico.** |
 | `docs/deploy.md` | O runbook do GitHub Pages: workflow, versões pinadas, o pré-requisito não-versionável, o que o `act` valida. |
 | `docs/themes/README.md` | Os 8 temas e todas as cores derivadas. |
-| `docs/ROADMAP.md` | O que foi adiado de propósito, e o gatilho de cada item. |
 | `docs/template/terminal-reference.md` | Nota histórica sobre o `panr/hugo-theme-terminal`. Não é spec. |
+
+O que ainda falta fazer não mora em arquivo — mora nas **issues do GitHub**
+(`cronistaterminal/cronistaterminal.github.io`). Antes havia um `TODO.txt` gitignorado e
+um `docs/ROADMAP.md`; os dois saíram em 2026-07-23. Não recriar: um roadmap versionado
+diverge do que está aberto de verdade, e um TODO gitignorado só existe na máquina de quem
+o escreveu. Para saber o que falta, `gh issue list` — não um `grep`.
 
 O protótipo standalone do layout vive na branch `layout/standalone-pass` — consulte por
 `git show`, não por uma pasta espelhada.

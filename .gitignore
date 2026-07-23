@@ -10,7 +10,6 @@ __layout/
 .decay.txt
 
 # Estado local / sessão
-TODO.txt
 .lighthouse/
 .claude/
 .serena/

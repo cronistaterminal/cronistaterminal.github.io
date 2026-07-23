@@ -10,10 +10,11 @@
   Datas em pt-BR por slices indexados, igual ao post-card.html: não dependemos
   do locale do Hugo, que varia por instalação.
 
-  AINDA NÃO PORTADO (ver TODO.txt, bloco 4): .post-actions (share/copiar link,
-  precisa de share.js + ícones), figuras/galeria/áudio/código como shortcodes,
-  e a sidebar contextual da single (relacionados + mesma época) — por ora a
-  sidebar do baseof é a mesma da home.
+  AINDA NÃO PORTADO: a sidebar contextual da single (relacionados + outros da
+  mesma época). Por ora a sidebar do baseof é a MESMA da home. Não é esquecimento:
+  com um único post por época, "outros da mesma época" é uma caixa vazia — o
+  componente não dá nem para ver antes de existir um par.
+  (.post-actions, share.js e os shortcodes de mídia JÁ foram portados.)
 
   ── ÍNDICE DE BUSCA (Pagefind) ────────────────────────────────────────────
   O Pagefind roda DEPOIS do Hugo e lê o HTML RENDERIZADO (não o markdown, não o
