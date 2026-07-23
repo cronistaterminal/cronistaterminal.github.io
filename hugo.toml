@@ -11,7 +11,7 @@
 baseURL = 'https://cronistaterminal.github.io/'
 locale = 'pt-br'
 defaultContentLanguage = 'pt-br'
-title = 'dablog'
+title = 'O Cronista Terminal'
 
 # robots.txt gerado pelo Hugo (layouts/robots.txt) em vez de estático: assim ele
 # aponta o Sitemap pela baseURL, sem hardcode de domínio.
