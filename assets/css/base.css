@@ -68,3 +68,10 @@ body {
     width: 100%;
     padding: var(--pad);
 }
+
+/* Respiro abaixo do footer: sem isso a borda do painel encosta no fim da
+   viewport. Metade do --gap-block — descola sem virar um bloco vazio.
+   Margem em item de flex column NÃO colapsa, então soma à min-height. */
+.site-footer {
+    margin-bottom: calc(var(--gap-block) / 2);
+}
