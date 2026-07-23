@@ -70,6 +70,34 @@
     font-size: 1.05rem;
 }
 
+/* Os ofícios. Lista deitada, sem marcador: o `·` do markup já separa, e um bullet do
+   user-agent competiria com ele. flex-wrap quebra sozinho em coluna estreita — cada
+   item cai inteiro, nunca com o separador órfão no começo da linha, porque o `·` mora
+   DENTRO do <li>. Menor que o nome (0.95 vs 1.05rem) e sem itálico: pesa menos que a
+   pessoa, mais que o bordão. */
+.cronista-stack {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.15rem 0.5ch;
+    font-size: 0.95rem;
+}
+
+/* O gap do flex já espaça os itens; aqui só o respiro em volta do separador. */
+.cronista-stack-item {
+    display: flex;
+    gap: 0.5ch;
+}
+
+/* O separador em --accent-quiet: presente para o olho agrupar, apagado o bastante para
+   não disputar com os ofícios. Cor, não opacity — o fundo do painel é estável aqui
+   (nada inverte no hover), então mexer no opacity só perderia precisão de contraste. */
+.cronista-stack-sep {
+    color: var(--accent-quiet);
+}
+
 /* O bordão. --accent-quiet (7.25:1 sobre o fundo do painel, folga AAA — não afunda em
    nenhum dos 8 temas) + itálico: a linha de sabor, visivelmente secundária ao nome sem
    sumir. */

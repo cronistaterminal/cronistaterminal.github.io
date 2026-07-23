@@ -8,10 +8,15 @@
   cima), então NÃO reinventa moldura. Aqui vive só o cartão de identidade + a
   régua + a prosa.
 
-  O cartão tem TRÊS linhas; só a alcunha é obrigatória, o resto some se vazio:
+  O cartão tem QUATRO linhas; só a alcunha é obrigatória, o resto some se vazio:
     .Title           -> a ALCUNHA (a persona) — o <h1> e o <title> da página
     .Params.name     -> o NOME real, sob a alcunha
+    .Params.stack    -> a LISTA de ofícios (factual: Pythonista, Djangueiro…)
     .Params.tagline  -> o BORDÃO, a linha de sabor
+
+  A ordem desce do factual para o lúdico: pessoa -> ofício -> piada. O `stack` fica
+  ACIMA do bordão de propósito — quem chega procurando "o que ele faz" lê antes de
+  esbarrar na graça.
 
   Não herda o cabeçalho de POST (tags, datas, TL;DR): esta página é uma pessoa,
   não uma crônica. Reusa .post-body (escopado por CLASSE, não por article.post-single)
@@ -46,6 +51,21 @@
       <h1 class="cronista-alias">{{ .Title }}</h1>
       {{- with .Params.name }}
       <p class="cronista-name">{{ . }}</p>
+      {{- end }}
+      {{- /* Os ofícios. É LISTA no front matter, então é <ul> no HTML: o leitor de tela
+             ouve "lista de 3 itens" e navega item a item, em vez de uma frase corrida.
+             O `·` é markup (span aria-hidden), NÃO um ::before de CSS — conteúdo gerado
+             entra na árvore de acessibilidade em parte dos leitores, e "ponto médio"
+             lido três vezes é lixo. Sai do primeiro item (`if $i`), não do último. */ -}}
+      {{- with .Params.stack }}
+      <ul class="cronista-stack">
+        {{- range $i, $oficio := . }}
+        <li class="cronista-stack-item">
+          {{- if $i }}<span class="cronista-stack-sep" aria-hidden="true">·</span>{{ end -}}
+          {{ $oficio }}
+        </li>
+        {{- end }}
+      </ul>
       {{- end }}
       {{- with .Params.tagline }}
       <p class="cronista-tagline">{{ . }}</p>
