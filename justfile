@@ -200,3 +200,10 @@ decay-save:
 # chars são gerados AQUI, uma vez — o Hugo não tem random no permalink. Ver tools/new-post.py.
 new-post title:
     @python3 tools/new-post.py "{{ title }}"
+
+# Promove um rascunho de _drafts/posts/ para content/posts/. Converte o front matter
+# YAML (Obsidian) para TOML, cunha o slug, atribui o num incremental ('0000', '0001'…) e
+# extrai os dois TL;DR dos callouts, removendo-os do corpo. O rascunho NÃO é apagado.
+# `-n` faz dry-run. Ver tools/promote-draft.py.
+promote file *flags:
+    @python3 tools/promote-draft.py "{{ file }}" {{ flags }}
