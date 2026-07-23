@@ -38,6 +38,15 @@ repositório — confirme uma vez antes do primeiro run.
 | `HUGO_VERSION` | `0.164.0` | = o `hugo version` local. **Tem que ser a extended** (SCSS + withdeploy). |
 | `PAGEFIND_VERSION` | `1.5.2` | pinada para build determinístico (o índice não deve variar por um `@latest` que andou). |
 
+As **actions** (`uses:`) são a exceção: ficam em **major flutuante** (`@v7`, `@v6`, `@v5`)
+para receber patch de segurança sem commit. O preço é que elas são a única parte do
+deploy que muda sozinha. Em 2026-07-23 subiram de `@v4`/`@v5`/`@v3` porque o runner
+avisava que as anteriores miravam **Node.js 20** e estavam sendo *forçadas* a rodar em
+Node.js 24 — aviso, não erro, mas com prazo. Se esse aviso voltar, a verificação é o
+`runs.using` do `action.yml` **na tag**, não o número da release; e lembrar que
+`upload-pages-artifact` é *composite* — quem roda Node ali é o `upload-artifact` que ela
+fixa por SHA.
+
 **Para subir uma versão**: mude a env var no `deploy.yml` **e** o `hugo version`
 local — a fonte da verdade é a paridade entre os dois. O Hugo vem do `.deb`
 oficial (`curl -sSLf`, que falha em 4xx/5xx) em vez de uma action de terceiro:

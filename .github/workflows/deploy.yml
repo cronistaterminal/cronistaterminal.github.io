@@ -31,6 +31,15 @@ concurrency:
   group: pages
   cancel-in-progress: false
 
+# As `uses:` abaixo estão em MAJOR flutuante (@v7, @v6, @v5) — ao contrário do Hugo e do
+# Pagefind, que são pinados exatos. Isso é deliberado (patches de segurança entram
+# sozinhos), mas significa que ESTA é a superfície do deploy que muda sem commit.
+#
+# 2026-07-23: subidas de @v4/@v5/@v3 porque o runner avisava que as anteriores miravam
+# Node.js 20 e estavam sendo FORÇADAS a rodar em Node.js 24. Não era erro — era o prazo.
+# Todas as majors atuais declaram `using: node24`; o upload-pages-artifact é composite e
+# fixa upload-artifact@v7.0.0 por SHA, que também é node24. Se um aviso desses voltar,
+# conferir o `runs.using` do action.yml na tag, não só o número da release.
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -43,7 +52,7 @@ jobs:
       PAGEFIND_VERSION: 1.5.2
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Instala o Hugo extended (versão pinada)
         # .deb oficial em vez de uma action de terceiro: menos superfície de
@@ -56,12 +65,12 @@ jobs:
           sudo dpkg -i /tmp/hugo.deb
 
       - name: Setup Node (para o Pagefind)
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22
 
       - name: Configure Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: Build do Hugo
         # A mesma linha do `just build`: --minify liga o strip de comentários do
@@ -75,7 +84,7 @@ jobs:
         run: npx --yes "pagefind@${PAGEFIND_VERSION}" --site public
 
       - name: Upload do artefato
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: public
 
@@ -88,4 +97,4 @@ jobs:
     steps:
       - name: Deploy no Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
