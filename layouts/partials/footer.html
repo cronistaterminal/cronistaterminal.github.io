@@ -8,16 +8,24 @@
     -mestre do site (.Site.Home.OutputFormats rss = /index.xml), o MESMO em toda página:
     é um componente global, não o feed da página atual (que só existe em home/section/
     /taxonomy — numa `single` como um post ou o /cronista/ o link sumiria). Os demais
-    hrefs ficam "#" até as URLs de perfil entrarem (idealmente [params.social] no hugo.toml).
+    hrefs vêm de [params.social] no hugo.toml; `with` faz o ícone SUMIR se a chave não
+    existir, em vez de renderizar um href="#" morto. Abrem na MESMA aba de propósito
+    (target=_blank rouba o controle do voltar e surpreende leitor de tela).
   - .copyright  : ano dinâmico via now.Year (não recodificar a cada virada de ano).
 */ -}}
 <footer id="footer" class="site-footer term-panel">
   <span class="term-label" aria-hidden="true"><span class="prompt">$</span><span class="typed" id="footer-typed"></span><span class="cursor"></span></span>
 
   <nav class="social" aria-label="Redes sociais">
-    <a class="icon" href="#" aria-label="GitHub" style="--icon: url('/icons/social/github.svg')"></a>
-    <a class="icon" href="#" aria-label="Bluesky" style="--icon: url('/icons/social/bluesky.svg')"></a>
-    <a class="icon" href="#" aria-label="LinkedIn" style="--icon: url('/icons/social/linkedin.svg')"></a>
+    {{- with .Site.Params.social.github }}
+    <a class="icon" href="{{ . }}" aria-label="GitHub" style="--icon: url('/icons/social/github.svg')"></a>
+    {{- end }}
+    {{- with .Site.Params.social.bluesky }}
+    <a class="icon" href="{{ . }}" aria-label="Bluesky" style="--icon: url('/icons/social/bluesky.svg')"></a>
+    {{- end }}
+    {{- with .Site.Params.social.linkedin }}
+    <a class="icon" href="{{ . }}" aria-label="LinkedIn" style="--icon: url('/icons/social/linkedin.svg')"></a>
+    {{- end }}
     {{- with .Site.Home.OutputFormats.Get "rss" }}
     <a class="icon" href="{{ .RelPermalink }}" aria-label="RSS" style="--icon: url('/icons/social/rss.svg')"></a>
     {{- end }}

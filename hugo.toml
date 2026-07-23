@@ -25,6 +25,15 @@ enableRobotsTXT = true
   # PERSONA (a alcunha do /cronista/), não o nome real — é a voz que assina o blog.
   author = 'O Cronista Terminal'
 
+  # URLs dos perfis do rodapé. Moram aqui, e não no footer.html, porque são DADO:
+  # trocar um perfil não deve mexer em template. Chave AUSENTE significa "sem perfil"
+  # e o ícone some do rodapé — um href="#" morto é pior que um ícone a menos.
+  # O RSS não entra aqui: ele é derivado da própria .Site (OutputFormats), não um perfil.
+  [params.social]
+    github = 'https://github.com/niltonfrederico/'
+    bluesky = 'https://bsky.app/profile/cronistaterminal.bsky.social'
+    linkedin = 'https://www.linkedin.com/in/nilton-teixeira/'
+
 # pagerSize baixo de propósito enquanto há poucos posts seed: força >1 página p/
 # validar o componente de paginação (janela primeira/prev/atual/próxima). Subir
 # para ~10 quando houver volume real.
