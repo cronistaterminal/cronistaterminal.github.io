@@ -52,9 +52,15 @@
         </div>
       </div>
 
-      <label class="aa-toggle" title="Trocar fonte de leitura">
-        <input type="checkbox" class="aa-input" aria-label="Trocar fontes: convencional / acessível">
-        <span class="aa-hint" aria-hidden="true">Trocar fonte</span>
+      {{- /* O aria-label é o NOME (estático), não a ação: num checkbox quem carrega o
+             estado é o próprio "marcado/não marcado" que o leitor de tela anuncia. Pôr
+             "Ativar…" no nome geraria "Desativar fonte acessível, marcado" — dupla
+             negação. A ação vive só no texto VISÍVEL (.aa-hint, aria-hidden), que
+             inverte por :checked em CSS puro — o toggle é zero-JS. */ -}}
+      <label class="aa-toggle" title="Ativar ou desativar a fonte acessível">
+        <input type="checkbox" class="aa-input" aria-label="Fonte acessível">
+        <span class="aa-hint aa-hint-on" aria-hidden="true">Ativar fonte acessível</span>
+        <span class="aa-hint aa-hint-off" aria-hidden="true">Desativar fonte acessível</span>
         <span class="aa-ab" aria-hidden="true">Aa</span>
       </label>
     </div>

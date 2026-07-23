@@ -133,8 +133,8 @@
    na página inteira via #page:has(.aa-input:checked) (regra no fim do bloco). Zero JS.
    - .aa-ab "Aa": sempre visível, na fonte ATUAL do corpo (--font-body) -> a própria
      forma do glifo já é o feedback de estado (IBM Plex Mono <-> Lexend).
-   - .aa-hint "Trocar fonte": revelado no hover/foco, na fonte que VIRÁ após o
-     clique (preview do destino), mesma mecânica de expansão dos swatches. */
+   - .aa-hint "Ativar/Desativar fonte acessível": revelado no hover/foco, na fonte que
+     VIRÁ após o clique (preview do destino), mesma mecânica de expansão dos swatches. */
 .aa-toggle {
     display: inline-flex;
     align-items: baseline;
@@ -164,9 +164,12 @@
     font-weight: 700;
 }
 
-/* "Trocar fonte" — escondido até hover/foco; expande à ESQUERDA do "Aa" (a banda é
-   flush à direita, então cresce p/ dentro). Renderizado na fonte de DESTINO (corpo do
-   modo p/ onde o clique leva): convencional -> mostra Lexend; acessível -> IBM Plex. */
+/* O hint — escondido até hover/foco; expande à ESQUERDA do "Aa" (a banda é flush à
+   direita, então cresce p/ dentro). Renderizado na fonte de DESTINO (corpo do modo p/
+   onde o clique leva): convencional -> mostra Lexend; acessível -> IBM Plex.
+   Ele anuncia a AÇÃO, não o estado, então o texto inverte junto: "Ativar fonte
+   acessível" <-> "Desativar fonte acessível". São DOIS spans trocados por :checked
+   porque o toggle é zero-JS — não há quem reescreva textContent. */
 .aa-hint {
     font-family: var(--font-lexend);
     font-size: 15px;
@@ -181,9 +184,26 @@
     font-family: var(--font-ibm);
 }
 
+/* Um span por estado. display:none (e não opacity/visibility) no inativo: no flex do
+   .aa-toggle, um irmão só escondido ainda ocuparia largura e empurraria o "Aa". */
+.aa-hint-off {
+    display: none;
+}
+
+.aa-input:checked~.aa-hint-on {
+    display: none;
+}
+
+.aa-input:checked~.aa-hint-off {
+    display: inline;
+}
+
+/* 26ch cobre o maior dos dois textos ("Desativar fonte acessível", 25 chars). Se um dia
+   o texto crescer, é ESTE número que corta a frase no meio — max-width + overflow:hidden
+   não avisam, só truncam. */
 .aa-toggle:hover .aa-hint,
 .aa-toggle:has(.aa-input:focus-visible) .aa-hint {
-    max-width: 16ch;
+    max-width: 26ch;
     opacity: 1;
     margin-right: 0.6ch;
 }
@@ -198,8 +218,7 @@
 /* Modo acessível (toggle Aa): troca o PAR inteiro de uma vez — corpo IBM Plex Mono
    -> Lexend e títulos Space Mono -> Comic Relief. A página toda muda (chrome, posts,
    sidebar, footer), não só os posts: a11y vale p/ tudo. Os tokens estáveis
-   (--font-ibm/space/lexend/comic) não mudam -> o hint "Trocar fonte" segue mostrando
-   o destino certo. Só a logo (PNG) fica de fora. */
+   (--font-ibm/space/lexend/comic) não mudam -> o hint segue mostrando o destino certo. Só a logo (PNG) fica de fora. */
 /* Dois gatilhos p/ o modo acessível, setando a MESMA coisa (idempotentes):
    - #page:has(.aa-input:checked): resposta instantânea ao clique (CSS-only, zero JS);
    - :root[data-font="accessible"]: estado persistido, aplicado por theme-init.js ANTES
