@@ -115,7 +115,7 @@ down:
         echo "  nada rodando na porta {{ port }}."
     fi
 
-# Status HTTP de uma rota do servidor de fundo. Ex.: just hit posts/basic-lingua-franca/
+# Status HTTP de uma rota do servidor de fundo. Ex.: just hit cronista/
 hit path="":
     @curl -s -o /dev/null -w "  %{http_code}  /{{ path }}\n" --max-time 3 "http://localhost:{{ port }}/{{ path }}" || echo "  servidor fora do ar — rode 'just up'."
 
