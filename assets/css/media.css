@@ -62,6 +62,27 @@
     margin-inline: auto;
 }
 
+/* ── Diagrama (SVG inline, shortcode `diagrama`) ─────────────────────── */
+
+/* O SVG traz moldura e fundo próprios (tokens do tema), então sem borda aqui.
+   min-width: abaixo de ~600px o texto do nó cairia para ~6px; em vez de
+   encolher, o wrapper rola na horizontal (como o bloco de código). */
+.diagram-scroll {
+    overflow-x: auto;
+}
+
+.diagram-scroll svg {
+    display: block;
+    width: 100%;
+    min-width: 600px;
+    height: auto;
+}
+
+.diagram-scroll:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
 /* ── Embeds (YouTube / genérico) ──────────────────────────────────────── */
 
 /* Embed não tem altura intrínseca: o espaço é RESERVADO via aspect-ratio antes

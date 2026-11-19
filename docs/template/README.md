@@ -212,6 +212,7 @@ contém, e o `clear` não tem parâmetro nenhum.
 | `audio` | `src` | `cap`, `pos`, `w` | falta `src`; `pos` inválido; resource não resolve |
 | `embed` | `title` + (`yt` **ou** `src`) | `ratio`, `pos`, `w`, `cap` | falta ambos `yt`/`src`; falta `title`; `pos` inválido |
 | `clear` | — | — | — |
+| `diagrama` | `src` | `cap` | falta `src`; resource não resolve; arquivo não começa com `<svg` |
 
 Notas de desenho:
 
@@ -222,6 +223,10 @@ Notas de desenho:
 - A galeria é **shortcodes aninhados** (`gallery` + `slide`), não um blob de JSON. Os
   `aria-label` ("2 de 3") são gerados pelo JS, que sabe o total — escritos à mão, o
   primeiro slide adicionado depois deixaria todos os outros mentindo.
+- O `diagrama` põe o SVG **inline**, não em `<img>`: só assim ele lê os tokens do tema e
+  recolore junto. Em `<img>` ele cairia no fallback (fosforo) nos 8 temas. O SVG vem da
+  skill `diagrama-blog` (fora do repo), que escreve as cores como `var(--accent, #eec35e)`.
+  No celular ele não encolhe: o wrapper rola na horizontal e é focável pelo teclado.
 - Bloco de código não é shortcode: use ``` cru. A moldura vem do render hook
   `_markup/render-codeblock.html`, e ```` ```python {file="x.py"} ```` gera o label
   `$ /usr/bin/env python x.py`.

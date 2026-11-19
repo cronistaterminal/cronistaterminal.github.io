@@ -1,0 +1,47 @@
+{{- /* Diagrama SVG INLINE (gerado pela skill diagrama-blog). Inline, e não <img>, porque
+       só assim o SVG enxerga os tokens do tema (--accent, --background…): troca o tema,
+       o diagrama recolore junto. Num <img> ele seria um documento isolado e cairia no
+       fallback (fosforo) em todos os 8 temas.
+
+           {{< diagrama src="posts/meu-post/fluxo.svg" cap="O caminho do request." >}}
+
+       Parâmetros:
+         src  (obrig.) resource em assets/ ou no page bundle. Sem URL externa: SVG de fora
+                       inline seria HTML de terceiro dentro da página.
+         cap  (opc.)   legenda visível
+
+       Sem `alt`: o texto alternativo é o <title> do próprio SVG (role="img" +
+       aria-labelledby), que a skill sempre escreve. A lista numerada dos passos vem logo
+       abaixo, em markdown, e é a descrição longa.
+
+       O wrapper rola na horizontal no celular (min-width no CSS): encolher 800px para
+       360px deixaria o texto do nó em ~6px. Região rolável precisa ser focável pelo
+       teclado (WCAG 2.1.1) — daí o tabindex e o role/aria-label. */ -}}
+
+{{- $src := .Get "src" | default "" -}}
+{{- if not $src -}}
+  {{- errorf "shortcode diagrama (%s): falta o parâmetro obrigatório `src`" .Position -}}
+{{- end -}}
+
+{{- $svg := resources.Get $src -}}
+{{- with .Page.Resources.GetMatch $src -}}{{- $svg = . -}}{{- end -}}
+{{- if not $svg -}}
+  {{- errorf "shortcode diagrama (%s): não achei o resource %q (procurei em assets/ e no page bundle)" .Position $src -}}
+{{- end -}}
+
+{{- $content := $svg.Content | strings.TrimSpace -}}
+{{- if not (hasPrefix $content "<svg") -}}
+  {{- errorf "shortcode diagrama (%s): %q não começa com <svg — gere pela skill diagrama-blog (sem declaração XML)" .Position $src -}}
+{{- end -}}
+
+{{- $title := "diagrama" -}}
+{{- with findRESubmatch `<title[^>]*>([^<]+)</title>` $content 1 -}}{{- $title = index (index . 0) 1 | htmlUnescape -}}{{- end -}}
+
+<figure class="media-figure break-full diagram">
+  <div class="diagram-scroll" tabindex="0" role="region" aria-label="Diagrama: {{ $title }}">
+    {{ $content | safeHTML }}
+  </div>
+  {{- with .Get "cap" }}
+  <figcaption class="media-cap">{{ . | markdownify }}</figcaption>
+  {{- end }}
+</figure>
