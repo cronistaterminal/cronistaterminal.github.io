@@ -35,3 +35,6 @@ _drafts/
 
 # Bytecode do Python (tools/). Artefato, não fonte.
 __pycache__/
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
