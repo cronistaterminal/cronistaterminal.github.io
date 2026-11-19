@@ -23,15 +23,15 @@ O problema com o que é transmitido apenas verbalmente é que as palavras se per
 
 ## Criptografia através das eras
 
-Criptografia para programadores é de fácil entendimento, mas se a gente olha pela ótica da **história**, tudo fica mais estranho e cinzento: Se considerarmos transformação da escrita e "escrita incomum" como uma ação criptográfica, o caso mais antigo que encontrei foi relatado por [David Kahn](https://en.wikipedia.org/wiki/David_Kahn_(writer)) no livro *The Codebreakers - The Story of Secret Writing* (Tradução livre: *Os Decifradores - A História da Escrita Secreta*): A tumba de Khnumhotep II continha hieróglifos alterados que dificultavam seu entendimento[^kahn]. Nada indica, no entanto, que a intenção era esconder o significado da escrita[^stauder]. De forma lúdica, sinto muita semelhança com as gírias e os memes da nossa era.
+Criptografia para programadores é de fácil entendimento, mas se a gente olha pela ótica da **história**, tudo fica mais estranho e cinzento: Se considerarmos transformação da escrita e "escrita incomum" como uma ação criptográfica, o caso mais antigo que encontrei foi relatado por [David Kahn](https://en.wikipedia.org/wiki/David_Kahn_(writer)) no livro *The Codebreakers - The Story of Secret Writing* (Tradução livre: *Os Decifradores - A História da Escrita Secreta*): A tumba de [Khnumhotep II](https://en.wikipedia.org/wiki/Khnumhotep_II) continha hieróglifos alterados que dificultavam seu entendimento[^kahn]. Nada indica, no entanto, que a intenção era esconder o significado da escrita[^stauder]. De forma lúdica, sinto muita semelhança com as gírias e os memes da nossa era.
 
 {{< figure src="posts/a-saga-do-programador-que-so-queria-resolver-o-problema-obfuscacao-de-dados/khnumhotep-ii-hieroglifos.jpg"
     alt="Pintura na parede da tumba de Khnumhotep II: um homem de manto estampado carrega um íbex, ao lado de hieróglifos pintados em vermelho e preto."
-    cap="Detalhe de pintura da tumba de Khnumhotep II, em Beni Hasan (c. 1900 a.C.). Foto: Macquarie University, domínio público, via Wikimedia Commons." >}}
+    cap="Detalhe de pintura da tumba de Khnumhotep II, em Beni Hasan (c. 1900 a.C.), só para ilustrar: estes não são os hieróglifos alterados citados por Kahn. Foto: Macquarie University, domínio público, via Wikimedia Commons." >}}
 
-Se assumirmos que a criptografia tem como objetivo esconder o seu conteúdo, **desconsiderando o intuito de proteger o conteúdo**, podemos olhar para a Mesopotâmia do séc. XVII a.C.[^gadd] - [Gadd](https://en.wikipedia.org/wiki/C._J._Gadd) e [Thompson](https://en.wikipedia.org/wiki/Reginald_Campbell_Thompson) publicaram uma tabuleta com uma receita de esmalte que, mais tarde, foi lida como texto "cifrado", todavia os pesquisadores (como Diepenbroek) alertam para o viés do entendimento, apontando que o intuito pode ser ritualístico e não segurança[^diep-meso].
+Se assumirmos que a criptografia tem como objetivo esconder o seu conteúdo, **desconsiderando o intuito de proteger o conteúdo**, podemos olhar para a Mesopotâmia do séc. XVII a.C.[^gadd] - [Gadd](https://en.wikipedia.org/wiki/C._J._Gadd) e [Thompson](https://en.wikipedia.org/wiki/Reginald_Campbell_Thompson) publicaram uma tabuleta com uma receita de esmalte que, mais tarde, foi lida como texto "cifrado" por outros pesquisadores, como [Caubet](https://www.idref.fr/026772639)[^caubet] e [Mollin](https://orcid.org/0000-0002-8750-883X)[^mollin], todavia Diepenbroek, ao citar essa leitura, alerta para o viés do entendimento, apontando que o intuito pode ser ritualístico e não segurança[^diep-meso].
 
-Mas se a gente juntar intuito e técnica, no caso cifras, o mais antigo que encontrei foi o do grego Eneias, o Tático, que descreve em seu livro *Sobre a defesa de posições fortificadas* (Original: *Poliorkētiká*, Πολιορκητικά) uma cifra que troca vogais por pontos, escondendo sua mensagem original[^eneias]. Escolhi ignorar a Cítala de Lisandro (fim do séc. V a.C.)[^plutarco] devido à disputa sobre se é apenas mito ou realidade comprovada[^kelly].
+Mas se a gente juntar intuito e técnica, no caso cifras, o mais antigo que encontrei foi o do grego [Eneias, o Tático](https://en.wikipedia.org/wiki/Aeneas_Tacticus), que descreve em seu livro *Sobre a defesa de posições fortificadas* (Original: *Poliorkētiká*, Πολιορκητικά) uma cifra que troca vogais por pontos, escondendo sua mensagem original[^eneias]. Escolhi ignorar a Cítala de [Lisandro](https://en.wikipedia.org/wiki/Lysander) (fim do séc. V a.C.)[^plutarco] devido à disputa sobre se é apenas mito ou realidade comprovada[^kelly].
 
 ## Batemos numa pedra até ela soltar faíscas e pensar. E agora?
 
@@ -41,7 +41,7 @@ Quando falamos de criptografia na computação, é impossível não falar da Eni
     alt="Foto em preto e branco: mãos digitando no teclado de uma máquina Enigma, com as letras das teclas e do painel de lâmpadas à mostra."
     cap="Auxiliar de comunicações da força aérea alemã operando uma Enigma, c. 1943. Foto: Bundesarchiv, Bild 183-2007-0705-502, CC BY-SA 3.0 DE." >}}
 
-Mas conforme essas máquinas deixam de ser armas de guerra e passam a ser tanto produto como meio de produção, começamos a ter a necessidade de cifrar dados - seja porque só algumas pessoas podem ter acesso, porque outros sistemas vão ter acesso, ou seja porque a legislação passou a padronizar o seu uso. O *Ware Report* (1970) já cita "[resistir a] revelações acidentais, subversão interna e negação de uso a usuários legítimos"[^ware] (orig: *[resist] accidental disclosures, internal subversion, and denial of use to legitimate users*). Mas somente no começo dos anos 1990 temos a definição dos famosos Pilares da Segurança, documentados inicialmente (pelo menos no que consegui encontrar) pelo ITSEC.
+Mas conforme essas máquinas deixam de ser armas de guerra e passam a ser tanto produto como meio de produção, começamos a ter a necessidade de cifrar dados - seja porque só algumas pessoas podem ter acesso, porque outros sistemas vão ter acesso, ou seja porque a legislação passou a padronizar o seu uso. O *Ware Report* (1970), de [Willis Ware](https://en.wikipedia.org/wiki/Willis_Ware), já cita "[resistir a] revelações acidentais, subversão interna e negação de uso a usuários legítimos"[^ware] (orig: *[resist] accidental disclosures, internal subversion, and denial of use to legitimate users*). Mas somente no começo dos anos 1990 temos a definição dos famosos Pilares da Segurança, documentados inicialmente (pelo menos no que consegui encontrar) pelo [ITSEC](https://en.wikipedia.org/wiki/Information_Technology_Security_Evaluation_Criteria).
 
 > Neste contexto, segurança de TI significa:
 >
@@ -130,6 +130,15 @@ Por fim, a premissa prevalece: Desde o começo dos tempos o segredo não está e
 [^gadd]: GADD, C. J.; THOMPSON, R. Campbell. "A Middle-Babylonian Chemical Text".
     *Iraq*, v. 3, n. 1, 1936, p. 87–96. Disponível em
     [cambridge.org](https://cambridge.org/core/journals/iraq/article/middlebabylonian-chemical-text/F4B01DC7752095019833F30BE77CD2BD).
+
+[^caubet]: CAUBET, Annie. "Vitreous Materials". In: ARUZ, J.; BENZEL, K.; EVANS, J. (ed.).
+    *Beyond Babylon: Art, Trade, and Diplomacy in the Second Millennium B.C.* New York:
+    The Metropolitan Museum of Art; New Haven: Yale University Press, 2008, p. 419–434
+    (leitura como cifra na p. 421). Citado via DIEPENBROEK, 2020, p. 53, nota 82.
+
+[^mollin]: MOLLIN, Richard A. *Codes: The Guide to Secrecy From Ancient to Modern Times*.
+    Boca Raton: Chapman & Hall/CRC, 2005, p. 5. Citado via DIEPENBROEK, 2020, p. 53,
+    nota 82.
 
 [^diep-meso]: DIEPENBROEK, Martine L. M. *Myths and Histories of the Spartan scytale*.
     Tese (Doutorado) — Universidade de Bristol, 2020, § 1.1, p. 52–53. Disponível em
