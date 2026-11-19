@@ -68,10 +68,15 @@ clean:
 # ATENÇÃO: o `hugo server` NÃO gera o índice do Pagefind (ele serve de memória, sem passar
 # pelo public/). A palette cai no estado inicial (posts recentes, renderizados pelo Hugo)
 # e a busca por digitação não responde. Para exercitar a busca de verdade, use `preview`.
+#
+# O `--renderToMemory` é EXPLÍCITO desde o Hugo 0.170: lá o `hugo server` passou a servir
+# "from disk", escrevendo no public/ — com drafts e o script do livereload. Rodando ao lado
+# de um `just build`, ele sujou o public/ recém-limpo e o `just links` acusou o
+# /livereload.js como link morto (2026-11-19).
 
 # Servidor de desenvolvimento: live reload, inclui drafts, SEM busca.
 serve:
-    hugo server -D --disableFastRender
+    hugo server -D --disableFastRender --renderToMemory
 
 # Preview do build de produção — o mesmo bytes-a-bytes que o audit mede. Roda em PRIMEIRO
 # PLANO; Ctrl-C encerra. Para deixar o servidor de pé enquanto você continua trabalhando
