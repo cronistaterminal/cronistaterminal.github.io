@@ -35,7 +35,7 @@ repositório — confirme uma vez antes do primeiro run.
 
 | Var | Valor | Regra |
 |---|---|---|
-| `HUGO_VERSION` | `0.164.0` | = o `hugo version` local. **Tem que ser a extended** (SCSS + withdeploy). |
+| `HUGO_VERSION` | `0.170.1` | = o `hugo version` local. **Tem que ser a extended** (SCSS + withdeploy). |
 | `PAGEFIND_VERSION` | `1.5.2` | pinada para build determinístico (o índice não deve variar por um `@latest` que andou). |
 
 As **actions** (`uses:`) são a exceção: ficam em **major flutuante** (`@v7`, `@v6`, `@v5`)

@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # Pinado = o `hugo version` local. TEM que ser a extended (SCSS + withdeploy).
-      HUGO_VERSION: 0.164.0
+      HUGO_VERSION: 0.170.1
       # Pinado para build determinístico: o índice de busca não deve variar entre
       # publicações porque um @latest andou. (O `just build` local usa @latest; o
       # deploy prefere reprodutibilidade.)

@@ -1,6 +1,6 @@
 # dablog
 
-Blog estático em Hugo (0.164 extended). Estética de terminal, **a11y-first**, 8 temas de
+Blog estático em Hugo (0.170 extended). Estética de terminal, **a11y-first**, 8 temas de
 cor. PT-BR em tudo que é conteúdo e comentário; identificadores e commits em inglês.
 
 Deploy: GitHub Pages em `https://cronistaterminal.github.io/` — site de USUÁRIO, servido
