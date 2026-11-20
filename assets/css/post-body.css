@@ -80,18 +80,22 @@
     color: color-mix(in oklab, var(--foreground) 80%, transparent);
 }
 
-/* Aviso de tradução por máquina (shortcode aviso-traducao). Mesma gramática de
-   bloco-com-borda do blockquote, mas com MOLDURA inteira: é um aviso sobre o
-   post, não uma voz dentro dele, e precisa se separar da prosa no começo e no
-   fim do texto. Texto em --foreground cheio (não esmaecido como o blockquote):
-   aviso tem que ser lido. O rótulo em accent ecoa o prompt do terminal. */
+/* Aviso de tradução por máquina (partial machine-translation.html). Faixa entre
+   duas réguas grossas (3px, top e bottom), sem laterais: separa o aviso da prosa
+   no começo e no fim do texto sem virar caixa. Texto em --foreground cheio (aviso
+   tem que ser lido). Rótulo com as cores do .term-label: "$" esmaecido (.prompt),
+   comando em accent. Os <p> internos zeram a margem do user-agent, senão ela soma
+   com o padding e abre um vão entre o rótulo e o texto. */
 .notice-translation {
-    border: 1px solid var(--accent-line);
-    border-left-width: 3px;
-    padding: 0.8rem 1.1rem;
+    border-block: 3px solid var(--accent-line);
+    padding-block: 0.5rem;
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.2rem;
+}
+
+.notice-translation p {
+    margin: 0;
 }
 
 .notice-translation-label {

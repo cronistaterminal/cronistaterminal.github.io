@@ -12,7 +12,7 @@
 {{- range .Translations }}{{ if eq .Language.Lang "en" }}{{ $translated = true }}{{ end }}{{ end -}}
 {{- if not $translated }}
 <aside class="notice-translation" role="note" lang="en">
-  <p class="notice-translation-label"><span aria-hidden="true">$ </span>not-translated-yet</p>
+  <p class="notice-translation-label"><span class="prompt" aria-hidden="true">$</span>not-translated-yet</p>
   <p>This post hasn't been translated into English yet — you're reading the Portuguese original.</p>
 </aside>
 {{- end }}
