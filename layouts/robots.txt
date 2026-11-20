@@ -1,4 +1,67 @@
+# Busca: liberada. Treino de IA: não.
+#
+# O primeiro grupo bloqueia crawlers que COLETAM conteúdo para treinar modelos. Fica
+# de fora quem lê a página porque uma pessoa pediu (ChatGPT-User, Claude-User,
+# Perplexity) e os buscadores comuns: o blog continua achável e citável. Lista
+# curada de github.com/ai-robots-txt/ai.robots.txt (2026-11-20), filtrada pela
+# função declarada de cada agente. Revisar de tempos em tempos: nomes novos surgem.
+#
+# robots.txt é um pedido, não uma trava. Quem ignora, ignora.
+
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: anthropic-ai
+User-agent: Google-Extended
+User-agent: Google-CloudVertexBot
+User-agent: Applebot-Extended
+User-agent: meta-externalagent
+User-agent: Meta-ExternalAgent
+User-agent: FacebookBot
+User-agent: CCBot
+User-agent: Bytespider
+User-agent: TikTokSpider
+User-agent: cohere-training-data-crawler
+User-agent: MistralAI-Training
+User-agent: DeepSeekBot
+User-agent: QwenBot
+User-agent: ERNIEBot
+User-agent: Hunyuan
+User-agent: MoonshotBot
+User-agent: KimiBot
+User-agent: PanguBot
+User-agent: xAI-Grok
+User-agent: AI2Bot
+User-agent: Ai2Bot-Dolma
+User-agent: YandexAdditional
+User-agent: YandexAdditionalBot
+User-agent: Diffbot
+User-agent: omgili
+User-agent: omgilibot
+User-agent: Webzio-Extended
+User-agent: webzio-extended
+User-agent: Timpibot
+User-agent: ImagesiftBot
+User-agent: img2dataset
+User-agent: LAIONDownloader
+User-agent: laion-huggingface-processor
+User-agent: ChatGLM-Spider
+User-agent: Cotoyogi
+User-agent: ICC-Crawler
+User-agent: SBIntuitionsBot
+User-agent: Brightbot 1.0
+User-agent: Factset_spyderbot
+User-agent: ISSCyberRiskCrawler
+User-agent: Sidetrade indexer bot
+User-agent: VelenPublicWebCrawler
+User-agent: FriendlyCrawler
+User-agent: Kangaroo Bot
+Disallow: /
+
+# Todo o resto. Content-Signal (contentsignals.org) declara a mesma preferência para
+# quem lê o sinal em vez de uma lista de nomes: busca sim, resposta citando a página
+# sim, treino não.
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=no
 Disallow:
 
 Sitemap: {{ "sitemap.xml" | absURL }}
