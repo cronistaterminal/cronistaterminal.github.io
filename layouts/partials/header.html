@@ -57,13 +57,22 @@
              "Ativar…" no nome geraria "Desativar fonte acessível, marcado" — dupla
              negação. A ação vive só no texto VISÍVEL (.aa-hint, aria-hidden), que
              inverte por :checked em CSS puro — o toggle é zero-JS. */ -}}
-      {{- /* Fonte e idioma na MESMA fileira: os dois são preferência de leitura. */ -}}
+      {{- /* Fonte, animações e idioma na MESMA fileira: todos são preferência de leitura. */ -}}
       <div class="a11y-row">
       <label class="aa-toggle" title="{{ i18n "aa_title" }}">
         <input type="checkbox" class="aa-input" aria-label="{{ i18n "aa_name" }}">
         <span class="aa-hint aa-hint-on" aria-hidden="true">{{ i18n "aa_on" }}</span>
         <span class="aa-hint aa-hint-off" aria-hidden="true">{{ i18n "aa_off" }}</span>
         <span class="aa-ab" aria-hidden="true">Aa</span>
+      </label>
+      {{- /* Animações (issue #1): checkbox com o mesmo contrato do Aa — o nome é o estado
+             ("Animações", marcado = ligadas), a ação mora no hint visível. Quem marca e
+             aplica é motion.js; o estado inicial vem do theme-init (data-motion). */}}
+      <label class="motion-toggle" title="{{ i18n "motion_title" }}">
+        <input type="checkbox" class="motion-input" aria-label="{{ i18n "motion_name" }}">
+        <span class="motion-hint motion-hint-off" aria-hidden="true">{{ i18n "motion_off" }}</span>
+        <span class="motion-hint motion-hint-on" aria-hidden="true">{{ i18n "motion_on" }}</span>
+        <span class="motion-ico" aria-hidden="true"></span>
       </label>
       {{ partial "lang-switch.html" . }}
       </div>

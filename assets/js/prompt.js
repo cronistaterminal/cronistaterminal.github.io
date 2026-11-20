@@ -40,6 +40,7 @@ const mountPrompt = (target, commands, opts = {}) => {
     const type = async (text) => {
         let cur = "";
         for (const ch of text) {
+            if (motionReduced()) return; // desligaram no meio: larga a palavra aqui
             cur += ch;
             write(cur);
             await sleep(typeDelay(ch));
@@ -49,27 +50,49 @@ const mountPrompt = (target, commands, opts = {}) => {
     const erase = async (text) => {
         let chars = Array.from(text);
         while (chars.length) {
+            if (motionReduced()) return;
             chars.pop();
             write(chars.join(""));
             await sleep(ERASE + rand(20));
         }
     };
 
+    // Resolve quando as animações voltarem a ser permitidas (evento de motion.js).
+    const motionAllowed = () => new Promise((resolve) => {
+        const check = () => {
+            if (motionReduced()) return;
+            document.removeEventListener("motionchange", check);
+            resolve();
+        };
+        document.addEventListener("motionchange", check);
+    });
+
+    // Movimento reduzido: sem loop, mostra só o 1º comando, parado — e espera. Religar
+    // retoma do começo. O teste vive DENTRO do loop (não só na entrada) porque o toggle
+    // pode mudar com a página aberta.
     const run = async () => {
-        for (let i = 0; ; i = (i + 1) % commands.length) {
+        let i = 0;
+        for (;;) {
+            if (motionReduced()) {
+                write(commands[0]);
+                await motionAllowed();
+                i = 0;
+                continue;
+            }
             await type(commands[i]);
             await sleep(HOLD);
             await erase(commands[i]);
             await sleep(GAP);
+            i = (i + 1) % commands.length;
         }
     };
 
-    // prefers-reduced-motion: sem loop; mostra só o 1º comando, parado.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        write(commands[0]);
-    } else {
-        run();
-    }
+    // Desligou com a página aberta: o 1º comando aparece NA HORA. Sem isto, o loop só o
+    // escreveria depois do HOLD/GAP em curso, e a frase ainda pularia ~2s após o clique.
+    document.addEventListener("motionchange", () => {
+        if (motionReduced()) write(commands[0]);
+    });
+    run();
 };
 
 // Footer: o prompt enxuto na borda.

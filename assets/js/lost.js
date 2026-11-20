@@ -30,10 +30,10 @@
   const videoBox = document.querySelector("[data-video]");
   const playBtn = document.querySelector("[data-play]");
 
-  /* Quem pediu menos movimento não leva texto se contorcendo NEM teleporte. A página vira
+  /* Quem pediu menos movimento (no SO ou no toggle do header) não leva texto se contorcendo NEM teleporte. A página vira
      estática: a frase original, o link e o vídeo continuam ali — só o easter egg dorme.
      (Decisão do Nilton, 2026-07-13.) */
-  const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const calm = motionReduced();
 
   // --- o vídeo ---------------------------------------------------------------
   // Sorteado aqui e não no build: o Hugo congelaria o "aleatório" até o próximo deploy.
@@ -105,6 +105,11 @@
   };
 
   if (stayBtn) stayBtn.addEventListener("click", () => stop("stay"));
+  // Desligar as animações com o relógio correndo = ficar: a frase volta ao original e o
+  // redirect cai. Religar não recomeça — o apodrecimento é de uma vez só.
+  document.addEventListener("motionchange", () => {
+    if (motionReduced()) stop("stay");
+  });
 
   if (!calm && decayEl && timerBox && timerTxt) {
     decayEl.dataset.original = decayEl.textContent;

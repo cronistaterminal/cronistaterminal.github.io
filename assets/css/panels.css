@@ -87,9 +87,14 @@
     }
 }
 
-/* Quem pediu menos movimento não recebe o blink infinito. */
+/* Quem pediu menos movimento não recebe o blink infinito. data-motion é o estado (SO ou
+   toggle); a @media cobre só a página sem JS, onde o atributo não existe. */
+:root[data-motion="reduce"] .cursor {
+    animation: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
-    .cursor {
+    :root:not([data-motion]) .cursor {
         animation: none;
     }
 }

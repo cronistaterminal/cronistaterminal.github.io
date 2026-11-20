@@ -288,19 +288,18 @@
     color: var(--accent);
 }
 
-/* Fade de entrada só p/ quem aceita movimento. */
-@media (prefers-reduced-motion: no-preference) {
-    .palette-backdrop {
-        animation: palette-in 0.12s ease-out;
+/* Fade de entrada só p/ quem aceita movimento. A palette só abre com JS, então o
+   data-motion sempre existe aqui. */
+:root[data-motion="full"] .palette-backdrop {
+    animation: palette-in 0.12s ease-out;
+}
+
+@keyframes palette-in {
+    from {
+        opacity: 0;
     }
 
-    @keyframes palette-in {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
+    to {
+        opacity: 1;
     }
 }

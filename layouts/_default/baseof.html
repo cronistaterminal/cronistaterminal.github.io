@@ -62,6 +62,7 @@
   <script type="application/json" id="i18n-js">{{ $jsStrings | jsonify | safeJS }}</script>
   {{- $js := slice
         (resources.Get "js/i18n.js")
+        (resources.Get "js/motion.js")
         (resources.Get "js/prompt.js")
         (resources.Get "js/palette.js")
         (resources.Get "js/gallery.js")

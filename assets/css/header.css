@@ -147,6 +147,7 @@
    (melhor que display:none, que tiraria do tab order). Compartilhado entre o
    checkbox do toggle Aa e os radios de tema (.theme-input). */
 .aa-input,
+.motion-input,
 .theme-input {
     position: absolute;
     width: 1px;
@@ -229,11 +230,78 @@
     --font-head: var(--font-comic);
 }
 
-/* Fileira de preferências de leitura: toggle Aa + botão de idioma, lado a lado. */
+/* Fileira de preferências de leitura: fonte (Aa), animações e idioma, lado a lado. */
 .a11y-row {
     display: inline-flex;
     align-items: baseline;
     gap: 1.1rem;
+}
+
+/* Toggle de animações (issue #1). Mesma gramática do "Aa": controle curto sempre
+   visível + a AÇÃO revelada no hover/foco. O ícone é a ação, como num player: pause
+   com as animações ligadas, play com elas paradas (pixel-art 13x13 via mask, cor do
+   currentColor, path ABSOLUTO). Ícone e frase leem o data-motion da raiz, e não o
+   :checked: o atributo vem do theme-init antes do render, o checkbox só depois do JS
+   defer — sem isso o ícone piscaria no estado errado.
+   Sem JS o toggle não teria efeito (quem aplica é motion.js): some. */
+.motion-toggle {
+    display: inline-flex;
+    align-items: center;
+    align-self: center;
+    cursor: pointer;
+    color: var(--accent);
+    line-height: 1;
+}
+
+:root:not([data-motion]) .motion-toggle {
+    display: none;
+}
+
+.motion-ico {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-color: currentColor;
+    -webkit-mask: url("/icons/pause.svg") no-repeat center / contain;
+    mask: url("/icons/pause.svg") no-repeat center / contain;
+}
+
+:root[data-motion="reduce"] .motion-ico {
+    -webkit-mask-image: url("/icons/play.svg");
+    mask-image: url("/icons/play.svg");
+}
+
+.motion-hint {
+    font-family: var(--font-body);
+    font-size: 15px;
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 0;
+    transition: max-width 0.22s ease, opacity 0.22s ease, margin-right 0.22s ease;
+}
+
+.motion-hint-on,
+:root[data-motion="reduce"] .motion-hint-off {
+    display: none;
+}
+
+:root[data-motion="reduce"] .motion-hint-on {
+    display: inline;
+}
+
+/* 22ch cobre a maior frase ("Desativar animações" / "Turn off animations", 19). Mesmo
+   aviso do .aa-hint: se a frase crescer, é este número que a corta, sem avisar. */
+.motion-toggle:hover .motion-hint,
+.motion-toggle:has(.motion-input:focus-visible) .motion-hint {
+    max-width: 22ch;
+    opacity: 1;
+    margin-right: 0.6ch;
+}
+
+.motion-toggle:has(.motion-input:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
 }
 
 /* Botão de idioma: um LINK (trocar de idioma é navegar), com a gramática do "Aa".

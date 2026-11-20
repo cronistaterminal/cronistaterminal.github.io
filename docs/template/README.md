@@ -138,24 +138,26 @@ o que o usuário vê.
 
 Dois canais de carregamento:
 
-1. **`theme-init.js` — inline e blocking no `<head>`.** Aplica `data-theme`/`data-font` no
-   `<html>` **antes do primeiro paint**. É o que evita o flash de tema errado, e é por isso
+1. **`theme-init.js` — inline e blocking no `<head>`.** Aplica `data-theme`/`data-font`/`data-motion`
+   no `<html>` **antes do primeiro paint**. É o que evita o flash de tema errado, e é por isso
    que ele existe separado do `theme.js`: qualquer coisa `defer` chegaria tarde demais.
    A fonte é `?theme=` na URL **e depois** o `localStorage` — nessa precedência (o query
    param serve para deep-link e para auditar um tema específico no Lighthouse). O valor passa
    por uma whitelist, então `?theme=` não injeta atributo arbitrário.
 2. **Bundle único `defer` no fim do `<body>`**, concatenado nesta ordem:
-   `i18n → prompt → palette → gallery → audio → share → theme → mobile → lost`.
+   `i18n → motion → prompt → palette → gallery → audio → share → theme → mobile → lost`.
 
-Uma exceção à regra de "nenhum símbolo compartilhado": **`i18n.js` expõe `tr()` global**, e
-por isso é o **primeiro** do bundle — o `prompt.js` já chama `tr()` no carregamento. Fora
+Duas exceções à regra de "nenhum símbolo compartilhado": **`i18n.js` expõe `tr()`** e
+**`motion.js` expõe `motionReduced()`**, e por isso são os **dois primeiros** do bundle — o
+`prompt.js` já chama os dois no carregamento. Fora
 isso, a ordem é convenção de leitura, não dependência. O resto do acoplamento é **template
 ↔ JS**, via `id` e `data-*`.
 
 | Arquivo | Papel | Hooks | localStorage |
 |---|---|---|---|
 | `i18n.js` | `tr(chave, {vars})`: strings de interface no JS | `#i18n-js` (JSON do baseof) | — |
-| `theme-init.js` | aplica tema/fonte antes do paint | `<html>`, `?theme=` | lê `theme`, `font` |
+| `motion.js` | toggle de animações; `motionReduced()`; evento `motionchange` | `.motion-input` | lê/escreve `motion` |
+| `theme-init.js` | aplica tema/fonte/movimento antes do paint | `<html>`, `?theme=` | lê `theme`, `font`, `motion` |
 | `theme.js` | sincroniza os controles, anima o logo | `.theme-input`, `.aa-input`, `.logo-tv` | escreve `theme`, `font` |
 | `prompt.js` | typewriter dos prompts | `#*-typed`, `#palette-input` | — |
 | `palette.js` | busca (Ctrl+K) sobre o Pagefind | `#palette-*`, `[data-command]` | — |
@@ -172,6 +174,22 @@ um campo de texto, para não sequestrar as setas de quem está digitando.
 Na palette, `Tab` foi **reaproveitado** para alternar o TL;DR curto/longo do resultado
 ativo. Isso é seguro porque o foco nunca sai do input e o `#page` está `inert` — mas tem um
 efeito colateral registrado abaixo.
+
+**Movimento.** O estado é `data-motion` (`reduce` | `full`) no `<html>`, que o
+`theme-init.js` **sempre** seta: a escolha salva (`localStorage.motion`) vence e, sem ela,
+vale o `prefers-reduced-motion` do SO. Assim o padrão é o do sistema (quem depende dele não
+perde nada) e o toggle da fileira de a11y sobrepõe nos dois sentidos. Sem escolha salva, o
+`motion.js` acompanha o SO ao vivo. Regras para quem mexer:
+
+- **Ninguém lê a media query direto** — leria o SO e ignoraria o toggle. JS pergunta
+  `motionReduced()`; CSS usa `:root[data-motion="reduce"]`.
+- **Loop vivo escuta `motionchange`** (em `document`): o toggle muda com a página aberta. O
+  `prompt.js` congela no 1º comando e retoma; a 404 cancela o redirect e desfaz o
+  apodrecimento (não recomeça ao religar).
+- **A `@media` sobrevive só como fallback sem JS**, com `:root:not([data-motion])` — sem
+  JS o atributo não existe, e o toggle some.
+- **Movimento reduzido tira TODA transição** (`base.css`, `!important`), além das três
+  animações (`stripe-cycle`, `cursor-blink`, `palette-in`), que têm regra na própria folha.
 
 **Busca.** `palette.js` importa `/pagefind/pagefind.js` dinamicamente, só na primeira
 tecla digitada. O índice é escrito pelo passo `npx pagefind` do build — então **sob

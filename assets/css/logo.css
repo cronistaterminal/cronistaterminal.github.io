@@ -127,10 +127,9 @@
     animation-delay: -0.2s;
 }
 
-/* prefers-reduced-motion: sem ciclo. O estado estático = o tema vigente (as faixas já
-   têm fill: var(--stripe-N) por padrão), então basta NÃO animar. */
-@media (prefers-reduced-motion: reduce) {
-    .logo-tv.is-loading .stripe {
-        animation: none;
-    }
+/* Movimento reduzido (data-motion): sem ciclo. O estado estático = o tema vigente (as
+   faixas já têm fill: var(--stripe-N) por padrão), então basta NÃO animar. O ciclo só
+   existe com JS, e com JS o atributo sempre existe: não precisa do fallback de @media. */
+:root[data-motion="reduce"] .logo-tv.is-loading .stripe {
+    animation: none;
 }

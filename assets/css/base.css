@@ -75,3 +75,20 @@ body {
 .site-footer {
     margin-bottom: calc(var(--gap-block) / 2);
 }
+
+/* Movimento reduzido: TODA transição some (hovers, hints que expandem, skip-link). As
+   animações têm regra própria em cada folha. !important porque é preferência de quem
+   lê, e tem que vencer qualquer seletor mais específico do resto do bundle. */
+:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+    transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root:not([data-motion]) *,
+    :root:not([data-motion]) *::before,
+    :root:not([data-motion]) *::after {
+        transition: none !important;
+    }
+}

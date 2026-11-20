@@ -1,4 +1,4 @@
-// Aplica tema + fonte ANTES do render (evita flash de tema/fonte errados). Mínimo e
+// Aplica tema + fonte + movimento ANTES do render (evita flash de tema/fonte errados). Mínimo e
 // BLOCKING no <head> — por isso fica fora do prompt.js/palette.js (que são defer).
 // Precedência do tema: ?theme= na URL (deep-link / teste Lighthouse) > localStorage >
 // default. A fonte (toggle Aa) restaura do localStorage. Os eventos/sincronia dos
@@ -21,4 +21,17 @@
     } catch (e) {
         /* sem persistência: segue no default */
     }
+    // Movimento (issue #1): escolha salva ("reduce"/"full") > prefers-reduced-motion do SO.
+    // SEMPRE seta o atributo, mesmo se o localStorage lançar: o CSS e o JS leem só o
+    // data-motion, e a ausência dele fica reservada para "sem JS" (fallback na media query).
+    var motion = null;
+    try {
+        motion = localStorage.getItem("motion");
+    } catch (e) {
+        /* sem persistência: cai no SO */
+    }
+    if (motion !== "reduce" && motion !== "full") {
+        motion = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "reduce" : "full";
+    }
+    document.documentElement.setAttribute("data-motion", motion);
 })();

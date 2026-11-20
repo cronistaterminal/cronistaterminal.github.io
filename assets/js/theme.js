@@ -11,10 +11,10 @@
     //     carregam, com um piso p/ ser perceptível;
     //   - troca de TEMA (swatch): one-shot — toca exatamente UM ciclo completo p/ "assentar"
     //     a cor nova.
-    // Máquina compartilhada (definida ANTES dos dois handlers que a usam). reduced-motion
-    // -> sem ciclo (o estado estático já é o tema vigente).
+    // Máquina compartilhada (definida ANTES dos dois handlers que a usam). Movimento
+    // reduzido (motionReduced, de motion.js) -> sem ciclo (o estado estático já é o tema
+    // vigente). Lido a cada troca, não no carregamento: o toggle pode mudar no meio.
     const logo = document.querySelector(".logo-tv");
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     // = duração de stripe-cycle (1.2s) em logo.css: UM ciclo inteiro do padrão, no fim do
     // qual todas as faixas voltam à fase de repouso ao MESMO tempo (graças ao período
@@ -27,7 +27,7 @@
     // visível). Task instantânea + minMs = LOGO_LOOP_MS -> exatamente um loop. Toggle/troca
     // rápida não corta cedo: clearTimeout reseta a remoção e o ciclo segue contínuo.
     const showLoading = (task, minMs = 750) => {
-        if (!logo || reduceMotion) return;
+        if (!logo || motionReduced()) return;
         clearTimeout(loadingTimer);
         logo.classList.add("is-loading");
         const start = performance.now();
