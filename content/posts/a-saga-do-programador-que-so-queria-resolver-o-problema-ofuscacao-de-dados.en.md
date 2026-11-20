@@ -34,7 +34,7 @@ If we assume that cryptography aims to hide its content, **setting aside the int
 
 But if we bring intent and technique together, ciphers in this case, the oldest I found was by the Greek [Aeneas Tacticus](https://en.wikipedia.org/wiki/Aeneas_Tacticus), who describes in his book *On the Defence of Fortified Positions* (original: *Poliorkētiká*, Πολιορκητικά) a cipher that replaces vowels with dots, hiding the original message[^eneias]. I chose to leave out the scytale of [Lysander](https://en.wikipedia.org/wiki/Lysander) (late 5th century BC)[^plutarco] because of the dispute over whether it is just a myth or a proven reality[^kelly].
 
-## We banged a rock until it threw sparks and started thinking. Now what?
+## We hit a rock until it threw sparks and started thinking. Now what?
 
 When we talk about cryptography in computing, it's impossible not to talk about the Enigma. A feat of German mechanical and electrical engineering that changed how the world saw cryptography. Not long after, we would have computers, processes and specialized technologies that came as a consequence of the Enigma's existence.
 
