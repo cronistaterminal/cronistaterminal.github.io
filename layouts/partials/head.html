@@ -128,3 +128,13 @@
 {{- with resources.Get "js/theme-init.js" -}}
 <script>{{ (. | minify).Content | safeJS }}</script>
 {{- end -}}
+
+{{- /* GoatCounter: contagem de visitas sem cookie e sem dado pessoal. Só no build de
+       PRODUÇÃO — o `just serve` (hugo server, ambiente development) não carrega o
+       script. O `just preview` serve o build de produção, mas o count.js ignora
+       localhost por conta própria. https explícito em vez do `//` protocol-relative do
+       snippet oficial: o site é só https, e o `//` sob file:// vira file://gc.zgo.at.
+       async: não bloqueia o render nem compete com o bundle. */ -}}
+{{- if hugo.IsProduction }}
+<script data-goatcounter="https://cronistaterminal.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+{{- end -}}
