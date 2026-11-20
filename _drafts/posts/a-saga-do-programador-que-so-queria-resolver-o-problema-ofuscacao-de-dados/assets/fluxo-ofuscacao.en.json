@@ -1,0 +1,29 @@
+{
+  "id": "fluxo-ofuscacao",
+  "title": "Obfuscating production data for the troubleshooting environment",
+  "bands": [
+    {"label": "Production", "y": 8, "h": 96},
+    {"label": "Serverless", "y": 124, "h": 96},
+    {"label": "Troubleshooting", "y": 240, "h": 96}
+  ],
+  "nodes": [
+    {"id": "app", "label": "Application", "x": 20, "y": 40, "w": 150},
+    {"id": "prod", "label": "Production database", "x": 290, "y": 40, "w": 190},
+    {"id": "gatilho", "label": "Trigger", "x": 560, "y": 40, "w": 220, "kind": "gatilho"},
+    {"id": "fn", "label": "Obfuscation function", "x": 560, "y": 156, "w": 220, "kind": "destaque"},
+    {"id": "ts", "label": "Troubleshooting database", "x": 520, "y": 272, "w": 260}
+  ],
+  "edges": [
+    {"from": "app", "to": "prod", "n": 1},
+    {"from": "prod", "to": "gatilho", "n": 2},
+    {"from": "gatilho", "to": "fn", "n": 3, "fx": 670, "tx": 670},
+    {"from": "fn", "to": "ts", "n": 4, "fx": 670, "tx": 670}
+  ],
+  "steps": [
+    "A aplicação grava os dados no banco de produção.",
+    "O banco de produção envia um gatilho (um evento, não um trigger de banco).",
+    "A função serverless recebe o gatilho e ofusca os dados.",
+    "Os dados ofuscados são salvos no banco de troubleshooting."
+  ],
+  "legend": false
+}
