@@ -25,7 +25,7 @@ O problema com o que é transmitido apenas verbalmente é que as palavras se per
 
 Criptografia para programadores é de fácil entendimento, mas se a gente olha pela ótica da **história**, tudo fica mais estranho e cinzento: Se considerarmos transformação da escrita e "escrita incomum" como uma ação criptográfica, o caso mais antigo que encontrei foi relatado por [David Kahn](https://en.wikipedia.org/wiki/David_Kahn_(writer)) no livro *The Codebreakers - The Story of Secret Writing* (Tradução livre: *Os Decifradores - A História da Escrita Secreta*): A tumba de [Khnumhotep II](https://en.wikipedia.org/wiki/Khnumhotep_II) continha hieróglifos alterados que dificultavam seu entendimento[^kahn]. Nada indica, no entanto, que a intenção era esconder o significado da escrita[^stauder]. De forma lúdica, sinto muita semelhança com as gírias e os memes da nossa era.
 
-{{< figure src="posts/a-saga-do-programador-que-so-queria-resolver-o-problema-obfuscacao-de-dados/khnumhotep-ii-hieroglifos.jpg"
+{{< figure src="posts/a-saga-do-programador-que-so-queria-resolver-o-problema-ofuscacao-de-dados/khnumhotep-ii-hieroglifos.jpg"
     alt="Pintura na parede da tumba de Khnumhotep II: um homem de manto estampado carrega um íbex, ao lado de hieróglifos pintados em vermelho e preto."
     cap="Detalhe de pintura da tumba de Khnumhotep II, em Beni Hasan (c. 1900 a.C.), só para ilustrar: estes não são os hieróglifos alterados citados por Kahn. Foto: Macquarie University, domínio público, via Wikimedia Commons." >}}
 
@@ -37,7 +37,7 @@ Mas se a gente juntar intuito e técnica, no caso cifras, o mais antigo que enco
 
 Quando falamos de criptografia na computação, é impossível não falar da Enigma. Um feito de engenharia mecânica e elétrica da Alemanha que mudou como o mundo enxergava criptografia. Não muito tempo depois teríamos computadores, processos e tecnologias especializadas que vieram como consequência da existência da Enigma.
 
-{{< figure src="posts/a-saga-do-programador-que-so-queria-resolver-o-problema-obfuscacao-de-dados/enigma-bundesarchiv.jpg"
+{{< figure src="posts/a-saga-do-programador-que-so-queria-resolver-o-problema-ofuscacao-de-dados/enigma-bundesarchiv.jpg"
     alt="Foto em preto e branco: mãos digitando no teclado de uma máquina Enigma, com as letras das teclas e do painel de lâmpadas à mostra."
     cap="Auxiliar de comunicações da força aérea alemã operando uma Enigma, c. 1943. Foto: Bundesarchiv, Bild 183-2007-0705-502, CC BY-SA 3.0 DE." >}}
 
@@ -79,7 +79,7 @@ E os pilares estão todos aí: ninguém vê o dado real (**confidencialidade**),
 
 Isolamento de responsabilidades é a chave. Para um sistema, é mais importante o que ele faz com uma pessoa do que quem é esta pessoa.
 
-{{< diagrama src="posts/a-saga-do-programador-que-so-queria-resolver-o-problema-obfuscacao-de-dados/fluxo-ofuscacao.svg" >}}
+{{< diagrama src="posts/a-saga-do-programador-que-so-queria-resolver-o-problema-ofuscacao-de-dados/fluxo-ofuscacao.svg" >}}
 
 1. A aplicação grava os dados no banco de produção.
 2. O banco de produção envia um gatilho (um evento, não um trigger de banco).
