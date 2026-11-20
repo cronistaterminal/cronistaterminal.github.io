@@ -1,6 +1,6 @@
 ---
 name: blog-proof
-description: Revisão (proofing) de um rascunho do blog em _drafts/posts/<slug>/post.md. Roda a checagem mecânica (notas, shortcodes, callouts, tags); corrige sozinho só a mecânica (acento, grafia, vírgula, hífen); pergunta tudo o que move palavra (regência, ordem, coesão, coerência) com aceitar/recusar; marca as referências no padrão do cronistaterminal; preenche época, tags e os dois TL;DR que estiverem vazios. Usar quando o usuário pedir "/blog-proof", "revisa o post", "faz o proofing do post".
+description: Revisão (proofing) de um rascunho do blog em _drafts/posts/<slug>/post.md. Roda a checagem mecânica (notas, shortcodes, callouts, tags); executa os pedidos que o autor deixou no texto entre chaves duplas ({{ … }}); corrige sozinho só a mecânica (acento, grafia, vírgula, hífen); pergunta tudo o que move palavra (regência, ordem, coesão, coerência) com aceitar/recusar; marca as referências no padrão do cronistaterminal; preenche época, tags e os dois TL;DR que estiverem vazios. Usar quando o usuário pedir "/blog-proof", "revisa o post", "faz o proofing do post".
 argument-hint: "[slug do post]"
 ---
 
@@ -9,25 +9,26 @@ argument-hint: "[slug do post]"
 Revisa `_drafts/posts/<slug>/post.md`, o rascunho de um post do cronistaterminal.
 Edita só o rascunho: levar o post para `content/` é tarefa do `just promote <slug>`.
 
-**A prosa é do Nilton.** O papel aqui tem três formas, e só três: corrigir a mecânica,
-escrever as referências, apontar estrutura. Texto novo é sempre proposta que ele aceita,
+**A prosa é do Nilton.** O papel aqui tem quatro formas, e só quatro: cumprir os pedidos
+que ele deixou no texto, corrigir a mecânica, escrever as referências, apontar estrutura. Texto novo é sempre proposta que ele aceita,
 nunca edição direta. Editar sem avisar faz ele se perder na própria escrita: ele volta ao
 texto e não reconhece o que leu. Esse custo é maior que o erro que se ia consertar.
 
 - **Sem slug:** o rascunho com o `post.md` modificado mais recentemente (`ls -t _drafts/posts/*/post.md`).
   Mais de um candidato plausível: AskUserQuestion.
 - **Leia antes:** o `post.md` inteiro, `pesquisa/index.md` e as notas de `pesquisa/*.md`, quando houver.
-  A pesquisa é a base da checagem de fato (passo 2) e das referências (passo 3).
+  A pesquisa é a base da checagem de fato (passo 3) e das referências (passo 4).
 
 ## Ordem
 
 0. Checagem mecânica (script) → anota os ERROs para o relatório.
-1. Mecânica (automático) → tabela `antes → depois` → pergunta se commita separado.
-2. O que move palavra: estrutura, coesão, coerência, fato (pergunta) → aplica o aceito.
-3. Referências.
-4. Front matter: época, tags, `[!tldr]`, `[!tldr-long]`. Por último: os resumos dependem do texto final.
-5. Checagem de novo + `just promote <slug> -n` (se o post não está publicado).
-6. Relatório no chat.
+1. Pedidos `{{ … }}` → executa cada um, no lugar do marcador.
+2. Mecânica (automático) → tabela `antes → depois` → pergunta se commita separado.
+3. O que move palavra: estrutura, coesão, coerência, fato (pergunta) → aplica o aceito.
+4. Referências.
+5. Front matter: época, tags, `[!tldr]`, `[!tldr-long]`. Por último: os resumos dependem do texto final.
+6. Checagem de novo + `just promote <slug> -n` (se o post não está publicado).
+7. Relatório no chat.
 
 ## 0. Checagem mecânica
 
@@ -44,6 +45,7 @@ Mede o que dá para medir sem ler a prosa, e que quebra o build ou some em silê
 | `figure`/`slide` sem `alt`, `embed` sem `title` | O build **falha** (o shortcode dá `errorf`) |
 | `src` que não resolve | O build falha. Procura em `assets/<src>` e em `<slug>/assets/` (o promote copia de lá) |
 | `%%` em número ímpar | O promote aborta |
+| pedido `{{ … }}` pendente | O Hugo não processa: sai como **texto literal** no post |
 | callout ausente, vazio ou longo | Ausente aborta o promote; longo estoura o card da listagem |
 | `epoca` com hífen, tag fora do formato, tag nova | Formato do site; cada tag nova cria uma página `/tags/` com um post só |
 | post já publicado | Corrigir o rascunho **não** atualiza `content/posts/` (ver abaixo) |
@@ -53,7 +55,35 @@ ser espelhada à mão em `content/posts/<base>.md`, ou o rascunho e o site diver
 Isso já aconteceu: os créditos de Caubet/Mollin e o ORCID do Diepenbroek foram corrigidos só
 em `content/`. Nesse caso, ao fim, liste as diferenças e pergunte se espelha (e em que direção).
 
-## 1. Mecânica: corrigir sem perguntar
+## 1. Pedidos: o que o autor deixou entre chaves duplas
+
+Texto entre chaves duplas, como `{{exemplo}}` ou `{{ acha a fonte do Kahn pra isso }}`, é um
+**pedido do Nilton para o revisor**, deixado no ponto exato do texto em que ele se aplica. Não
+é prosa nem erro de digitação, e o revisor cumpre o pedido durante o proofing.
+
+**Não confundir com shortcode.** `{{< … >}}` e `{{% … %}}` são shortcodes do Hugo: não são
+pedidos e não se tocam. Pedido é `{{` seguido de qualquer coisa que **não** seja `<` ou `%`.
+O script do passo 0 lista os pedidos com a linha de cada um.
+
+- **Ordem:** na ordem do texto, antes da mecânica. Assim a mecânica e o resto da revisão
+  correm sobre o texto já com os pedidos cumpridos.
+- **O contexto vale:** o pedido se refere ao trecho em volta dele. "Pesquisa isso" é a frase
+  anterior, não o post inteiro.
+- **Executar:** o resultado entra **no lugar do marcador**, e o marcador sai. Pedido que é
+  instrução sobre o trecho ("reescreve mais curto", "confere essa data") altera o trecho e
+  some sem deixar rastro no texto.
+- **Pedido que gera prosa** (escrever, reescrever, expandir): escreve nas palavras e nos vícios
+  do autor (o perfil de escrita do passo 5 vale aqui também), e o trecho vai por extenso no
+  relatório, com o pedido original ao lado. Assim ele reconhece o que é dele e o que não é.
+- **Pedido que precisa de pesquisa:** o que já está em `pesquisa/`, usa. O que não está, faz
+  com o rigor do `/blog-research` (fonte primária, nunca o plausível). Se não achar, o marcador
+  **fica** e vai para o relatório com o motivo.
+- **Pedido ambíguo, ou com mais de uma saída real:** AskUserQuestion antes de executar
+  (`header: Pedido 1/N`, a pergunta cita o pedido entre aspas). Não adivinhar.
+- **Pedido fora do escopo do proofing** (mexer no layout, no site, em outro post): não executa
+  nem apaga. Fica no texto e vai para o relatório como pendente.
+
+## 2. Mecânica: corrigir sem perguntar
 
 A linha de corte é **mover palavra**. O que não move palavra, corrige direto com Edit:
 
@@ -64,7 +94,7 @@ A linha de corte é **mover palavra**. O que não move palavra, corrige direto c
 - hífen vs. espaço (`redes-sociais` → `redes sociais`), hífen vs. travessão (`-` → `—`);
 - letra trocada, palavra repetida por acidente, espaço duplo.
 
-**Não toca:** blocos e trechos de código; shortcodes `{{< … >}}` e blocos `%% … %%`; citações
+**Não toca:** blocos e trechos de código; shortcodes `{{< … >}}`/`{{% … %}}` e blocos `%% … %%`; citações
 literais de fonte; títulos de obras; nomes próprios; palavra estrangeira usada de propósito.
 
 **O registro é blog, não paper.** Oralidade ("pra", "tá", "dá pra"), "responder essas
@@ -80,7 +110,7 @@ Guarde a lista `antes → depois`. Depois pergunte (AskUserQuestion, `header: Co
 in <slug>`. Não: segue, e a tabela do relatório é o registro. **Nunca commita sem esse sim**,
 e nunca dá push.
 
-## 2. O que move palavra: perguntar
+## 3. O que move palavra: perguntar
 
 Vira pergunta, com a correção sugerida e sem aplicá-la:
 
@@ -135,7 +165,7 @@ afirmação datável, atribuível ou numérica com `pesquisa/`:
 - a pesquisa não cobre → vai para "sem fonte" no relatório, com sugestão de `/blog-research`.
   **Nunca** preencher com o plausível.
 
-## 3. Referências: padrão do cronistaterminal
+## 4. Referências: padrão do cronistaterminal
 
 Nota de rodapé nativa do Goldmark. O `single.html` troca o `<hr>` das notas por um
 `<h2>Referências</h2>` e o layout numera. Não escreva título nem número.
@@ -178,13 +208,13 @@ Nota de rodapé nativa do Goldmark. O `single.html` troca o `<hr>` das notas por
   histórico contestável. Opinião do autor não leva nota.
 - Nota que já existe: confere formato e link; não duplica rótulo.
 
-## 4. Front matter e resumos
+## 5. Front matter e resumos
 
 Campos que o `promote` lê (YAML plano, porque é o que o Obsidian edita e o promote converte para TOML):
 `title`, `epoca`, `tags`, `recomendado`, e os dois callouts. Outros campos (herança do vault,
 como `status`, `created`) são ignorados pelo promote: não mexa, não remova.
 
-**Só preenche o que está vazio.** Campo já preenchido é do autor: se discordar, vira pergunta do passo 2.
+**Só preenche o que está vazio.** Campo já preenchido é do autor: se discordar, vira pergunta do passo 3.
 
 **Perfil de escrita primeiro.** Antes dos resumos, anote de 4 a 6 traços do autor: tamanho de
 frase; pessoa (eu, a gente, você); pontuação preferida; oralidade e gíria; humor ou ironia;
@@ -198,22 +228,24 @@ vícios. Os resumos **imitam esses traços, inclusive os vícios**: soam como el
 | `> [!tldr]` | 1 ou 2 frases, até ~140 caracteres. Sempre visível no card: precisa fisgar |
 | `> [!tldr-long]` | 2 ou 3 frases, até ~260. Atrás do "ver mais": **complementa** o curto, não repete; conta o arco sem entregar o fim |
 
-## 5. Verificação final
+## 6. Verificação final
 
 - `python3 .claude/skills/blog-proof/checar.py <slug>` de novo: zero ERRO.
 - Post **não** publicado: `just promote <slug> -n`. É o parser real; o dry-run não escreve nada.
 - Post publicado: liste o que mudou no rascunho e ainda não está em `content/posts/`.
 
-## 6. Relatório (no chat)
+## 7. Relatório (no chat)
 
 Com headings, nesta ordem:
 
 1. **Checagem:** ERROs e AVISOs restantes.
-2. **Mecânica:** nº de correções e tabela `antes → depois` (até 10; o resto, "ver o diff").
+2. **Pedidos:** cada `{{ … }}` com o que foi feito; a prosa gerada por extenso,
+   com o pedido ao lado. Os que ficaram no texto, com o motivo.
+3. **Mecânica:** nº de correções e tabela `antes → depois` (até 10; o resto, "ver o diff").
    E o que foi deixado como voz, com o porquê de cada um.
-3. **Perguntas:** aceitas, recusadas, com nota, puladas.
-4. **Referências:** notas adicionadas; lista "sem fonte", com a sugestão de `/blog-research`.
-5. **Front matter:** os valores escritos, com os dois resumos por extenso.
-6. **Perfil de escrita usado:** os traços, 1 linha cada, para ele corrigir se a imitação errou.
-7. **Publicado?** Se sim, a lista do que precisa ser espelhado em `content/`.
-8. tl;dr.
+4. **Perguntas:** aceitas, recusadas, com nota, puladas.
+5. **Referências:** notas adicionadas; lista "sem fonte", com a sugestão de `/blog-research`.
+6. **Front matter:** os valores escritos, com os dois resumos por extenso.
+7. **Perfil de escrita usado:** os traços, 1 linha cada, para ele corrigir se a imitação errou.
+8. **Publicado?** Se sim, a lista do que precisa ser espelhado em `content/`.
+9. tl;dr.

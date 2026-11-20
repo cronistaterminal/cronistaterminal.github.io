@@ -11,6 +11,8 @@ Cobre o que quebra o build, quebra o promote, ou some em silêncio no site publi
   também. O src é procurado em assets/<src> (já publicado) e em
   _drafts/posts/<slug>/assets/<arquivo> (o promote copia de lá).
 - `%%` ímpar: o promote aborta (ver strip_obsidian_comments em tools/promote-draft.py).
+- pedidos `{{ … }}` do autor ao revisor: pendente sai como texto literal no post (o Hugo
+  só processa `{{< >}}` e `{{% %}}`, que são shortcodes e não contam como pedido).
 - callouts `[!tldr]` / `[!tldr-long]`: ausentes, vazios, ou longos demais para o card.
 - `epoca` com hífen no intervalo (o padrão é o travessão curto –).
 - tags fora do formato kebab-sem-acento, e tags NOVAS (cada uma cria uma página /tags/).
@@ -34,6 +36,8 @@ TLDR_LONG_MAX: int = 260
 
 SHORTCODE_RE = re.compile(r"\{\{<\s*(figure|slide|audio|diagrama|embed)\b(.*?)>\}\}", re.S)
 PARAM_RE = re.compile(r'(\w+)="([^"]*)"')
+# Pedido do autor: `{{` que NÃO abre shortcode (`{{<` / `{{%`).
+PEDIDO_RE = re.compile(r"\{\{(?![<%])\s*(.+?)\s*(?<![>%])\}\}", re.S)
 CODE_FENCE_RE = re.compile(r"^(```|~~~).*?^\1", re.M | re.S)
 INLINE_CODE_RE = re.compile(r"`[^`\n]*`")
 
@@ -122,6 +126,15 @@ def main() -> int:
                 erros.append(f"{nome} src não resolve (nem assets/{src}, nem {slug}/assets/): o build falha")
             elif not src.startswith(f"posts/{slug}/"):
                 avisos.append(f"{nome} src fora de posts/{slug}/: o promote só copia para essa pasta")
+
+    # --- pedidos do autor: contados no corpo inteiro, com a linha (no código não contam)
+    inicio = len(texto) - len(body)
+    for m in PEDIDO_RE.finditer(body):
+        if m.group(0) not in prosa:  # o mesmo texto só dentro de código não é pedido
+            continue
+        linha = texto.count("\n", 0, inicio + m.start()) + 1
+        pedido = " ".join(m.group(1).split())
+        erros.append(f"pedido pendente na linha {linha}: {{{{ {pedido[:70]} }}}}")
 
     # --- comentários do Obsidian
     if body.count("%%") % 2:
