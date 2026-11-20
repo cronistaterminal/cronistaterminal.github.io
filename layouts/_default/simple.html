@@ -24,7 +24,9 @@
   <hr class="post-rule">
 
   <div class="post-body">
+    {{ partial "machine-translation.html" (dict "page" .) }}
     {{ .Content }}
+    {{ partial "machine-translation.html" (dict "page" .) }}
   </div>
 </article>
 {{ end }}

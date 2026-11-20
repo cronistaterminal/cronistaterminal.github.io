@@ -17,10 +17,13 @@
     {{ i18n "search" }}
   </button>
 
+  {{- /* Links por site.GetPage (caminho lógico, igual nos dois idiomas): no /en/ eles
+         levam à versão em inglês, com o slug dela. Sem tradução, o GetPage do site em
+         inglês não acha a página e o link cai no original em pt-BR. */ -}}
   <nav class="sidebar-nav" aria-label="{{ i18n "navigation" }}">
-    <a class="sidebar-link" href="{{ "/" | relURL }}"><span class="prompt-accent">$</span> {{ i18n "nav_home" }}</a>
-    <a class="sidebar-link" href="{{ "/cronista/" | relURL }}"><span class="prompt-accent">$</span> {{ i18n "nav_cronista" }}</a>
-    <a class="sidebar-link" href="{{ "/transparencia-ia/" | relURL }}"><span class="prompt-accent">$</span> {{ i18n "nav_ai" }}</a>
+    <a class="sidebar-link" href="{{ "/" | relLangURL }}"><span class="prompt-accent">$</span> {{ i18n "nav_home" }}</a>
+    <a class="sidebar-link" href="{{ with site.GetPage "/cronista" }}{{ .RelPermalink }}{{ else }}{{ "/cronista/" | relURL }}{{ end }}"><span class="prompt-accent">$</span> {{ i18n "nav_cronista" }}</a>
+    <a class="sidebar-link" href="{{ with site.GetPage "/transparencia-ia" }}{{ .RelPermalink }}{{ else }}{{ "/transparencia-ia/" | relURL }}{{ end }}"><span class="prompt-accent">$</span> {{ i18n "nav_ai" }}</a>
   </nav>
 
   {{- with site.Taxonomies.tags }}

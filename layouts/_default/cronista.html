@@ -79,7 +79,9 @@
          -tema (.content-link nasce sozinho aqui dentro), a tipografia. O conteúdo é
          nosso (markdown do repo), então .Content já vem confiável. */ -}}
   <div class="cronista-body post-body">
+    {{ partial "machine-translation.html" (dict "page" .) }}
     {{ .Content }}
+    {{ partial "machine-translation.html" (dict "page" .) }}
   </div>
 
   {{- /* Conteúdo recomendado: a curadoria do Cronista. O critério é a FLAG

@@ -230,6 +230,17 @@ Três armadilhas, todas silenciosas:
 `just i18n` pega as três primeiras classes (paridade, chave usada e inexistente, `{{ }}` em
 chave de JS) e roda dentro do `just check`.
 
+**Tradução por máquina.** `traducao = 'maquina'` no front matter do `.en.md` faz o
+`single`, o `simple` e o `cronista` desenharem o aviso (`partials/machine-translation.html`)
+no começo **e** no fim do corpo. Na revisão humana, apaga-se a linha e os dois somem. O
+shortcode `aviso-traducao` sobrou só para **exibir** o aviso dentro de um texto (o exemplo da
+`/transparencia-ia/`). O link do aviso vai para a página de transparência em inglês quando
+ela existe, senão para a original marcada "(in Portuguese)".
+
+**Links para páginas fixas** (sidebar) usam `site.GetPage "/caminho"`, não `relURL`: o
+caminho lógico é igual nos dois idiomas, e o `GetPage` devolve a versão do idioma do site,
+com o slug dela (`/en/ai-transparency/`).
+
 **Fora do i18n, de propósito:** a 404 (`404.html`, `lost.js`, `data/404.toml`) continua só
 em pt-BR — o GitHub Pages serve apenas o `/404.html` da raiz. E as mensagens de `errorf`
 dos shortcodes, que são para quem escreve o post, não para quem lê.

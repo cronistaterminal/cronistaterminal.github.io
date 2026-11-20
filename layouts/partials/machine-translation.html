@@ -1,0 +1,43 @@
+{{- /* Aviso de tradução por máquina. Contexto: dict "page" (a Page) e, opcionalmente,
+       "always" (true = mostra mesmo sem o campo; é o caso do exemplo dentro da
+       /transparencia-ia/, via shortcode aviso-traducao).
+
+       Sem "always", aparece quando o front matter tem `traducao = 'maquina'`. Os
+       layouts (single, simple, cronista) chamam este partial no COMEÇO e no FIM do
+       corpo; quando a tradução humana entrar, apaga-se a linha do front matter e os
+       dois avisos somem juntos — não há como esquecer um deles.
+
+       O texto é em INGLÊS em qualquer idioma de página: o aviso só existe na versão
+       traduzida. lang="en" faz o leitor de tela trocar a pronúncia quando o aviso
+       aparece numa página em português (o exemplo da /transparencia-ia/).
+
+       O link vai para a página de transparência EM INGLÊS quando ela existe; senão,
+       para a original, marcada como "(in Portuguese)" e com hreflang. Resolvido pelo
+       caminho lógico da página (/transparencia-ia), que é o mesmo nos dois idiomas.
+
+       <aside role="note">: aparte sobre o texto, não parte dele. O role explícito
+       porque <aside> dentro de <article> não vira landmark em todo leitor. */ -}}
+{{- $page := .page -}}
+{{- if or .always (eq $page.Params.traducao "maquina") -}}
+{{- $noun := cond (or .always (eq $page.Section "posts")) "post" "page" -}}
+{{- $about := site.GetPage "/transparencia-ia" -}}
+{{- $target := $about -}}
+{{- with $about -}}
+  {{- range .AllTranslations -}}
+    {{- if eq .Language.Lang "en" }}{{ $target = . }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+<aside class="notice-translation" role="note" lang="en">
+  <p class="notice-translation-label"><span aria-hidden="true">$ </span>machine-translated</p>
+  <p>This {{ $noun }} was translated from Portuguese by AI and hasn't been reviewed by a human yet.
+    A human translation, by me, is on the way.
+    {{- with $target }}
+    Read more about
+    {{ if eq .Language.Lang "en" -}}
+    <a href="{{ .RelPermalink }}" hreflang="en">how this blog uses AI</a>.
+    {{- else -}}
+    <a href="{{ .RelPermalink }}" hreflang="pt-BR">how this blog uses AI</a> (in Portuguese).
+    {{- end }}
+    {{- end }}</p>
+</aside>
+{{- end -}}
