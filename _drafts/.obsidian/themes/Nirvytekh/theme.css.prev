@@ -1,0 +1,323 @@
+/* ============================================================================
+   NIRVYTEKH — Obsidian theme (dark-only, bureau identity)
+   Бюро НИРВЫТЕХ · Zóloto Durakóv vault
+   Near-black + gold/amber. Monospace chrome, IBM Plex Serif body.
+   Token-first: override Obsidian CSS variables, then bureau component CSS.
+   ============================================================================ */
+
+/* ---------------------------------------------------------------- 1. PALETTE */
+.theme-dark {
+  /* raw bureau palette (from hallm BUREAU + CLAUDE.md norte estético) */
+  --nv-bg:            #0e0a05;  /* near-black warm */
+  --nv-bg-alt:        #14100a;
+  --nv-panel:         #1a1208;  /* sidebars, panels */
+  --nv-panel-alt:     #221a0e;
+  --nv-ink:           #0a0703;  /* deepest: code bg, wells */
+  --nv-gold:          #ffe066;  /* primary gold */
+  --nv-gold-dim:      #d4af37;  /* dimmed gold, borders/icons */
+  --nv-accent:        #ffd84d;  /* interactive accent */
+  --nv-amber:         #ffb000;  /* raw amber, emphasis */
+  --nv-amber-bright:  #ffd060;
+  --nv-cream:         #e8c887;  /* body text — legible amber-cream */
+  --nv-cream-bright:  #f5ead0;
+  --nv-muted:         #b88040;  /* muted text */
+  --nv-faint:         #7a5e34;  /* faint text */
+  --nv-border:        #7a5520;  /* gold border */
+  --nv-border-bright: #a87a30;
+  --nv-border-faint:  #3a2c12;  /* subtle frame lines */
+  --nv-stamp:         #c0392b;  /* stamp red — signal */
+  --nv-stamp-bright:  #e05545;
+
+  /* ----- fonts ----- */
+  --font-monospace-theme: "JetBrains Mono", "IBM Plex Mono", "Space Mono", ui-monospace, Menlo, Consolas, monospace;
+  --font-text-theme:      "IBM Plex Serif", "Source Serif Pro", Georgia, "Times New Roman", serif;
+  --font-interface-theme: "JetBrains Mono", "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --font-text-size: 16px;
+
+  /* ----- backgrounds ----- */
+  --background-primary:        var(--nv-bg);
+  --background-primary-alt:    var(--nv-bg-alt);
+  --background-secondary:      var(--nv-panel);
+  --background-secondary-alt:  var(--nv-panel-alt);
+  --background-modifier-border:         var(--nv-border-faint);
+  --background-modifier-border-hover:   var(--nv-border);
+  --background-modifier-border-focus:   var(--nv-gold-dim);
+  --background-modifier-hover:          rgba(255, 224, 102, 0.07);
+  --background-modifier-active-hover:   rgba(255, 224, 102, 0.12);
+  --background-modifier-form-field:     var(--nv-ink);
+  --background-modifier-success:        #6c782e;
+  --background-modifier-error:          var(--nv-stamp);
+  --background-modifier-error-hover:    var(--nv-stamp-bright);
+
+  /* ----- text ----- */
+  --text-normal:        var(--nv-cream);
+  --text-muted:         var(--nv-muted);
+  --text-faint:         var(--nv-faint);
+  --text-accent:        var(--nv-amber-bright);
+  --text-accent-hover:  var(--nv-gold);
+  --text-on-accent:     var(--nv-ink);
+  --text-selection:     rgba(212, 175, 55, 0.25);
+  --text-highlight-bg:  rgba(255, 176, 0, 0.30);
+  --text-bold:          var(--nv-gold);
+  --text-italic:        var(--nv-amber-bright);
+  --bold-color:         var(--nv-gold);
+  --italic-color:       var(--nv-amber-bright);
+
+  /* ----- interactive / accent ----- */
+  --interactive-normal:        var(--nv-panel);
+  --interactive-hover:         var(--nv-panel-alt);
+  --interactive-accent:        var(--nv-gold-dim);
+  --interactive-accent-hover:  var(--nv-gold);
+  --interactive-accent-hsl:    45, 65%, 52%;
+
+  /* ----- links ----- */
+  --link-color:            var(--nv-amber-bright);
+  --link-color-hover:      var(--nv-gold);
+  --link-decoration:       underline;
+  --link-decoration-color: var(--nv-border);
+  --link-external-color:   var(--nv-amber);
+
+  /* ----- radius: straight bureau corners ----- */
+  --radius-s: 0px;  --radius-m: 0px;  --radius-l: 0px;
+  --input-radius: 0px;  --modal-radius: 0px;  --tab-radius: 0px;
+  --tab-radius-active: 0px;  --button-radius: 0px;
+  --slider-thumb-radius: 0px;  --toggle-radius: 0px;
+
+  /* ----- headings (mono, gold) ----- */
+  --h1-color: var(--nv-gold);    --h2-color: var(--nv-gold);
+  --h3-color: var(--nv-amber-bright);  --h4-color: var(--nv-amber-bright);
+  --h5-color: var(--nv-muted);   --h6-color: var(--nv-muted);
+  --h1-weight: 700;  --h2-weight: 700;  --h3-weight: 600;
+  --h1-font: var(--font-monospace-theme);
+  --h2-font: var(--font-monospace-theme);
+  --h3-font: var(--font-monospace-theme);
+  --h4-font: var(--font-monospace-theme);
+  --h5-font: var(--font-monospace-theme);
+  --h6-font: var(--font-monospace-theme);
+
+  /* ----- code ----- */
+  --code-background: var(--nv-ink);
+  --code-normal:     var(--nv-cream-bright);
+  --code-comment:    var(--nv-faint);
+  --code-property:   var(--nv-amber-bright);
+  --code-keyword:    var(--nv-stamp-bright);
+  --code-string:     var(--nv-cream);
+  --code-function:   var(--nv-gold);
+  --code-size: 0.88em;
+
+  /* ----- tables ----- */
+  --table-header-background:      var(--nv-panel-alt);
+  --table-header-color:           var(--nv-gold);
+  --table-background:             transparent;
+  --table-background-alt:         rgba(255, 224, 102, 0.03);
+  --table-border-color:           var(--nv-border);
+  --table-border-width:           1px;
+  --table-cell-color:             var(--nv-cream);
+
+  /* ----- tags ----- */
+  --tag-color:            var(--nv-ink);
+  --tag-background:       var(--nv-gold-dim);
+  --tag-background-hover: var(--nv-gold);
+  --tag-border-color:     var(--nv-border-bright);
+  --tag-border-width:     1px;
+  --tag-radius:           0px;
+  --tag-weight:           600;
+
+  /* ----- blockquote / hr ----- */
+  --blockquote-border-color: var(--nv-stamp);
+  --blockquote-color:        var(--nv-amber);
+  --blockquote-background-color: rgba(192, 57, 43, 0.06);
+  --hr-color: var(--nv-border);
+  --hr-thickness: 1px;
+
+  /* ----- checkbox ----- */
+  --checkbox-color:        var(--nv-gold-dim);
+  --checkbox-color-hover:  var(--nv-gold);
+  --checkbox-border-color: var(--nv-border-bright);
+  --checkbox-marker-color: var(--nv-ink);
+  --checklist-done-color:  var(--nv-faint);
+
+  /* ----- titlebar / tabs / ribbon / status ----- */
+  --titlebar-background:         var(--nv-ink);
+  --titlebar-background-focused: var(--nv-bg);
+  --titlebar-text-color:         var(--nv-gold);
+  --tab-text-color:              var(--nv-muted);
+  --tab-text-color-active:       var(--nv-gold);
+  --tab-text-color-focused-active-current: var(--nv-gold);
+  --tab-background-active:       var(--nv-bg);
+  --ribbon-background:           var(--nv-ink);
+  --ribbon-background-collapsed: var(--nv-ink);
+  --status-bar-background:       var(--nv-ink);
+  --status-bar-text-color:       var(--nv-muted);
+  --status-bar-border-color:     var(--nv-border-faint);
+
+  /* ----- scrollbar ----- */
+  --scrollbar-bg:              transparent;
+  --scrollbar-thumb-bg:        rgba(212, 175, 55, 0.20);
+  --scrollbar-active-thumb-bg: rgba(255, 224, 102, 0.45);
+
+  /* ----- nav / file explorer ----- */
+  --nav-item-color:            var(--nv-cream);
+  --nav-item-color-hover:      var(--nv-gold);
+  --nav-item-color-active:     var(--nv-gold);
+  --nav-item-background-active: rgba(255, 224, 102, 0.10);
+  --nav-indentation-guide-color: var(--nv-border-faint);
+
+  /* ----- prompt / modal / accent misc ----- */
+  --modal-background:    var(--nv-panel);
+  --modal-border-color:  var(--nv-border);
+  --prompt-border-color: var(--nv-border);
+  --divider-color:       var(--nv-border-faint);
+  --collapse-icon-color: var(--nv-muted);
+  --icon-color:          var(--nv-muted);
+  --icon-color-hover:    var(--nv-gold);
+  --icon-color-active:   var(--nv-gold);
+  --cursor-color:        var(--nv-gold);
+}
+
+/* -------------------------------------------------- 2. GLOBAL / TYPOGRAPHY */
+.theme-dark body,
+.theme-dark .markdown-preview-view,
+.theme-dark .markdown-source-view {
+  font-feature-settings: "liga" 0;
+}
+
+/* UI chrome labels: uppercase mono with letter-spacing (bureau register) */
+.theme-dark .nav-folder-title-content,
+.theme-dark .nav-file-title-content,
+.theme-dark .workspace-tab-header-inner-title,
+.theme-dark .view-header-title,
+.theme-dark .status-bar-item,
+.theme-dark .titlebar-text {
+  font-family: var(--font-interface-theme);
+}
+.theme-dark .view-header-title {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--nv-gold);
+}
+
+/* ---------------------------------------------------------- 3. HEADINGS */
+.theme-dark .markdown-rendered h1,
+.theme-dark .HyperMD-header-1,
+.theme-dark .markdown-rendered h2,
+.theme-dark .HyperMD-header-2,
+.theme-dark .markdown-rendered h3,
+.theme-dark .HyperMD-header-3 {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+/* H1 carries a bureau stamp rule beneath it */
+.theme-dark .markdown-rendered h1 {
+  border-bottom: 2px solid var(--nv-border);
+  padding-bottom: 0.25em;
+  box-shadow: 0 3px 0 -1px var(--nv-border-faint);
+}
+.theme-dark .markdown-rendered h2 {
+  border-bottom: 1px solid var(--nv-border-faint);
+  padding-bottom: 0.15em;
+}
+
+/* ---------------------------------------------------------- 4. CALLOUTS */
+/* stamped notice: straight frame, double inset, uppercase mono title */
+.theme-dark .callout {
+  border-radius: 0;
+  border: 1px solid var(--nv-border);
+  box-shadow: inset 0 0 0 1px var(--nv-ink), inset 0 0 0 3px var(--nv-border-faint);
+  background-color: var(--nv-panel);
+  mix-blend-mode: normal;
+}
+.theme-dark .callout-title {
+  font-family: var(--font-interface-theme);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--nv-gold);
+}
+.theme-dark .callout-title-inner { color: inherit; }
+
+/* ---------------------------------------------------------- 5. TABLES (ledger) */
+.theme-dark table.table-editor,
+.theme-dark .markdown-rendered table {
+  border: 1px solid var(--nv-border);
+  border-collapse: collapse;
+}
+.theme-dark .markdown-rendered th {
+  font-family: var(--font-interface-theme);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  border: 1px solid var(--nv-border);
+}
+.theme-dark .markdown-rendered td {
+  border: 1px solid var(--nv-border-faint);
+}
+
+/* ---------------------------------------------------------- 6. TAGS (gold chip) */
+.theme-dark a.tag {
+  font-family: var(--font-interface-theme);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: 0;
+  border: 1px solid var(--nv-border-bright);
+  padding: 1px 6px;
+}
+
+/* ---------------------------------------------------------- 7. CODE */
+.theme-dark .markdown-rendered code,
+.theme-dark .cm-inline-code {
+  font-family: var(--font-monospace-theme);
+  border: 1px solid var(--nv-border-faint);
+  color: var(--nv-amber-bright);
+  padding: 0 4px;
+}
+.theme-dark .markdown-rendered pre {
+  border: 1px solid var(--nv-border);
+  border-radius: 0;
+}
+.theme-dark .markdown-rendered pre code { border: none; color: var(--nv-cream-bright); }
+
+/* ---------------------------------------------------------- 8. BLOCKQUOTE */
+.theme-dark .markdown-rendered blockquote {
+  border-left: 3px solid var(--nv-stamp);
+  border-radius: 0;
+  font-style: italic;
+}
+
+/* ---------------------------------------------------------- 9. LINKS */
+.theme-dark .markdown-rendered a.internal-link {
+  text-decoration-color: var(--nv-border-bright);
+}
+.theme-dark .cm-hmd-internal-link,
+.theme-dark .markdown-rendered a.internal-link:hover { color: var(--nv-gold); }
+
+/* ---------------------------------------------------------- 10. INPUTS / BUTTONS */
+.theme-dark button,
+.theme-dark input[type="text"],
+.theme-dark input[type="search"],
+.theme-dark .dropdown {
+  border-radius: 0;
+  border: 1px solid var(--nv-border-faint);
+  font-family: var(--font-interface-theme);
+}
+.theme-dark button.mod-cta {
+  background: var(--nv-gold-dim);
+  color: var(--nv-ink);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ---------------------------------------------------------- 11. FLOURISHES */
+/* gold caret in editor */
+.theme-dark .cm-content { caret-color: var(--nv-gold); }
+/* active line subtle gold wash */
+.theme-dark .cm-active.cm-line { background-color: rgba(255, 224, 102, 0.04); }
+/* hr as a bureau divider */
+.theme-dark .markdown-rendered hr {
+  border: none;
+  border-top: 1px solid var(--nv-border);
+  box-shadow: 0 2px 0 -1px var(--nv-border-faint);
+}
+/* selection */
+.theme-dark ::selection { background: rgba(212, 175, 55, 0.28); }

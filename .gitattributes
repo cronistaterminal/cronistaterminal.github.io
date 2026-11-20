@@ -1,0 +1,9 @@
+# Binários do vault de rascunhos (_drafts/) vão para o Git LFS: os PDFs das fontes de
+# pesquisa passam de 17 MB e ficariam para sempre no histórico do repo do Pages. O
+# check-added-large-files do pre-commit ignora arquivos rastreados pelo LFS.
+# Fora de _drafts/ nada muda: assets/ e static/ continuam no git comum, porque o
+# deploy faz checkout sem LFS.
+_drafts/**/*.pdf filter=lfs diff=lfs merge=lfs -text
+_drafts/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+_drafts/**/*.jpeg filter=lfs diff=lfs merge=lfs -text
+_drafts/**/*.png filter=lfs diff=lfs merge=lfs -text

@@ -20,18 +20,22 @@ public/
 *.log
 session-report-*.html
 
-# A gaveta de escrita do Nilton. Mora na RAIZ do repo, fora de content/ — ali o Hugo
-# nem enxerga a pasta. Um rascunho só existe para o site quando é movido para content/.
+# A gaveta de escrita do Nilton (vault Obsidian). Mora na RAIZ do repo, fora de
+# content/ — ali o Hugo nem enxerga a pasta. Um rascunho só existe para o site quando é
+# promovido para content/ (`just promote <slug>`). Desde 2026-11-20 ela É VERSIONADA:
+# rascunho e pesquisa (fontes, PDFs) passam a ter histórico e a existir fora desta máquina.
 #
-# O padrão NÃO tem barra inicial de propósito: assim casa em qualquer profundidade,
-# inclusive content/_drafts/. Isso importa porque o Hugo NÃO ignora diretórios
-# prefixados com `_` dentro de content/ — medido em 2026-07-23: content/_drafts/ gerou
-# uma seção completa (/_drafts/, index.xml, paginação e o post). Com o padrão amplo,
-# esse engano fica fora do commit e não vaza; com /_drafts/ (só raiz), seria publicado.
+# O que continua ignorado é um `_drafts/` DENTRO de content/. O Hugo NÃO ignora
+# diretórios prefixados com `_` em content/ — medido em 2026-07-23: content/_drafts/
+# gerou uma seção completa (/_drafts/, index.xml, paginação e o post). Esse engano fica
+# fora do commit e não vaza. (`**/` casa também zero diretórios: content/_drafts/.)
 #
 # Para um rascunho quase pronto, o mecanismo do Hugo continua melhor: `draft = true` no
 # front matter dentro de content/ — o `just serve` mostra (-D) e o `just build` omite.
-_drafts/
+content/**/_drafts/
+
+# Estado de sessão do Obsidian (abas abertas, cursor): muda a cada uso, não é fonte.
+_drafts/.obsidian/workspace*.json
 
 # Bytecode do Python (tools/). Artefato, não fonte.
 __pycache__/

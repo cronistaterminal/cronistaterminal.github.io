@@ -1,0 +1,23 @@
+---
+title: "Michaelis — ofuscação"
+type: fonte
+formato: html
+url: "https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/ofusca%C3%A7%C3%A3o/"
+wayback: "https://web.archive.org/web/20240829020437/https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/ofusca%C3%A7%C3%A3o/"
+acessado: 2026-11-19
+conversor: manual
+---
+
+> [!info] Cópia para leitura
+> Original: <https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/ofusca%C3%A7%C3%A3o/>
+> Wayback: <https://web.archive.org/web/20240829020437/https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/ofusca%C3%A7%C3%A3o/>
+> *Michaelis — Dicionário Brasileiro da Língua Portuguesa* (Editora Melhoramentos), on-line. Verbete copiado do HTML em 2026-11-19: o trafilatura só pegava o menu. Em caso de dúvida, vale o original.
+
+**ofuscação**
+o·fus·ca·ção
+
+*sf*
+
+Ato ou efeito de ofuscar(-se); ofuscamento.
+
+**ETIMOLOGIA** *lat* offuscatĭo.
