@@ -41,6 +41,13 @@ Cada rascunho é uma PASTA, espelhando o `eu/blog/` do vault de conhecimento:
       assets/       ← imagens; copiadas para assets/posts/<slug>/
       examples/     ← código citado no post
 
+6. PROMOVE A TRADUÇÃO, se o vault tiver `post.en.md` ao lado do `post.md`. Vira
+   content/posts/<mesmo-nome>.en.md (o Hugo pareia pelo nome), herdando do original date,
+   num e o sufixo aleatório do slug — é a mesma entrada da crônica. As tags saem de
+   data/tags.toml; `traducao` é 'maquina' salvo se o rascunho disser `traducao: humana`.
+   Se o original JÁ está publicado (o caso comum: a tradução chega depois), o mesmo
+   comando promove só a tradução.
+
 O rascunho original NÃO é apagado nem alterado. Uso:
 
     just promote <slug>             # aceita também <slug>/ e <slug>/post.md
@@ -62,12 +69,17 @@ DRAFTS_DIR = pathlib.Path("_drafts/posts")
 POSTS_DIR = pathlib.Path("content/posts")
 ASSETS_DIR = pathlib.Path("assets/posts")
 DRAFT_FILE = "post.md"
+# A tradução em inglês, ao lado do original no vault. Vira content/posts/<base>.en.md: o
+# MESMO nome-base do pt-BR (é o que o Hugo usa para parear as duas versões).
+EN_DRAFT_FILE = "post.en.md"
+TAGS_FILE = pathlib.Path("data/tags.toml")
+TRADUCAO_VALUES = ("maquina", "humana")
 # Marcadores de pasta vazia (o vault versiona assets/ vazio com .gitkeep): não são imagem.
 ASSET_SKIP = {".gitkeep", ".DS_Store"}
 NUM_WIDTH = 4
 
 # Ordem dos campos no TOML gerado — espelha archetypes/posts.md.
-FIELD_ORDER = ["title", "slug", "date", "draft", "num", "recomendado", "epoca", "tldr", "tldr_long", "tags"]
+FIELD_ORDER = ["title", "slug", "date", "draft", "traducao", "num", "recomendado", "epoca", "tldr", "tldr_long", "tags"]
 
 
 def die(msg: str) -> None:
@@ -224,6 +236,91 @@ def plan_assets(folder: pathlib.Path) -> list[tuple[pathlib.Path, pathlib.Path]]
     return pairs
 
 
+def render(values: dict[str, str], body: str) -> str:
+    lines = [f"{k} = {values[k]}" for k in FIELD_ORDER if k in values]
+    return "+++\n" + "\n".join(lines) + "\n+++\n\n" + body.strip() + "\n"
+
+
+def map_tags(pt_tags: list[str]) -> list[str]:
+    """Tags do post em inglês = as do pt-BR passadas por data/tags.toml. Tag sem tradução
+    aborta: o mapa é a ponte que o /en/ usa para mostrar as tags dos posts não traduzidos,
+    e uma tag fora dele apareceria em pt-BR para sempre sem ninguém notar."""
+    table = tomllib.loads(TAGS_FILE.read_text(encoding="utf-8"))
+    missing = [t for t in pt_tags if t not in table]
+    if missing:
+        die(f"tag(s) sem tradução em {TAGS_FILE}: {', '.join(missing)} — acrescente lá")
+    return [table[t] for t in pt_tags]
+
+
+def plan_translation(folder: pathlib.Path, base: str, pt: dict) -> tuple[pathlib.Path, str] | None:
+    """A versão em inglês, se o vault tiver `post.en.md`. `pt` = os campos do original
+    (valores Python, não TOML). Devolve (destino, conteúdo) ou None.
+
+    Do ORIGINAL vêm, sem negociação: date, num, recomendado e o sufixo aleatório do slug —
+    as duas versões são a MESMA entrada da crônica. Do rascunho em inglês vêm: title (que
+    gera a parte legível do slug), os dois TL;DR, a epoca (opcional; sem ela, a do
+    original) e `traducao` (maquina | humana; default maquina — a tradução por IA vem
+    primeiro, e o aviso só sai quando alguém declara o contrário). As tags NÃO se
+    escrevem no rascunho: saem de data/tags.toml.
+    """
+    src = folder / EN_DRAFT_FILE
+    if not src.is_file():
+        return None
+    dest = POSTS_DIR / f"{base}.en.md"
+    if dest.exists():
+        die(f"já existe: {dest}")
+
+    fm, body = parse_yaml_front_matter(src.read_text(encoding="utf-8"))
+    title = str(fm.get("title") or "").strip()
+    if not title:
+        die(f"{src} não tem `title` no front matter")
+    en_base = kebab(title)
+    if not en_base:
+        die(f"título em inglês sem caracteres utilizáveis para slug: {title!r}")
+    if fm.get("tags"):
+        die(f"{src}: não escreva `tags` na tradução — elas saem de {TAGS_FILE}")
+
+    tldr, body = extract_callout(body, "tldr")
+    tldr_long, body = extract_callout(body, "tldr-long")
+    body = strip_obsidian_comments(body)
+    for label, value in (("tldr", tldr), ("tldr-long", tldr_long)):
+        if not value:
+            die(f"não achei o callout `> [!{label}]` em {src}")
+
+    traducao = str(fm.get("traducao") or "maquina")
+    if traducao not in TRADUCAO_VALUES:
+        die(f"{src}: traducao = {traducao!r}; use um de: {', '.join(TRADUCAO_VALUES)}")
+
+    suffix = str(pt["slug"])[-4:]
+    values = {
+        "title": toml_str(title),
+        "slug": toml_str(f"{en_base}-{suffix}"),
+        "date": str(pt["date"]),
+        "draft": "false",
+        "num": toml_str(str(pt["num"])),
+        "epoca": toml_str(str(fm.get("epoca") or pt.get("epoca") or "")),
+        "tldr": toml_str(tldr),
+        "tldr_long": toml_str(tldr_long),
+        "tags": "[" + ", ".join(toml_str(t) for t in map_tags(list(pt.get("tags") or []))) + "]",
+    }
+    if traducao == "maquina":
+        values["traducao"] = toml_str("maquina")
+    if pt.get("recomendado") is True:
+        values["recomendado"] = "true"
+    return dest, render(values, body)
+
+
+def write_translation(plan: tuple[pathlib.Path, str], dry_run: bool) -> None:
+    dest, out = plan
+    if dry_run:
+        print(f"--- dry-run: tradução -> {dest} ---\n")
+        print(out)
+        return
+    dest.write_text(out, encoding="utf-8")
+    slug = re.search(r"^slug = ['\"](.+?)['\"]$", out, re.M).group(1)
+    print(f"tradução promovida: {dest}  ->  /en/…/{slug}/")
+
+
 def main() -> int:
     args = [a for a in sys.argv[1:] if a not in ("-n", "--dry-run")]
     dry_run = len(args) != len(sys.argv[1:])
@@ -246,7 +343,17 @@ def main() -> int:
 
     dest = POSTS_DIR / f"{base}.md"
     if dest.exists():
-        die(f"já existe: {dest}")
+        # Original já publicado: o caso normal da TRADUÇÃO, que chega depois. Promove só o
+        # post.en.md, herdando date/num/sufixo do slug do que está no ar.
+        if not (folder / EN_DRAFT_FILE).is_file():
+            die(f"já existe: {dest} (e não há {EN_DRAFT_FILE} para promover)")
+        m = re.match(r"^\+\+\+\n(.*?)\n\+\+\+", dest.read_text(encoding="utf-8"), re.S)
+        if not m:
+            die(f"{dest} não tem front matter TOML")
+        write_translation(plan_translation(folder, base, tomllib.loads(m.group(1))), dry_run)
+        if not dry_run:
+            print("  próximo passo: just check")
+        return 0
 
     tldr, body = extract_callout(body, "tldr")
     tldr_long, body = extract_callout(body, "tldr-long")
@@ -280,19 +387,28 @@ def main() -> int:
     if fm.get("recomendado") is True:
         values["recomendado"] = "true"
 
-    lines = [f"{k} = {values[k]}" for k in FIELD_ORDER if k in values]
-    out = "+++\n" + "\n".join(lines) + "\n+++\n\n" + body.strip() + "\n"
+    out = render(values, body)
 
     assets = plan_assets(folder)
+    # Tradução junto com o original (as duas no vault na hora do promote). Planejada ANTES
+    # de qualquer escrita, como as imagens: se ela abortar, nada foi gravado.
+    pt_plain = {"slug": slug, "date": datetime.date.today(), "num": num,
+                "epoca": fm.get("epoca") or "", "tags": fm.get("tags") or [],
+                "recomendado": fm.get("recomendado") is True}
+    translation = plan_translation(folder, base, pt_plain)
 
     if dry_run:
         print(f"--- dry-run: {src} -> {dest} ---\n")
         print(out)
         for a_src, a_dest in assets:
             print(f"--- dry-run: {a_src} -> {a_dest}")
+        if translation:
+            write_translation(translation, dry_run)
         return 0
 
     dest.write_text(out, encoding="utf-8")
+    if translation:
+        write_translation(translation, dry_run)
     for a_src, a_dest in assets:
         a_dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(a_src, a_dest)

@@ -254,6 +254,15 @@ toggle. Destino, em ordem: a tradução da página; a tag correspondente (`data/
 home do outro idioma, para o que não é conteúdo (home, listagens, 404); e, se nada disso
 existir, um `<span aria-disabled>` com "not translated yet".
 
+**Busca por idioma.** O Pagefind escreve um índice por `<html lang>` (`pt-br`, `en`) na
+mesma pasta `/pagefind/`, e o `init()` carrega o do idioma da página. Então a palette do
+`/en/` acha **só os posts traduzidos** — um pt-BR sem tradução aparece no estado zero e nas
+listagens, mas não na busca. Fundir os dois **não** é uma chamada: o `mergeIndex()` do
+Pagefind 1.6 recusa um caminho que comece igual ao do índice principal (lido no
+`pagefind.js`, não presumido). O caminho limpo, se um dia valer o custo: dois índices em
+pastas separadas (`pagefind --glob` por idioma), `mergeIndex("/pagefind/", { language:
+"pt-br" })` no `/en/`, e um filtro para não listar o pt-BR que já tem tradução.
+
 **Limitação conhecida:** as contagens de tag (destaques da sidebar, `/en/tags/`, chips de
 filtro da palette) vêm da taxonomia **do próprio idioma** — um post pt-BR sem tradução não
 conta em `/en/tags/`.

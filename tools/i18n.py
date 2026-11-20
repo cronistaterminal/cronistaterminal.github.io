@@ -5,7 +5,7 @@ Existe porque o Hugo não reclama de nenhum destes erros: `{{ i18n "chave" }}` c
 inexistente renderiza VAZIO (um aria-label="" passa no build e some para o leitor de
 tela), e o JS só descobre a chave ausente quando ela aparece crua na tela.
 
-Quatro checagens, todas estáticas (nada de build):
+Cinco checagens, todas estáticas (nada de build):
 
 1. PARIDADE: toda chave de um idioma existe no outro.
 2. TEMPLATES: toda chave citada em `i18n "x"` (layouts/) existe nos dois idiomas.
@@ -13,6 +13,8 @@ Quatro checagens, todas estáticas (nada de build):
    que é o que de fato chega ao navegador — e existe nos dois idiomas.
 4. PLACEHOLDER: chave usada pelo JS (js_*) não pode ter `{{ }}`: o Hugo resolveria no
    build, com contexto vazio, antes de o tr() ver o texto.
+5. TAGS: toda tag de post pt-BR tem tradução em data/tags.toml, e toda tag de um .en.md
+   é um VALOR de lá — senão o /en/ mostra a tag em pt-BR, ou separa a mesma tag em duas.
 
 Sai com código 1 se algo reprovar — é um gate, não um relatório.
 """
@@ -85,11 +87,25 @@ def main() -> int:
             if k in shipped and isinstance(v, str) and "{{" in v:
                 errors.append(f"{lang}.toml: {k} é do JS e tem {{{{ }}}} — use {{nome}}")
 
+    tag_map = tomllib.loads((ROOT / "data/tags.toml").read_text())
+    en_tags = set(tag_map.values())
+    for p in sorted((ROOT / "content/posts").glob("*.md")):
+        m = re.match(r"^\+\+\+\n(.*?)\n\+\+\+", p.read_text(), re.S)
+        if not m:
+            continue
+        tags = tomllib.loads(m.group(1)).get("tags") or []
+        is_en = p.name.endswith(".en.md")
+        for t in tags:
+            if is_en and t not in en_tags:
+                errors.append(f"{p.name}: tag {t!r} não é tradução de data/tags.toml")
+            if not is_en and t not in tag_map:
+                errors.append(f"{p.name}: tag {t!r} sem tradução em data/tags.toml")
+
     if errors:
         print("\n".join(f"  [x] {e}" for e in errors))
         return 1
     print(f"  [ok] i18n: {len(both)} chaves nos {len(LANGS)} idiomas; "
-          f"{len(used_tpl)} usadas em template, {len(used_js)} no JS.")
+          f"{len(used_tpl)} usadas em template, {len(used_js)} no JS; {len(tag_map)} tags mapeadas.")
     return 0
 
 
