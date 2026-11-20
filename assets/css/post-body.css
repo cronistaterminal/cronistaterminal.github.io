@@ -80,6 +80,26 @@
     color: color-mix(in oklab, var(--foreground) 80%, transparent);
 }
 
+/* Aviso de tradução por máquina (shortcode aviso-traducao). Mesma gramática de
+   bloco-com-borda do blockquote, mas com MOLDURA inteira: é um aviso sobre o
+   post, não uma voz dentro dele, e precisa se separar da prosa no começo e no
+   fim do texto. Texto em --foreground cheio (não esmaecido como o blockquote):
+   aviso tem que ser lido. O rótulo em accent ecoa o prompt do terminal. */
+.notice-translation {
+    border: 1px solid var(--accent-line);
+    border-left-width: 3px;
+    padding: 0.8rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.notice-translation-label {
+    font-family: var(--font-head);
+    color: var(--accent);
+    text-transform: lowercase;
+}
+
 /* Código inline: SEMPRE mono (--font-ibm), mesmo no modo acessível — código
    precisa do alinhamento monoespaçado, a legibilidade do Lexend não compensa.
    Fundo chapado morto (--accent-mute) + texto de chip (--chip-text, >= AA
