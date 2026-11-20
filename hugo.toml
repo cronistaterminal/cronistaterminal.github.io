@@ -9,18 +9,48 @@
 # A barra final importa: o Hugo concatena baseURL + path, e sem ela as URLs absolutas do
 # RSS/sitemap saem grudadas.
 baseURL = 'https://cronistaterminal.github.io/'
-locale = 'pt-br'
 defaultContentLanguage = 'pt-br'
 title = 'O Cronista Terminal'
+
+# Multilíngue: pt-BR na RAIZ, inglês em /en/ (decisões na issue #2, 2026-11-20).
+# defaultContentLanguageInSubdir = false é o que mantém as URLs já publicadas: com true,
+# o pt-BR iria para /pt-br/ e todo link existente quebraria. URL é contrato.
+#
+# A tradução é por NOME DE ARQUIVO: content/posts/x.md + x.en.md, lado a lado. O Hugo
+# pareia os dois pelo caminho; a URL do inglês vem do `slug` do próprio .en.md.
+# Arquivo sem sufixo de idioma é do defaultContentLanguage (pt-br).
+#
+# O title NÃO se traduz: "O Cronista Terminal" é nome próprio (a persona), não descrição.
+defaultContentLanguageInSubdir = false
 
 # robots.txt gerado pelo Hugo (layouts/robots.txt) em vez de estático: assim ele
 # aponta o Sitemap pela baseURL, sem hardcode de domínio.
 enableRobotsTXT = true
 
+# A ordem importa: em TOML, toda chave solta DEPOIS de um cabeçalho [tabela] pertence a
+# essa tabela. Com o [languages] acima do enableRobotsTXT, a chave virou
+# languages.en.params.enableRobotsTXT e o robots.txt sumiu do build sem erro nenhum.
+# Chave de topo fica ACIMA de qualquer tabela.
+[languages]
+  [languages.pt-br]
+    locale = 'pt-br'
+    label = 'Português'
+    weight = 1
+    [languages.pt-br.params]
+      description = 'Crônicas de um terminal — histórias de computação, contadas por época.'
+  [languages.en]
+    locale = 'en'
+    label = 'English'
+    weight = 2
+    [languages.en.params]
+      description = 'Chronicles from a terminal — computing stories, told by era.'
+
 # O blog é arquivo cronológico; sumários/listas vêm dos campos do front matter,
 # não do markdown bruto. Mantido enxuto por ora — cresce com os componentes.
+#
+# Params comuns aos dois idiomas. O que muda por idioma (description) mora em
+# [languages.<lang>.params], acima: o Hugo funde os dois, e o do idioma vence.
 [params]
-  description = 'Crônicas de um terminal — histórias de computação, contadas por época.'
   # author: usado no JSON-LD (schema.org author/publisher) e no article:author. É a
   # PERSONA (a alcunha do /cronista/), não o nome real — é a voz que assina o blog.
   author = 'O Cronista Terminal'
@@ -48,6 +78,15 @@ enableRobotsTXT = true
 # tema. guessSyntax=false: fence sem linguagem fica sem cor (melhor que adivinhar
 # errado). lineNos desligado — o Chroma emitiria uma <table> só para isso.
 [markup]
+  # Hooks embutidos de link/imagem do Hugo. O default 'auto' vira 'fallback' sozinho
+  # quando o site é multilíngue — fica declarado aqui para não ser surpresa. Com ele, um
+  # link Markdown para página interna ([x](/cronista/)) resolve para a versão do MESMO
+  # idioma do post, que é o que a tradução por arquivo precisa. Efeito colateral visível
+  # no HTML: a URL sai normalizada (`(` vira `%28`) — equivalente, não é quebra.
+  [markup.goldmark.renderHooks.link]
+    useEmbedded = 'fallback'
+  [markup.goldmark.renderHooks.image]
+    useEmbedded = 'fallback'
   [markup.highlight]
     noClasses = false
     guessSyntax = false
