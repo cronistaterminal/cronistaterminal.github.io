@@ -1,7 +1,12 @@
 {{ define "main" }}
 {{- /*
-  page.html — página institucional genérica (título + prosa). Ativada por
-  `layout = "page"` no front matter. Primeiro uso: content/transparencia-ia.md.
+  simple.html — página institucional genérica (título + prosa). Ativada por
+  `layout = "simple"` no front matter. Primeiro uso: content/transparencia-ia.md.
+
+  O NOME NÃO PODE SER page.html. No Hugo 0.146+, `page` é o nome do KIND de toda página
+  comum — posts incluídos —, então um _default/page.html vence o single.html para TODAS
+  elas. Foi o que aconteceu: o post saiu sem data, tags, época, TL;DR e referências, e
+  fora do índice da busca, com o build verde.
 
   Existe porque single.html é a página de POST (num, datas, tags, TL;DR) e
   cronista.html é o cartão de identidade — nenhuma das duas serve a um texto

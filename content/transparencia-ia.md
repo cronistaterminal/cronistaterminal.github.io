@@ -1,6 +1,6 @@
 +++
 title = "Transparência sobre o uso de IA"
-layout = "page"
+layout = "simple"
 +++
 
 O Cronista Terminal é um blog pessoal, e, apesar da minha intenção de ter vários tutoriais, não é minha vontade criar uma comunidade em volta dele: conhecimento é livre seja para um ou para todos. Saliento também que **não tenho planos comerciais para este blog** e, se tivesse, minha atitude com o uso de IAs seria bem diferente.
