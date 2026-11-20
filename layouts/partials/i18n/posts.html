@@ -1,0 +1,36 @@
+{{- /* Os posts de uma listagem, no idioma do site atual. Retorna a coleção ordenada por
+       num desc (a ordem da crônica).
+
+       pt-BR: os posts pt-BR, e só.
+       Outro idioma (en): os posts traduzidos MAIS os posts pt-BR que ainda não têm
+       tradução (decisão "B" da issue #2). Assim quem lê em inglês vê o arquivo inteiro;
+       o card marca o que é pt-BR (post-card.html) e o link leva ao original.
+
+       Contexto: opcional, um dict "pages" (o recorte a filtrar; default = todos os posts
+       do site atual) e "term" (para term.html: só os pt-BR cuja tag MAPEADA em
+       data/tags.toml é este termo). */ -}}
+{{- $lang := site.Language.Lang -}}
+{{- $out := where site.RegularPages "Type" "posts" -}}
+{{- with .pages }}{{ $out = . }}{{ end -}}
+{{- $term := .term -}}
+{{- if ne $lang "pt-br" -}}
+  {{- range hugo.Sites -}}
+    {{- if eq .Language.Lang "pt-br" -}}
+      {{- range where .RegularPages "Type" "posts" -}}
+        {{- $translated := false -}}
+        {{- range .Translations }}{{ if eq .Language.Lang $lang }}{{ $translated = true }}{{ end }}{{ end -}}
+        {{- if not $translated -}}
+          {{- $keep := true -}}
+          {{- if $term -}}
+            {{- $keep = false -}}
+            {{- range .Params.tags -}}
+              {{- if eq (urlize (index hugo.Data.tags . | default .)) (urlize $term) }}{{ $keep = true }}{{ end -}}
+            {{- end -}}
+          {{- end -}}
+          {{- if $keep }}{{ $out = $out | append . }}{{ end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return sort $out "Params.num" "desc" -}}

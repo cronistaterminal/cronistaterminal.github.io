@@ -188,6 +188,15 @@
     text-decoration: underline;
 }
 
+/* [pt-br]: post listado no /en/ que ainda não tem tradução. Quieto como o #num — é
+   informação de catálogo, não chamada. Fica DEPOIS do título para não deslocar o olho. */
+.post-lang {
+    color: var(--accent-quiet);
+    font-size: 0.8em;
+    margin-left: 0.5ch;
+    white-space: nowrap;
+}
+
 .post-tldr {
     margin: 0;
     color: var(--foreground);

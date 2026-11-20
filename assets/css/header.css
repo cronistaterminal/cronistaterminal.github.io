@@ -229,6 +229,64 @@
     --font-head: var(--font-comic);
 }
 
+/* Fileira de preferências de leitura: toggle Aa + botão de idioma, lado a lado. */
+.a11y-row {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 1.1rem;
+}
+
+/* Botão de idioma: um LINK (trocar de idioma é navegar), com a gramática do "Aa".
+   - .lang-code "EN"/"PT": o idioma de DESTINO, sempre visível, no tamanho do "Aa".
+   - .lang-hint "Read in English": revelado no hover/foco, expande à esquerda. Ele NÃO é
+     escondido do leitor de tela (max-width 0 + overflow, não display:none): é o nome
+     acessível do link, pronunciado no idioma de destino pelo lang do <a>.
+   - [aria-disabled="true"]: a página não tem tradução. Um <span>, fora da ordem de Tab,
+     esmaecido por opacity (o fundo não inverte aqui). Estado é atributo, não classe. */
+.lang-switch {
+    display: inline-flex;
+    align-items: baseline;
+    color: var(--accent);
+    text-decoration: none;
+    line-height: 1;
+}
+
+.lang-code {
+    font-family: var(--font-head);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.lang-hint {
+    font-family: var(--font-body);
+    font-size: 15px;
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 0;
+    transition: max-width 0.22s ease, opacity 0.22s ease, margin-right 0.22s ease;
+}
+
+/* 28ch cobre a maior frase ("English: not translated yet", 27). Mesmo aviso do .aa-hint:
+   se a frase crescer, é este número que a corta no meio, sem avisar. */
+.lang-switch:hover .lang-hint,
+.lang-switch:focus-visible .lang-hint {
+    max-width: 28ch;
+    opacity: 1;
+    margin-right: 0.6ch;
+}
+
+.lang-switch:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.lang-switch[aria-disabled="true"] {
+    opacity: 0.55;
+    cursor: default;
+}
+
 /* Linha inferior: ocupa o resto da coluna -> deixa a de cima menor. */
 .header-nav {
     flex: 1;

@@ -9,12 +9,18 @@
 {{- $num := .Params.num -}}
 {{- $monthFull := i18n (printf "month_%d" (int .Date.Month)) -}}
 {{- $monthAbbr := i18n (printf "month_%d_abbr" (int .Date.Month)) -}}
+{{- /* Post pt-BR listado no /en/ sem tradução (decisão "B", issue #2): título e TL;DR
+       levam lang="pt-BR" (o leitor de tela troca a pronúncia SÓ neles — os rótulos de
+       interface do card seguem no idioma do site), o link leva hreflang, e o título
+       ganha a marca [pt-br]. */ -}}
+{{- $foreign := ne .Language.Lang site.Language.Lang -}}
 <article id="post-{{ $num }}" class="post" aria-labelledby="post-{{ $num }}-title">
 
   {{- with .Params.tags }}
   <ul class="post-tags" aria-label="{{ i18n "post_tags" }}">
     {{- range . }}
-    <li><a class="tag" href="{{ (printf "/tags/%s" (urlize .)) | relURL }}">{{ . }}</a></li>
+    {{- $t := partial "i18n/tag.html" (dict "tag" . "page" $) }}
+    <li><a class="tag" href="{{ $t.href }}"{{ with $t.lang }} hreflang="{{ . }}" lang="{{ . }}"{{ end }}>{{ $t.name }}</a></li>
     {{- end }}
   </ul>
   {{- end }}
@@ -48,16 +54,19 @@
     <div class="post-content">
       <h2 id="post-{{ $num }}-title" class="post-title">
         <a class="post-num" href="#post-{{ $num }}" aria-label="{{ i18n "post_number" (dict "n" $num) }}">#{{ $num }}</a>
-        <a class="post-headline" href="{{ .RelPermalink }}">{{ .Title }}</a>
+        <a class="post-headline" href="{{ .RelPermalink }}"{{ if $foreign }} hreflang="{{ .Language.Locale }}" lang="{{ .Language.Locale }}"{{ end }}>{{ .Title }}</a>
+        {{- if $foreign }}
+        <span class="post-lang"><span class="sr-only">{{ i18n "in_portuguese" }}</span><span aria-hidden="true">[pt-br]</span></span>
+        {{- end }}
       </h2>
 
       {{- with .Params.tldr }}
-      <p class="post-tldr">{{ . }}</p>
+      <p class="post-tldr"{{ if $foreign }} lang="{{ $.Language.Locale }}"{{ end }}>{{ . }}</p>
       {{- end }}
 
       {{- with .Params.tldr_long }}
       <input type="checkbox" id="more-{{ $num }}" class="more-toggle">
-      <p class="post-tldr-long">{{ . }}</p>
+      <p class="post-tldr-long"{{ if $foreign }} lang="{{ $.Language.Locale }}"{{ end }}>{{ . }}</p>
       {{- end }}
 
       <div class="post-foot">

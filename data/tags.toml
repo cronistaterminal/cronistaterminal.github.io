@@ -1,0 +1,10 @@
+# Tradução das tags: chave = tag em pt-BR (como no front matter), valor = tag em inglês.
+#
+# É a ponte entre as duas taxonomias. O .en.md de um post usa os VALORES daqui nas
+# próprias tags; os templates usam o mapa para, no /en/, mostrar em inglês as tags de
+# um post que ainda só existe em pt-BR. Tag nova em post pt-BR -> entra aqui no mesmo
+# commit (`just tags` confere).
+seguranca = "security"
+criptografia = "cryptography"
+lgpd = "lgpd"
+python = "python"

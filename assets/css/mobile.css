@@ -183,6 +183,16 @@
         font-size: 22px;
     }
 
+    /* Idioma: alvo de toque >= 24px (WCAG 2.5.8); no touch não há hover, o código basta. */
+    .lang-switch {
+        min-height: 24px;
+        align-items: center;
+    }
+
+    .lang-code {
+        font-size: 18px;
+    }
+
     /* Trava o scroll do body com o menu aberto (o #sidebar tem scroll próprio). */
     body.menu-locked {
         overflow: hidden;

@@ -7,8 +7,7 @@
   - últimos posts: 3 mais recentes por num (mesma ordem da listagem).
   Chips = .tag (reusa o estilo da listagem). Sticky no desktop (layout.css).
 */ -}}
-{{- $posts := where site.RegularPages "Type" "posts" -}}
-{{- $recent := first 3 (sort $posts "Params.num" "desc") -}}
+{{- $recent := first 3 (partial "i18n/posts.html" (dict)) -}}
 <aside id="sidebar" class="sidebar term-panel">
   <span class="term-label" aria-hidden="true"><span class="prompt">$</span><span class="typed" id="sidebar-typed"></span><span class="cursor"></span></span>
 
@@ -36,7 +35,7 @@
       <li><a class="tag" href="{{ .Page.RelPermalink }}">{{ .Name }} <span class="tag-count">({{ .Count }})</span></a></li>
       {{- end }}
     </ul>
-    <a class="tag sidebar-tags-all" href="{{ "/tags/" | relURL }}">{{ i18n "see_all" }}</a>
+    <a class="tag sidebar-tags-all" href="{{ "/tags/" | relLangURL }}">{{ i18n "see_all" }}</a>
   </section>
   {{- end }}
 
@@ -45,7 +44,7 @@
     <h2 id="sb-recent-h" class="sidebar-heading">{{ i18n "latest_posts" }}</h2>
     <ul class="sidebar-posts">
       {{- range . }}
-      <li><a class="sidebar-post" href="{{ .RelPermalink }}"><span class="sidebar-post-id">#{{ .Params.num }}</span>{{ .Title }}</a></li>
+      <li><a class="sidebar-post" href="{{ .RelPermalink }}"{{ if ne .Language.Lang site.Language.Lang }} hreflang="{{ .Language.Locale }}" lang="{{ .Language.Locale }}"{{ end }}><span class="sidebar-post-id">#{{ .Params.num }}</span>{{ .Title }}</a></li>
       {{- end }}
     </ul>
   </section>

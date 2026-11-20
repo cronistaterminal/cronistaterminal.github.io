@@ -1,0 +1,19 @@
+{{- /* Nome e link de UMA tag, vista do site atual. Contexto: dict "tag" (o termo cru do
+       front matter) e "page" (o post dono da tag). Retorna dict name/href/lang.
+
+       Post do MESMO idioma do site: a tag como está, link /tags/ do idioma.
+       Post pt-BR mostrado no /en/ (sem tradução): o nome vem de data/tags.toml; o link
+       vai para a tag em inglês SE ela existir (algum post traduzido a usa), senão para
+       a tag original em pt-BR, marcada com lang/hreflang. */ -}}
+{{- $tag := .tag -}}
+{{- $page := .page -}}
+{{- $out := dict "name" $tag "href" ((printf "/tags/%s/" (urlize $tag)) | relLangURL) "lang" "" -}}
+{{- if ne $page.Language.Lang site.Language.Lang -}}
+  {{- $name := index hugo.Data.tags $tag | default $tag -}}
+  {{- with site.GetPage (printf "/tags/%s" (urlize $name)) -}}
+    {{- $out = dict "name" $name "href" .RelPermalink "lang" "" -}}
+  {{- else -}}
+    {{- $out = dict "name" $tag "href" ((printf "/tags/%s/" (urlize $tag)) | relURL) "lang" $page.Language.Locale -}}
+  {{- end -}}
+{{- end -}}
+{{- return $out -}}

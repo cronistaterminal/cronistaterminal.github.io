@@ -241,6 +241,23 @@ ela existe, senão para a original marcada "(in Portuguese)".
 caminho lógico é igual nos dois idiomas, e o `GetPage` devolve a versão do idioma do site,
 com o slug dela (`/en/ai-transparency/`).
 
+**Post sem tradução no `/en/` (decisão "B").** As listagens (home, `/posts/`, tag,
+"últimos posts" da sidebar, estado zero da palette) pegam os posts por
+`partials/i18n/posts.html`: no inglês, os traduzidos **mais** os pt-BR sem `.en.md`. O card
+de um pt-BR leva `lang`/`hreflang` no título e nos TL;DR e a marca `[pt-br]`; as tags dele
+saem traduzidas por `data/tags.toml` (`partials/i18n/tag.html`), com link para a tag em
+inglês se ela existir, senão para a original. O post pt-BR sem tradução abre com um aviso em
+inglês (`untranslated-notice.html`).
+
+**Botão de idioma** (`partials/lang-switch.html`, na fileira do Aa): um `<a>`, nunca um
+toggle. Destino, em ordem: a tradução da página; a tag correspondente (`data/tags.toml`); a
+home do outro idioma, para o que não é conteúdo (home, listagens, 404); e, se nada disso
+existir, um `<span aria-disabled>` com "not translated yet".
+
+**Limitação conhecida:** as contagens de tag (destaques da sidebar, `/en/tags/`, chips de
+filtro da palette) vêm da taxonomia **do próprio idioma** — um post pt-BR sem tradução não
+conta em `/en/tags/`.
+
 **Fora do i18n, de propósito:** a 404 (`404.html`, `lost.js`, `data/404.toml`) continua só
 em pt-BR — o GitHub Pages serve apenas o `/404.html` da raiz. E as mensagens de `errorf`
 dos shortcodes, que são para quem escreve o post, não para quem lê.

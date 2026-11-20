@@ -34,12 +34,14 @@ latest_posts = "latest posts"
 archive_label = "#archive"
 browse_by_tag = "browse by tag"
 tags_label = "#tags"
+tag_label = "#tag"
 all_tags = "All tags"
 see_all_tags = "see all tags"
 post_tags = "Post tags"
 post_number = "Post number {{ .n }}"
 see_more = "see more"
 see_less = "see less"
+in_portuguese = ", in Portuguese"
 read_all = "read it all"
 publication_date = "Publication date"
 published_on = "Published on: "
@@ -142,3 +144,15 @@ js_prompt_search = "python decorators|alan turing|c64 basic|brazilian bbs|friday
 [n_posts]
 one = "{{ .Count }} post"
 other = "{{ .Count }} posts"
+
+[n_entries]
+one = "{{ .Count }} entry in the chronicle, newest first."
+other = "{{ .Count }} entries in the chronicle, newest first."
+
+[n_tagged]
+one = "{{ .Count }} post tagged"
+other = "{{ .Count }} posts tagged"
+
+[n_tags]
+one = "{{ .Count }} tag in the archive, most used first."
+other = "{{ .Count }} tags in the archive, most used first."

@@ -47,7 +47,7 @@
     {{- with .Params.tags }}
     <ul class="post-tags" aria-label="{{ i18n "post_tags" }}">
       {{- range . }}
-      <li><a class="tag" href="{{ (printf "/tags/%s" (urlize .)) | relURL }}" data-pagefind-filter="tag">{{ . }}</a></li>
+      <li><a class="tag" href="{{ (printf "/tags/%s/" (urlize .)) | relLangURL }}" data-pagefind-filter="tag">{{ . }}</a></li>
       {{- end }}
     </ul>
     {{- end }}
@@ -126,6 +126,7 @@
          repositório), então reafirmar a confiança aqui é seguro. */ -}}
   {{- $content := .Content | replaceRE `(?s)(<div class="footnotes" role="doc-endnotes">)\s*<hr\s*/?>` (printf `${1}<h2 class="footnotes-title">%s</h2>` (i18n "references")) | safeHTML -}}
   <div class="post-body" data-pagefind-ignore>
+    {{ partial "untranslated-notice.html" . }}
     {{ partial "machine-translation.html" (dict "page" .) }}
     {{ $content }}
     {{ partial "machine-translation.html" (dict "page" .) }}

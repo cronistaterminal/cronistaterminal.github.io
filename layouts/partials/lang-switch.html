@@ -1,0 +1,58 @@
+{{- /* Botão de idioma (#accessibility, ao lado do toggle Aa). Contexto: a Page.
+
+  É um LINK, não um toggle: trocar de idioma é navegar para outra página, não mudar um
+  estado local. O leitor de tela anuncia "link, Read in English" — e pronuncia em
+  inglês, pelo lang do próprio <a>. Sem redirect automático por navigator.language.
+
+  Mesma gramática visual do "Aa": o código do idioma de DESTINO sempre visível (EN/PT) e
+  a frase revelada no hover/foco. A frase fica no idioma de destino, então não vem do
+  i18n do site atual — mora no dict abaixo.
+
+  Para onde aponta, em ordem:
+    1. a tradução desta página (.Translations);
+    2. página de tag: a tag correspondente em data/tags.toml, se existir no outro idioma;
+    3. página que não é conteúdo (home, listagens, 404): a home do outro idioma;
+    4. post/página SEM tradução: não há destino. Vira um <span aria-disabled> com
+       "not translated yet" — o próprio post já traz o aviso em inglês no topo
+       (untranslated-notice.html), que é o que o leitor de tela encontra. */ -}}
+{{- $here := site.Language.Lang -}}
+{{- $there := cond (eq $here "pt-br") "en" "pt-br" -}}
+{{- $copy := dict
+      "en" (dict "code" "EN" "locale" "en" "read" "Read in English" "missing" "English: not translated yet")
+      "pt-br" (dict "code" "PT" "locale" "pt-BR" "read" "Ler em português" "missing" "Português: sem versão")
+-}}
+{{- $c := index $copy $there -}}
+{{- $target := false -}}
+{{- /* A 404 também tem "tradução" (o Hugo gera /en/404.html), mas o GitHub Pages só serve
+       a da raiz, e mandar alguém de uma 404 para outra 404 não ajuda: cai na regra 3. */ -}}
+{{- if ne .Kind "404" -}}
+{{- range .Translations }}{{ if eq .Language.Lang $there }}{{ $target = . }}{{ end }}{{ end -}}
+{{- end -}}
+{{- $otherSite := false -}}
+{{- range hugo.Sites }}{{ if eq .Language.Lang $there }}{{ $otherSite = . }}{{ end }}{{ end -}}
+{{- if and (not $target) (eq .Kind "term") $otherSite -}}
+  {{- $term := .Data.Term -}}
+  {{- $mapped := "" -}}
+  {{- range $pt, $en := hugo.Data.tags -}}
+    {{- if and (eq $here "pt-br") (eq $pt $term) }}{{ $mapped = $en }}{{ end -}}
+    {{- if and (eq $here "en") (eq $en $term) }}{{ $mapped = $pt }}{{ end -}}
+  {{- end -}}
+  {{- with $mapped }}{{ with $otherSite.GetPage (printf "/tags/%s" (urlize .)) }}{{ $target = . }}{{ end }}{{ end -}}
+{{- end -}}
+{{- if and (not $target) (not .IsPage) (ne .Kind "term") $otherSite -}}
+  {{- $target = $otherSite.Home -}}
+{{- end -}}
+{{- if and (not $target) (eq .Kind "term") $otherSite -}}
+  {{- $target = $otherSite.GetPage "/tags" -}}
+{{- end -}}
+{{- with $target }}
+<a class="lang-switch" href="{{ .RelPermalink }}" hreflang="{{ $c.locale }}" lang="{{ $c.locale }}">
+  <span class="lang-hint">{{ $c.read }}</span>
+  <span class="lang-code" aria-hidden="true">{{ $c.code }}</span>
+</a>
+{{- else }}
+<span class="lang-switch" aria-disabled="true" lang="{{ $c.locale }}">
+  <span class="lang-hint">{{ $c.missing }}</span>
+  <span class="lang-code" aria-hidden="true">{{ $c.code }}</span>
+</span>
+{{- end }}

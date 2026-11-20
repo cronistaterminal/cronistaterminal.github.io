@@ -14,7 +14,7 @@
     <span class="post-num">{{ i18n "tags_label" }}</span> {{ i18n "all_tags" }}
   </h1>
   <p class="post-tldr">
-    {{ len $terms }} {{ if eq (len $terms) 1 }}tag{{ else }}tags{{ end }} no arquivo, das mais usadas às mais raras.
+    {{ i18n "n_tags" (len $terms) }}
   </p>
 </header>
 

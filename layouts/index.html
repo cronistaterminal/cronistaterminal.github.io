@@ -4,8 +4,8 @@
        (.Date); o período de que o post FALA é outro campo, opcional (.Params.epoca).
        .Paginate respeita o pagerSize do hugo.toml. A paginação recebe o $paginator
        (mesmo objeto) p/ render a janela. */ -}}
-{{- $posts := where site.RegularPages "Type" "posts" -}}
-{{- $posts = sort $posts "Params.num" "desc" -}}
+{{- /* No /en/ entram também os posts pt-BR sem tradução (partials/i18n/posts.html). */ -}}
+{{- $posts := partial "i18n/posts.html" (dict) -}}
 {{- $paginator := .Paginate $posts -}}
 {{- range $paginator.Pages }}
 {{ partial "post-card.html" . }}

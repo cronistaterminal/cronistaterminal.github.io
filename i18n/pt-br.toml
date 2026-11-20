@@ -39,12 +39,14 @@ latest_posts = "últimos posts"
 archive_label = "#arquivo"
 browse_by_tag = "ver por tag"
 tags_label = "#tags"
+tag_label = "#tag"
 all_tags = "Todas as tags"
 see_all_tags = "ver todas as tags"
 post_tags = "Tags do post"
 post_number = "Post número {{ .n }}"
 see_more = "ver mais"
 see_less = "ver menos"
+in_portuguese = ", em português"
 read_all = "ler tudo"
 publication_date = "Data de publicação"
 published_on = "Publicado em: "
@@ -150,3 +152,15 @@ js_prompt_search = "python decorators|alan turing|c64 basic|bbs brasileiras|depl
 [n_posts]
 one = "{{ .Count }} post"
 other = "{{ .Count }} posts"
+
+[n_entries]
+one = "{{ .Count }} entrada na crônica, da mais recente à mais antiga."
+other = "{{ .Count }} entradas na crônica, da mais recente à mais antiga."
+
+[n_tagged]
+one = "{{ .Count }} post marcado com"
+other = "{{ .Count }} posts marcados com"
+
+[n_tags]
+one = "{{ .Count }} tag no arquivo, das mais usadas às mais raras."
+other = "{{ .Count }} tags no arquivo, das mais usadas às mais raras."

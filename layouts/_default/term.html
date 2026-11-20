@@ -7,8 +7,9 @@
   nomeia o recorte. Ordena por num desc, igual à home (a crônica é numerada e a
   ordem do arquivo é a da numeração — ver index.html).
 */ -}}
-{{- $posts := .Pages -}}
-{{- $posts = sort $posts "Params.num" "desc" -}}
+{{- /* No /en/, também os posts pt-BR sem tradução cuja tag MAPEADA (data/tags.toml) é
+       este termo. */ -}}
+{{- $posts := partial "i18n/posts.html" (dict "pages" .Pages "term" .Data.Term) -}}
 {{- $paginator := .Paginate $posts -}}
 
 {{- /* .Data.Term = o termo CRU do front matter. .Title daria o slug title-caseado
@@ -17,12 +18,12 @@
 
 <header class="post-single-head">
   <h1 class="post-single-title">
-    <span class="post-num">#tag</span> {{ $term }}
+    <span class="post-num">{{ i18n "tag_label" }}</span> {{ $term }}
   </h1>
   <p class="post-tldr">
-    {{ len $posts }} {{ if eq (len $posts) 1 }}post marcado{{ else }}posts marcados{{ end }} com
+    {{ i18n "n_tagged" (len $posts) }}
     <em>{{ $term }}</em>.
-    <a href="{{ "/tags/" | relURL }}">{{ i18n "see_all_tags" }}</a>
+    <a href="{{ "/tags/" | relLangURL }}">{{ i18n "see_all_tags" }}</a>
   </p>
 </header>
 

@@ -1,0 +1,19 @@
+{{- /* Aviso de "ainda sem tradução", no topo de um POST pt-BR que não tem versão em
+       inglês. Contexto: a Page.
+
+       Existe pela decisão "B" da issue #2: no /en/ o card de um post sem tradução leva ao
+       original pt-BR, e quem chega lá precisa saber por que está lendo português. Aparece
+       SEMPRE que falta a tradução (não só para quem veio do /en/): não depende de JS, de
+       parâmetro na URL nem de referrer. Em inglês, com lang="en", para quem não lê pt-BR.
+
+       Mesma moldura do aviso de tradução por máquina (.notice-translation). */ -}}
+{{- if and (eq .Language.Lang "pt-br") (eq .Type "posts") -}}
+{{- $translated := false -}}
+{{- range .Translations }}{{ if eq .Language.Lang "en" }}{{ $translated = true }}{{ end }}{{ end -}}
+{{- if not $translated }}
+<aside class="notice-translation" role="note" lang="en">
+  <p class="notice-translation-label"><span aria-hidden="true">$ </span>not-translated-yet</p>
+  <p>This post hasn't been translated into English yet — you're reading the Portuguese original.</p>
+</aside>
+{{- end }}
+{{- end -}}

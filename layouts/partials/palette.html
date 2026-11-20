@@ -18,8 +18,7 @@
   Cada <li> é um role="option" com id único (palette.js usa em aria-activedescendant);
   .hit-head aponta pro permalink real (Enter faz .click() -> navega).
 */ -}}
-{{- $posts := where site.RegularPages "Type" "posts" -}}
-{{- $posts = sort $posts "Params.num" "desc" -}}
+{{- $posts := partial "i18n/posts.html" (dict) -}}
 <div id="palette-backdrop" class="palette-backdrop" hidden>
   <div id="palette" class="palette term-panel" role="dialog" aria-modal="true" aria-label="{{ i18n "search_posts" }}">
     <span class="term-label" aria-hidden="true"><span class="prompt">$</span> {{ i18n "palette_command" }}</span>
@@ -70,7 +69,7 @@
 
     <ul id="palette-results" class="palette-results" role="listbox" aria-label="{{ i18n "results" }}">
       {{- range $posts }}
-      <li class="palette-hit" role="option" id="hit-{{ .Params.num }}" aria-selected="false" aria-expanded="false">
+      <li class="palette-hit" role="option" id="hit-{{ .Params.num }}" aria-selected="false" aria-expanded="false"{{ if ne .Language.Lang site.Language.Lang }} lang="{{ .Language.Locale }}"{{ end }}>
         <a class="hit-head" href="{{ .RelPermalink }}" tabindex="-1"><span class="hit-id">#{{ .Params.num }}</span><span class="hit-title">{{ .Title }}</span></a>
         {{- with .Params.tldr }}
         <p class="hit-tldr">{{ . }}</p>
