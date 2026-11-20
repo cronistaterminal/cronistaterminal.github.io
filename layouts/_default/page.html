@@ -1,0 +1,25 @@
+{{ define "main" }}
+{{- /*
+  page.html — página institucional genérica (título + prosa). Ativada por
+  `layout = "page"` no front matter. Primeiro uso: content/transparencia-ia.md.
+
+  Existe porque single.html é a página de POST (num, datas, tags, TL;DR) e
+  cronista.html é o cartão de identidade — nenhuma das duas serve a um texto
+  simples. Herda o painel de terminal do baseof (#main.term-panel).
+
+  Reusa .post-single-title para o <h1> e .post-body/.post-rule para a prosa —
+  nenhuma folha CSS nova (a ordem do bundle não muda).
+
+  BUSCA: fora do índice do Pagefind (sem data-pagefind-body), como o /cronista/.
+  O escopo é "só post é resultado".
+*/ -}}
+<article class="page-single" aria-labelledby="page-title">
+  <h1 id="page-title" class="post-single-title">{{ .Title }}</h1>
+
+  <hr class="post-rule">
+
+  <div class="post-body">
+    {{ .Content }}
+  </div>
+</article>
+{{ end }}
