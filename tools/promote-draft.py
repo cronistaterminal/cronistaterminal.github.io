@@ -29,16 +29,29 @@ não dá para fazer à mão sem errar:
 
 4. A `date` é a data de HOJE — a data de publicação, não a de escrita.
 
+5. COPIA AS IMAGENS de `<slug>/assets/` para `assets/posts/<slug>/`, que é onde o
+   `{{< figure src="posts/<slug>/x.png" >}}` as procura. Recusa sobrescrever: imagem já
+   publicada com o mesmo nome aborta tudo ANTES de escrever qualquer arquivo.
+
+Cada rascunho é uma PASTA, espelhando o `eu/blog/` do vault de conhecimento:
+
+    _drafts/posts/<slug>/
+      post.md       ← o post (é o que se promove)
+      pesquisa/     ← notas e fontes; nunca publicadas
+      assets/       ← imagens; copiadas para assets/posts/<slug>/
+      examples/     ← código citado no post
+
 O rascunho original NÃO é apagado nem alterado. Uso:
 
-    just promote <arquivo>          # nome com ou sem .md
-    just promote <arquivo> -n       # dry-run: mostra o resultado, não escreve
+    just promote <slug>             # aceita também <slug>/ e <slug>/post.md
+    just promote <slug> -n          # dry-run: mostra o resultado, não escreve
 """
 
 import datetime
 import pathlib
 import random
 import re
+import shutil
 import string
 import sys
 import tomllib
@@ -47,6 +60,10 @@ import unicodedata
 ALPHABET = string.ascii_lowercase + string.digits  # [a-z0-9]
 DRAFTS_DIR = pathlib.Path("_drafts/posts")
 POSTS_DIR = pathlib.Path("content/posts")
+ASSETS_DIR = pathlib.Path("assets/posts")
+DRAFT_FILE = "post.md"
+# Marcadores de pasta vazia (o vault versiona assets/ vazio com .gitkeep): não são imagem.
+ASSET_SKIP = {".gitkeep", ".DS_Store"}
 NUM_WIDTH = 4
 
 # Ordem dos campos no TOML gerado — espelha archetypes/posts.md.
@@ -176,17 +193,46 @@ def read_existing() -> list[dict]:
     return out
 
 
+def resolve_draft(name: str) -> pathlib.Path:
+    """`<slug>`, `<slug>/` ou `<slug>/post.md` (o autocomplete do shell entrega qualquer
+    um dos três) → a pasta do rascunho. Também tolera o prefixo `_drafts/posts/`."""
+    name = name.strip().removeprefix(f"{DRAFTS_DIR}/").rstrip("/")
+    name = name.removesuffix(f"/{DRAFT_FILE}")
+    if not name or "/" in name:
+        die(f"esperava o slug de uma pasta em {DRAFTS_DIR}/, recebi {name!r}")
+    folder = DRAFTS_DIR / name
+    if not (folder / DRAFT_FILE).is_file():
+        die(f"rascunho não encontrado: {folder / DRAFT_FILE}")
+    return folder
+
+
+def plan_assets(folder: pathlib.Path) -> list[tuple[pathlib.Path, pathlib.Path]]:
+    """Pares (origem, destino) das imagens do rascunho. Aborta se algum destino já existe —
+    conferido ANTES de qualquer escrita, para o promote nunca ficar pela metade."""
+    src_dir = folder / "assets"
+    if not src_dir.is_dir():
+        return []
+    dest_dir = ASSETS_DIR / folder.name
+    pairs = [
+        (p, dest_dir / p.relative_to(src_dir))
+        for p in sorted(src_dir.rglob("*"))
+        if p.is_file() and p.name not in ASSET_SKIP
+    ]
+    clash = [str(d) for _, d in pairs if d.exists()]
+    if clash:
+        die("já existe(m) no destino, não sobrescrevo: " + ", ".join(clash))
+    return pairs
+
+
 def main() -> int:
     args = [a for a in sys.argv[1:] if a not in ("-n", "--dry-run")]
     dry_run = len(args) != len(sys.argv[1:])
     if not args:
-        print("uso: just promote <arquivo> [-n]", file=sys.stderr)
+        print("uso: just promote <slug> [-n]", file=sys.stderr)
         return 2
 
-    name = args[0]
-    src = DRAFTS_DIR / (name if name.endswith(".md") else f"{name}.md")
-    if not src.exists():
-        die(f"rascunho não encontrado: {src}")
+    folder = resolve_draft(args[0])
+    src = folder / DRAFT_FILE
 
     fm, body = parse_yaml_front_matter(src.read_text(encoding="utf-8"))
 
@@ -237,13 +283,22 @@ def main() -> int:
     lines = [f"{k} = {values[k]}" for k in FIELD_ORDER if k in values]
     out = "+++\n" + "\n".join(lines) + "\n+++\n\n" + body.strip() + "\n"
 
+    assets = plan_assets(folder)
+
     if dry_run:
         print(f"--- dry-run: {src} -> {dest} ---\n")
         print(out)
+        for a_src, a_dest in assets:
+            print(f"--- dry-run: {a_src} -> {a_dest}")
         return 0
 
     dest.write_text(out, encoding="utf-8")
+    for a_src, a_dest in assets:
+        a_dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(a_src, a_dest)
     print(f"promovido: {src} -> {dest}")
+    if assets:
+        print(f"  {len(assets)} imagem(ns) -> {ASSETS_DIR / folder.name}/")
     print(f"  num  = '{num}'")
     print(f"  slug = '{slug}'  ->  /{datetime.date.today():%Y/%m/%d}/{slug}/")
     print(f"  o rascunho foi PRESERVADO em {src} (nada foi apagado)")

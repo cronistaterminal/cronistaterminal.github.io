@@ -206,9 +206,9 @@ decay-save:
 new-post title:
     @python3 tools/new-post.py "{{ title }}"
 
-# Promove um rascunho de _drafts/posts/ para content/posts/. Converte o front matter
-# YAML (Obsidian) para TOML, cunha o slug, atribui o num incremental ('0000', '0001'…) e
-# extrai os dois TL;DR dos callouts, removendo-os do corpo. O rascunho NÃO é apagado.
-# `-n` faz dry-run. Ver tools/promote-draft.py.
-promote file *flags:
-    @python3 tools/promote-draft.py "{{ file }}" {{ flags }}
+# Promove _drafts/posts/<slug>/post.md para content/posts/. Converte o front matter
+# YAML (Obsidian) para TOML, cunha o slug, atribui o num incremental ('0000', '0001'…),
+# extrai os dois TL;DR dos callouts (removendo-os do corpo) e copia <slug>/assets/ para
+# assets/posts/<slug>/. O rascunho NÃO é apagado. `-n` faz dry-run. Ver tools/promote-draft.py.
+promote slug *flags:
+    @python3 tools/promote-draft.py "{{ slug }}" {{ flags }}
