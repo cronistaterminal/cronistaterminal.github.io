@@ -145,13 +145,16 @@ Dois canais de carregamento:
    param serve para deep-link e para auditar um tema específico no Lighthouse). O valor passa
    por uma whitelist, então `?theme=` não injeta atributo arbitrário.
 2. **Bundle único `defer` no fim do `<body>`**, concatenado nesta ordem:
-   `prompt → palette → gallery → audio → share → theme → mobile`.
+   `i18n → prompt → palette → gallery → audio → share → theme → mobile → lost`.
 
-Nenhum módulo exporta símbolo para outro — a ordem é convenção de leitura, não dependência.
-Todo o acoplamento real é **template ↔ JS**, via `id` e `data-*`.
+Uma exceção à regra de "nenhum símbolo compartilhado": **`i18n.js` expõe `tr()` global**, e
+por isso é o **primeiro** do bundle — o `prompt.js` já chama `tr()` no carregamento. Fora
+isso, a ordem é convenção de leitura, não dependência. O resto do acoplamento é **template
+↔ JS**, via `id` e `data-*`.
 
 | Arquivo | Papel | Hooks | localStorage |
 |---|---|---|---|
+| `i18n.js` | `tr(chave, {vars})`: strings de interface no JS | `#i18n-js` (JSON do baseof) | — |
 | `theme-init.js` | aplica tema/fonte antes do paint | `<html>`, `?theme=` | lê `theme`, `font` |
 | `theme.js` | sincroniza os controles, anima o logo | `.theme-input`, `.aa-input`, `.logo-tv` | escreve `theme`, `font` |
 | `prompt.js` | typewriter dos prompts | `#*-typed`, `#palette-input` | — |
@@ -195,6 +198,41 @@ O status (`#palette-status`, `aria-live`) tem **um dono por transição**: a con
 nome dos filtros ativos (`"3 posts · filtro: python"`) — é o texto final, sobrevive à
 coalescência do `polite`; e `showZeroState(msg)` recebe a mensagem do caller (input limpo →
 `""`; último filtro desligado → `"filtro X removido"`).
+
+---
+
+## Idiomas e strings de interface
+
+pt-BR na raiz, inglês em `/en/` (`[languages]` no `hugo.toml`; decisões na issue #2). Tradução
+de conteúdo é por **nome de arquivo**: `x.md` + `x.en.md`.
+
+**Nenhuma string de interface fica cravada em template ou JS.** Todas moram em
+`i18n/pt-br.toml` e `i18n/en.toml`, com as mesmas chaves:
+
+- **Template:** `{{ i18n "chave" }}`; com variável, sempre por `dict` nomeado —
+  `{{ i18n "page_n" (dict "n" $n) }}`, e na string `{{ .n }}`. Plural pela tabela
+  `[n_posts]` (`one`/`other`), chamada com o número: `i18n "n_posts" .Count`.
+- **JS:** `tr("js_chave", { x: 1 })`, e na string `{x}`. A chave precisa estar na lista
+  `$jsKeys` do `baseof.html` — é ela que serializa as strings num
+  `<script type="application/json" id="i18n-js">`. Chave fora da lista aparece **crua**
+  na tela.
+- **Meses:** `month_N` / `month_N_abbr`, montados por `printf`. A data continua **sem** o
+  locale do Hugo; só o slice indexado foi trocado pelas chaves.
+
+Três armadilhas, todas silenciosas:
+
+1. `i18n "chave"` inexistente renderiza **vazio** — um `aria-label=""` passa no build.
+2. Chave do JS com `{{ }}` é resolvida pelo **Hugo** no build, com contexto vazio, antes de o
+   `tr()` ver o texto. Por isso JS usa `{x}`, e só JS.
+3. Em TOML, tabela (`[n_posts]`) fica **no fim** do arquivo: toda chave solta depois de um
+   cabeçalho passa a pertencer a ele.
+
+`just i18n` pega as três primeiras classes (paridade, chave usada e inexistente, `{{ }}` em
+chave de JS) e roda dentro do `just check`.
+
+**Fora do i18n, de propósito:** a 404 (`404.html`, `lost.js`, `data/404.toml`) continua só
+em pt-BR — o GitHub Pages serve apenas o `/404.html` da raiz. E as mensagens de `errorf`
+dos shortcodes, que são para quem escreve o post, não para quem lê.
 
 ---
 

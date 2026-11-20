@@ -34,6 +34,7 @@ a receita precisa de shebang, ela vira arquivo em `tools/`.
 | `just xml` | Feeds e sitemap bem-formados. |
 | `just svg` | SVGs bem-formados — inclusive o `--` proibido dentro de comentário XML. |
 | `just js` | Sintaxe do JS. O bundle é concatenado: um erro derruba todos os outros. |
+| `just i18n` | Strings de interface: paridade pt-br/en, chave usada sem tradução, `{{ }}` em chave de JS. |
 | `just swatches` | Contraste WCAG dos **8 temas** + regenera `docs/themes/swatches.svg`. |
 | `just audit [rota]` | Lighthouse (a11y, perf, best-practices, SEO) na rota. Sem argumento, a home. |
 

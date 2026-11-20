@@ -252,7 +252,7 @@
         // do protótipo esse rótulo era escrito à mão (aria-label="1 de 3") — o
         // primeiro slide adicionado depois deixaria todos os outros mentindo.
         slides.forEach((slide, i) => {
-            slide.setAttribute("aria-label", `${i + 1} de ${slides.length}`);
+            slide.setAttribute("aria-label", tr("js_slide_of", { i: i + 1, n: slides.length }));
         });
 
         render(); // estado inicial (slide 0 visível, first/prev disabled)

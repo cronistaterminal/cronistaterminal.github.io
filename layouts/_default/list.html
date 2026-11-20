@@ -14,11 +14,11 @@
 
 <header class="post-single-head">
   <h1 class="post-single-title">
-    <span class="post-num">#arquivo</span> {{ .Title }}
+    <span class="post-num">{{ i18n "archive_label" }}</span> {{ .Title }}
   </h1>
   <p class="post-tldr">
     {{ len $posts }} {{ if eq (len $posts) 1 }}entrada{{ else }}entradas{{ end }} na crônica, da mais recente à mais antiga.
-    <a href="{{ "/tags/" | relURL }}">ver por tag</a>
+    <a href="{{ "/tags/" | relURL }}">{{ i18n "browse_by_tag" }}</a>
   </p>
 </header>
 

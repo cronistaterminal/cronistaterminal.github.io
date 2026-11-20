@@ -40,7 +40,7 @@
     {{- if ne $portrait false }}
     <div class="cronista-portrait">
       {{- if and $portrait (ne $portrait true) }}
-      <img src="{{ $portrait | relURL }}" alt="Retrato de {{ .Params.name | default .Title }}" width="150" height="150">
+      <img src="{{ $portrait | relURL }}" alt="{{ i18n "portrait_of" (dict "name" (.Params.name | default .Title)) }}" width="150" height="150">
       {{- else }}
       <span class="cronista-portrait-empty" aria-hidden="true">$_</span>
       {{- end }}
@@ -91,7 +91,7 @@
   {{- with sort (where site.RegularPages "Params.recomendado" true) "Params.num" "desc" }}
   <hr class="post-rule">
   <section class="cronista-rec" aria-labelledby="cronista-rec-h">
-    <h2 id="cronista-rec-h" class="cronista-rec-heading">conteúdo recomendado</h2>
+    <h2 id="cronista-rec-h" class="cronista-rec-heading">{{ i18n "recommended_content" }}</h2>
     <ul class="cronista-rec-list">
       {{- range . }}
       <li class="cronista-rec-item">

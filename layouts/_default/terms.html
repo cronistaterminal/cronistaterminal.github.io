@@ -11,7 +11,7 @@
 
 <header class="post-single-head">
   <h1 class="post-single-title">
-    <span class="post-num">#tags</span> Todas as tags
+    <span class="post-num">{{ i18n "tags_label" }}</span> {{ i18n "all_tags" }}
   </h1>
   <p class="post-tldr">
     {{ len $terms }} {{ if eq (len $terms) 1 }}tag{{ else }}tags{{ end }} no arquivo, das mais usadas às mais raras.
@@ -20,7 +20,7 @@
 
 <hr class="post-rule">
 
-<ul class="post-tags" aria-label="Todas as tags">
+<ul class="post-tags" aria-label="{{ i18n "all_tags" }}">
   {{- range $terms }}
   <li>
     {{- /* .Page.Data.Term = o termo CRU do front matter ("arquitetura de software").

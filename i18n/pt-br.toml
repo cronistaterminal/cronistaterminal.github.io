@@ -1,0 +1,152 @@
+# Strings de interface — pt-BR (idioma padrão). O irmão é en.toml: TODA chave daqui
+# existe lá, e vice-versa. `just i18n` confere a paridade.
+#
+# Dois mundos de placeholder, e eles não se misturam:
+#   {{ .x }}  -> chave usada por TEMPLATE: o Hugo renderiza no build.
+#   {x}       -> chave usada por JS (prefixo js_): o Hugo devolve o texto cru, e o
+#                tr() de assets/js/i18n.js substitui no navegador.
+# Uma chave js_ com {{ }} seria resolvida pelo Hugo no build, com contexto vazio.
+
+# --- estrutura da página ---
+skip_to_content = "Pular para o conteúdo"
+home_link = "{{ .title }} — início"
+navigation = "Navegação"
+nav_home = "Página Inicial"
+nav_cronista = "O Cronista"
+nav_ai = "Uso de IA"
+social_networks = "Redes sociais"
+
+# --- header: tema e fonte ---
+site_theme = "Tema do site"
+theme_fosforo = "[fosforo]"
+theme_high_contrast = "[alto contraste]"
+theme_ametista = "[ametista]"
+aa_title = "Ativar ou desativar a fonte acessível"
+aa_name = "Fonte acessível"
+aa_on = "Ativar fonte acessível"
+aa_off = "Desativar fonte acessível"
+menu_open = "Abrir menu"
+menu_close = "Fechar menu"
+
+# --- sidebar ---
+search = "buscar"
+featured = "destaques"
+featured_tags = "Tags em destaque"
+see_all = "ver todas"
+latest_posts = "últimos posts"
+
+# --- listagens e post-card ---
+archive_label = "#arquivo"
+browse_by_tag = "ver por tag"
+tags_label = "#tags"
+all_tags = "Todas as tags"
+see_all_tags = "ver todas as tags"
+post_tags = "Tags do post"
+post_number = "Post número {{ .n }}"
+see_more = "ver mais"
+see_less = "ver menos"
+read_all = "ler tudo"
+publication_date = "Data de publicação"
+published_on = "Publicado em: "
+era_title = "Período retratado"
+era_covered = "Época retratada: "
+
+# Meses: a data é montada por slice indexado (decisão de não depender do locale do
+# Hugo — ver single.html). O slice agora vem daqui; a regra continua a mesma.
+month_1 = "Janeiro"
+month_2 = "Fevereiro"
+month_3 = "Março"
+month_4 = "Abril"
+month_5 = "Maio"
+month_6 = "Junho"
+month_7 = "Julho"
+month_8 = "Agosto"
+month_9 = "Setembro"
+month_10 = "Outubro"
+month_11 = "Novembro"
+month_12 = "Dezembro"
+month_1_abbr = "Jan"
+month_2_abbr = "Fev"
+month_3_abbr = "Mar"
+month_4_abbr = "Abr"
+month_5_abbr = "Mai"
+month_6_abbr = "Jun"
+month_7_abbr = "Jul"
+month_8_abbr = "Ago"
+month_9_abbr = "Set"
+month_10_abbr = "Out"
+month_11_abbr = "Nov"
+month_12_abbr = "Dez"
+
+# --- post ---
+references = "Referências"
+share_post = "Compartilhar post"
+share = "compartilhar"
+copy_post_link = "Copiar link do post"
+copy_link = "copiar link"
+recommended_content = "conteúdo recomendado"
+portrait_of = "Retrato de {{ .name }}"
+
+# --- paginação ---
+pagination_label = "Paginação dos posts"
+page_status = "página <strong>{{ .cur }}</strong> de {{ .total }}"
+page_first = "primeira"
+page_sr = " página"
+page_n = "Página {{ .n }}"
+page_next = "próxima"
+page_next_label = "Próxima página"
+
+# --- palette (busca) ---
+search_posts = "Buscar posts"
+palette_command = "./buscar.fish"
+close_search = "Fechar busca"
+search_placeholder = "grep nos posts…"
+search_term = "Termo de busca"
+filter_results = "Filtrar resultados"
+filter_by_tag = "filtrar por {{ .name }} ({{ .posts }})"
+filter_by_era = "filtrar por época {{ .name }} ({{ .posts }})"
+results = "Resultados"
+hint_move = "mover"
+hint_filter = "filtrar"
+hint_open = "abrir"
+hint_close = "fechar"
+
+# --- mídia ---
+image_enlarged = "Imagem ampliada"
+close_image = "Fechar imagem"
+zoom_image = "Ampliar imagem"
+first_photo = "Primeira foto"
+prev_photo = "Foto anterior"
+next_photo = "Próxima foto"
+last_photo = "Última foto"
+gallery_roledesc = "galeria de imagens"
+gallery_label = "Galeria: {{ .name }}"
+diagram_label = "Diagrama: {{ .name }}"
+audio_progress = "Progresso do áudio"
+play = "Reproduzir"
+pause = "Pausar"
+
+# --- JS (placeholders {x}, resolvidos no navegador) ---
+js_search_unavailable = "busca indisponível — rode o build completo (just preview)."
+js_no_results_for = "nenhum post encontrado para “{q}”"
+js_no_results_filter = "nenhum post com esse filtro"
+js_found_one = "{n} post encontrado"
+js_found_other = "{n} posts encontrados"
+js_filter_suffix = " · filtro: {list}"
+js_filter_removed = "filtro {name} removido."
+js_link_copied = "link copiado!"
+js_copied = "copiado!"
+js_failed = "falhou"
+js_slide_of = "{i} de {n}"
+
+# Prompts decorativos (aria-hidden), separados por "|". O de busca é o placeholder
+# vivo da palette: sugestões de termo, então seguem o idioma.
+js_prompt_footer = "whoami|cat sobre.md|ls -la about/|git log --oneline|atdt 101239|telnet towel.blinkenlights.nl"
+js_prompt_body = "ls -t posts/|cat ultimo-post.md|grep -ri 'rust' posts/|make serve|vim rascunho.md"
+js_prompt_sidebar = "git worktree list|locate $1|ls tags/|tree arquivo/|cat perfil.cfg|uptime"
+js_prompt_search = "python decorators|alan turing|c64 basic|bbs brasileiras|deploy na sexta|watchmen"
+
+# Tabela por ÚLTIMO: em TOML, toda chave solta depois de um [cabeçalho] pertence a ele.
+[n_posts]
+one = "{{ .Count }} post"
+other = "{{ .Count }} posts"

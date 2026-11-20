@@ -60,7 +60,7 @@
         const syncPlayState = () => {
             const playing = !audio.paused && !audio.ended;
             figure.classList.toggle("is-playing", playing);
-            btn.setAttribute("aria-label", playing ? "Pausar" : "Reproduzir");
+            btn.setAttribute("aria-label", tr(playing ? "pause" : "play"));
         };
 
         // Atualiza barra + tempo decorrido. Pula a barra durante o scrub.

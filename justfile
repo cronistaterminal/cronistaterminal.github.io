@@ -130,7 +130,7 @@ hit path="":
 # Depende do build porque metade dos checks olha para o public/.
 
 # Roda TODOS os checks: gate, xml, links, svg, js, contraste dos temas.
-check: build gate xml links svg js swatches
+check: build gate xml links svg js i18n swatches
     @echo ""
     @echo "  [ok] tudo verde."
     @echo ""
@@ -142,6 +142,12 @@ check: build gate xml links svg js swatches
 # Links internos que apontam para o vazio.
 links:
     @python3 tools/links.py
+
+# Mesmo buraco, outro lugar: `i18n "chave"` sem tradução renderiza VAZIO, sem erro.
+
+# Strings de interface: paridade pt-br/en e toda chave usada existe.
+i18n:
+    @python3 tools/i18n.py
 
 # O xmllint aceita vários arquivos e falha se QUALQUER um reprovar. Já pegou aqui: um
 # CDATA que não sobrevive ao template do Hugo, e uma entidade HTML nomeada (&lsquo;) que o

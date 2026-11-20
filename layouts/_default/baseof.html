@@ -7,7 +7,7 @@
 
 <body>
   {{- /* Skip-link: 1º foco tabbável, salta a navegação e leva ao conteúdo (#main). */ -}}
-  <a class="skip-link" href="#main">Pular para o conteúdo</a>
+  <a class="skip-link" href="#main">{{ i18n "skip_to_content" }}</a>
   <div id="page" class="container">
     {{ partial "header.html" . }}
     {{- /* #layout-body: 2 colunas (main | sidebar), chrome compartilhado entre home e
@@ -48,7 +48,20 @@
          theme.js sincroniza tema/fonte (header); mobile.js liga o hambúrguer.
          Tudo num bundle ÚNICO (não por página) para o arquivo continuar cacheável —
          onde não há [data-gallery]/[data-audio], é um querySelectorAll vazio e sai. */ -}}
+  {{- /* Strings do JS: só as chaves que algum script usa (o Hugo não enumera o i18n,
+         então a lista é explícita). Chave nova num .js -> entra aqui também, senão o
+         tr() devolve o nome da chave na tela. | safeJS: sem ele o JSON chega escapado
+         como string e o JSON.parse devolve texto, não objeto. */ -}}
+  {{- $jsKeys := slice "menu_open" "menu_close" "play" "pause"
+        "js_search_unavailable" "js_no_results_for" "js_no_results_filter"
+        "js_found_one" "js_found_other" "js_filter_suffix" "js_filter_removed"
+        "js_link_copied" "js_copied" "js_failed" "js_slide_of"
+        "js_prompt_footer" "js_prompt_body" "js_prompt_sidebar" "js_prompt_search" -}}
+  {{- $jsStrings := dict -}}
+  {{- range $jsKeys }}{{ $jsStrings = merge $jsStrings (dict . (i18n .)) }}{{ end }}
+  <script type="application/json" id="i18n-js">{{ $jsStrings | jsonify | safeJS }}</script>
   {{- $js := slice
+        (resources.Get "js/i18n.js")
         (resources.Get "js/prompt.js")
         (resources.Get "js/palette.js")
         (resources.Get "js/gallery.js")

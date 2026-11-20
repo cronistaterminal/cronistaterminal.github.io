@@ -16,7 +16,7 @@
 <footer id="footer" class="site-footer term-panel">
   <span class="term-label" aria-hidden="true"><span class="prompt">$</span><span class="typed" id="footer-typed"></span><span class="cursor"></span></span>
 
-  <nav class="social" aria-label="Redes sociais">
+  <nav class="social" aria-label="{{ i18n "social_networks" }}">
     {{- with .Site.Params.social.github }}
     <a class="icon" href="{{ . }}" aria-label="GitHub" style="--icon: url('/icons/social/github.svg')"></a>
     {{- end }}

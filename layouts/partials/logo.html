@@ -9,7 +9,7 @@
   Decorativo: o nome acessível mora no aria-label do <a>.
 */ -}}
 <div id="logo" class="header-logo">
-  <a href="{{ "/" | relURL }}" class="logo-link" aria-label="{{ .Site.Title }} — início">
+  <a href="{{ "/" | relURL }}" class="logo-link" aria-label="{{ i18n "home_link" (dict "title" .Site.Title) }}">
     <svg class="logo-tv" viewBox="17 5 100 100" aria-hidden="true" focusable="false">
       <defs>
         <pattern id="logo-scan" patternUnits="userSpaceOnUse" width="380" height="3">

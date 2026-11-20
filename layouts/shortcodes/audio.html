@@ -29,11 +29,11 @@
 <figure class="media-figure media-audio {{ $pos }}"{{ with .Get "w" }} style="--media-w: {{ . }}"{{ end }} data-audio>
   <audio preload="none" src="{{ $url }}"></audio>
   <div class="audio-ui">
-    <button type="button" class="audio-play" aria-label="Reproduzir">
+    <button type="button" class="audio-play" aria-label="{{ i18n "play" }}">
       <span class="audio-ico" aria-hidden="true"></span>
     </button>
     <input type="range" class="audio-seek" min="0" max="100" value="0" step="0.1"
-           aria-label="Progresso do áudio">
+           aria-label="{{ i18n "audio_progress" }}">
     {{- /* O tempo é aria-hidden porque o <input range> já anuncia a posição ao
            leitor de tela; lê-lo duas vezes seria ruído. Continua sendo texto
            VISÍVEL, então o contraste dele vale igual. */ -}}

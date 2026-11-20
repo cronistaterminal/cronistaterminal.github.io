@@ -19,11 +19,11 @@
 {{- if le $lo 1 }}{{ $lo = $cur }}{{ end -}}
 {{- $hi := add $cur 1 -}}
 {{- if gt $hi $total }}{{ $hi = $total }}{{ end -}}
-<nav class="pagination" aria-label="Paginação dos posts">
-  <p class="page-status">página <strong>{{ $cur }}</strong> de {{ $total }}</p>
+<nav class="pagination" aria-label="{{ i18n "pagination_label" }}">
+  <p class="page-status">{{ i18n "page_status" (dict "cur" $cur "total" $total) | safeHTML }}</p>
   <ul class="page-list">
     {{- if gt $cur 1 }}
-    <li><a class="page-chip" href="{{ $pag.First.URL }}"><span aria-hidden="true">«</span> primeira<span class="sr-only"> página</span></a></li>
+    <li><a class="page-chip" href="{{ $pag.First.URL }}"><span aria-hidden="true">«</span> {{ i18n "page_first" }}<span class="sr-only">{{ i18n "page_sr" }}</span></a></li>
     {{- end }}
     {{- range seq $lo $hi }}
     {{- $n := . }}
@@ -31,13 +31,13 @@
     <li><span class="page-chip page-current" aria-current="page">{{ $n }}</span></li>
     {{- else }}
     {{- $pager := index $pag.Pagers (sub $n 1) }}
-    <li><a class="page-chip" href="{{ $pager.URL }}"{{ if eq $n (sub $cur 1) }} rel="prev"{{ end }} aria-label="Página {{ $n }}">{{ $n }}</a></li>
+    <li><a class="page-chip" href="{{ $pager.URL }}"{{ if eq $n (sub $cur 1) }} rel="prev"{{ end }} aria-label="{{ i18n "page_n" (dict "n" $n) }}">{{ $n }}</a></li>
     {{- end }}
     {{- end }}
     {{- if lt $cur $total }}
-    <li><a class="page-chip" href="{{ $pag.Next.URL }}" rel="next" aria-label="Próxima página">próxima <span aria-hidden="true">&gt;</span></a></li>
+    <li><a class="page-chip" href="{{ $pag.Next.URL }}" rel="next" aria-label="{{ i18n "page_next_label" }}">{{ i18n "page_next" }} <span aria-hidden="true">&gt;</span></a></li>
     {{- end }}
-    <li><a class="page-chip page-search" href="#" data-command="search" aria-label="Buscar posts" aria-haspopup="dialog"><span class="page-search-icon" aria-hidden="true"></span>buscar</a></li>
+    <li><a class="page-chip page-search" href="#" data-command="search" aria-label="{{ i18n "search_posts" }}" aria-haspopup="dialog"><span class="page-search-icon" aria-hidden="true"></span>buscar</a></li>
   </ul>
 </nav>
 {{- end -}}

@@ -21,15 +21,15 @@
 {{- $posts := where site.RegularPages "Type" "posts" -}}
 {{- $posts = sort $posts "Params.num" "desc" -}}
 <div id="palette-backdrop" class="palette-backdrop" hidden>
-  <div id="palette" class="palette term-panel" role="dialog" aria-modal="true" aria-label="Buscar posts">
-    <span class="term-label" aria-hidden="true"><span class="prompt">$</span> ./buscar.fish</span>
+  <div id="palette" class="palette term-panel" role="dialog" aria-modal="true" aria-label="{{ i18n "search_posts" }}">
+    <span class="term-label" aria-hidden="true"><span class="prompt">$</span> {{ i18n "palette_command" }}</span>
 
-    <button type="button" class="palette-close" aria-label="Fechar busca"><span class="palette-close-icon" aria-hidden="true"></span></button>
+    <button type="button" class="palette-close" aria-label="{{ i18n "close_search" }}"><span class="palette-close-icon" aria-hidden="true"></span></button>
 
     <div class="palette-prompt">
       <span class="prompt" aria-hidden="true">$</span>
-      <input id="palette-input" class="palette-input" type="search" placeholder="grep nos posts…"
-        autocomplete="off" spellcheck="false" aria-label="Termo de busca" role="combobox"
+      <input id="palette-input" class="palette-input" type="search" placeholder="{{ i18n "search_placeholder" }}"
+        autocomplete="off" spellcheck="false" aria-label="{{ i18n "search_term" }}" role="combobox"
         aria-expanded="true" aria-controls="palette-results" aria-autocomplete="list">
     </div>
 
@@ -47,17 +47,17 @@
                 na sidebar cobre a cauda. época: só as que AGRUPAM (>= 2 posts); com
                 posts 1:1 por época (hoje) um chip de época casaria 1 post — ruído.
                 O caminho existe e liga sozinho quando uma época ganhar o 2o post. */ -}}
-    <div id="palette-filters" class="palette-filters" role="group" aria-label="Filtrar resultados" hidden>
+    <div id="palette-filters" class="palette-filters" role="group" aria-label="{{ i18n "filter_results" }}" hidden>
       {{- range first 9 site.Taxonomies.tags.ByCount }}
       <button type="button" class="palette-filter" tabindex="-1" aria-pressed="false"
         data-filter-type="tag" data-filter-value="{{ .Name }}"
-        aria-label="filtrar por {{ .Name }} ({{ .Count }} posts)">{{ .Name }}<span class="filter-count" aria-hidden="true">{{ .Count }}</span></button>
+        aria-label="{{ i18n "filter_by_tag" (dict "name" .Name "posts" (i18n "n_posts" .Count)) }}">{{ .Name }}<span class="filter-count" aria-hidden="true">{{ .Count }}</span></button>
       {{- end }}
       {{- range (where site.RegularPages "Type" "posts").GroupByParam "epoca" }}
       {{- if ge (len .Pages) 2 }}
       <button type="button" class="palette-filter" tabindex="-1" aria-pressed="false"
         data-filter-type="epoca" data-filter-value="{{ .Key }}"
-        aria-label="filtrar por época {{ .Key }} ({{ len .Pages }} posts)">{{ .Key }}<span class="filter-count" aria-hidden="true">{{ len .Pages }}</span></button>
+        aria-label="{{ i18n "filter_by_era" (dict "name" .Key "posts" (i18n "n_posts" (len .Pages))) }}">{{ .Key }}<span class="filter-count" aria-hidden="true">{{ len .Pages }}</span></button>
       {{- end }}
       {{- end }}
     </div>
@@ -68,7 +68,7 @@
            Fica vazia no estado zero; palette.js a preenche. */ -}}
     <p id="palette-status" class="palette-status" role="status" aria-live="polite"></p>
 
-    <ul id="palette-results" class="palette-results" role="listbox" aria-label="Resultados">
+    <ul id="palette-results" class="palette-results" role="listbox" aria-label="{{ i18n "results" }}">
       {{- range $posts }}
       <li class="palette-hit" role="option" id="hit-{{ .Params.num }}" aria-selected="false" aria-expanded="false">
         <a class="hit-head" href="{{ .RelPermalink }}" tabindex="-1"><span class="hit-id">#{{ .Params.num }}</span><span class="hit-title">{{ .Title }}</span></a>
@@ -82,9 +82,9 @@
       {{- end }}
     </ul>
 
-    <p class="palette-hint" aria-hidden="true"><kbd>↑</kbd><kbd>↓</kbd> mover · <kbd>Tab</kbd> tl;dr ·
-      <kbd>Alt</kbd><kbd>N</kbd> filtrar · <kbd>Enter</kbd> abrir ·
-      <span class="hint-close"><kbd>Esc</kbd> fechar</span>
+    <p class="palette-hint" aria-hidden="true"><kbd>↑</kbd><kbd>↓</kbd> {{ i18n "hint_move" }} · <kbd>Tab</kbd> tl;dr ·
+      <kbd>Alt</kbd><kbd>N</kbd> {{ i18n "hint_filter" }} · <kbd>Enter</kbd> {{ i18n "hint_open" }} ·
+      <span class="hint-close"><kbd>Esc</kbd> {{ i18n "hint_close" }}</span>
     </p>
   </div>
 </div>

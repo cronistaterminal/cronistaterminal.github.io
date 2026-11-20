@@ -20,7 +20,7 @@
         page.classList.toggle("menu-open", open);
         document.body.classList.toggle("menu-locked", open);
         btn.setAttribute("aria-expanded", open ? "true" : "false");
-        btn.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+        btn.setAttribute("aria-label", tr(open ? "menu_close" : "menu_open"));
         if (open) {
             const first = sidebar.querySelector(SEL);
             if (first) first.focus();

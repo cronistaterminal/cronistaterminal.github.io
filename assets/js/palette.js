@@ -199,7 +199,7 @@
             // Índice ausente (dev server) ou falha de rede: a palette continua
             // usável com o estado zero em vez de virar uma caixa morta.
             if (mine !== token) return;
-            say("busca indisponível — rode o build completo (just preview).");
+            say(tr("js_search_unavailable"));
             return;
         }
         if (mine !== token) return; // já fui superado enquanto carregava
@@ -219,11 +219,11 @@
         // conjunto encolheu. Como é o texto FINAL do status, sobrevive à
         // coalescência do aria-live polite (o ponto do achado do review).
         const on = activeButtons().map((b) => b.dataset.filterValue);
-        const suffix = on.length ? ` · filtro: ${on.join(", ")}` : "";
+        const suffix = on.length ? tr("js_filter_suffix", { list: on.join(", ") }) : "";
 
         if (!hits.length) {
             list.innerHTML = "";
-            const base = q ? `nenhum post encontrado para “${q}”` : "nenhum post com esse filtro";
+            const base = q ? tr("js_no_results_for", { q }) : tr("js_no_results_filter");
             say(`${base}${suffix}.`);
             syncOptions();
             return;
@@ -231,7 +231,7 @@
 
         list.innerHTML = hits.map(hitHTML).join("");
         const n = search.results.length;
-        say(`${n} ${n === 1 ? "post encontrado" : "posts encontrados"}${suffix}.`);
+        say(`${tr(n === 1 ? "js_found_one" : "js_found_other", { n })}${suffix}.`);
         syncOptions();
     };
 
@@ -252,7 +252,7 @@
         // Se este toggle DESLIGA e nos leva ao estado zero, esta é a mensagem —
         // o runSearch só a usa se de fato cair no estado zero (senão o count, com
         // os filtros sobreviventes, vence). Um único dono do status por transição.
-        runSearch(on ? `filtro ${btn.dataset.filterValue} removido.` : "");
+        runSearch(on ? tr("js_filter_removed", { name: btn.dataset.filterValue }) : "");
         input.focus();
     };
 

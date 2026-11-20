@@ -22,7 +22,7 @@
   <p class="post-tldr">
     {{ len $posts }} {{ if eq (len $posts) 1 }}post marcado{{ else }}posts marcados{{ end }} com
     <em>{{ $term }}</em>.
-    <a href="{{ "/tags/" | relURL }}">ver todas as tags</a>
+    <a href="{{ "/tags/" | relURL }}">{{ i18n "see_all_tags" }}</a>
   </p>
 </header>
 

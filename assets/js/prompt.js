@@ -73,46 +73,20 @@ const mountPrompt = (target, commands, opts = {}) => {
 };
 
 // Footer: o prompt enxuto na borda.
-mountPrompt("footer-typed", [
-    "whoami",
-    "cat sobre.md",
-    "ls -la about/",
-    "git log --oneline",
-    "atdt 101239",
-    "telnet towel.blinkenlights.nl",
-]);
+// As listas moram em i18n/<lang>.toml (js_prompt_*), separadas por "|".
+mountPrompt("footer-typed", tr("js_prompt_footer").split("|"));
 
 // #layout-body: prompt na borda do painel da região de conteúdo — trocar à vontade.
 // HOLD um pouco maior dessincroniza do footer ("duas sessões abertas").
-mountPrompt("body-typed", [
-    "ls -t posts/",
-    "cat ultimo-post.md",
-    "grep -ri 'rust' posts/",
-    "make serve",
-    "vim rascunho.md",
-], { HOLD: 2000 });
+mountPrompt("body-typed", tr("js_prompt_body").split("|"), { HOLD: 2000 });
 
 // #sidebar: prompt na borda do painel lateral. Comandos com cara de "quem é
 // este lugar" (identidade/índice), distintos dos posts (#main) e do perfil
 // (footer). HOLD próprio (1400) dessincroniza dos outros dois — 3 sessões
 // independentes piscando.
-mountPrompt("sidebar-typed", [
-    "git worktree list",
-    "locate $1",
-    "ls tags/",
-    "tree arquivo/",
-    "cat perfil.cfg",
-    "uptime",
-], { HOLD: 1400 });
+mountPrompt("sidebar-typed", tr("js_prompt_sidebar").split("|"), { HOLD: 1400 });
 
 // Placeholder vivo do input da palette: cicla exemplos de busca (mesmos temas
 // dos posts) — convida a buscar. Escreve no placeholder, então só aparece com
 // o campo vazio (some assim que o usuário digita). Respeita reduced-motion.
-mountPrompt({ input: document.getElementById("palette-input") }, [
-    "python decorators",
-    "alan turing",
-    "c64 basic",
-    "bbs brasileiras",
-    "deploy na sexta",
-    "watchmen",
-], { HOLD: 1800 });
+mountPrompt({ input: document.getElementById("palette-input") }, tr("js_prompt_search").split("|"), { HOLD: 1800 });

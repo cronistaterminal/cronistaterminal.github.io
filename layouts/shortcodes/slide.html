@@ -30,7 +30,7 @@
 {{- $first := eq .Ordinal 0 -}}
 
 <li class="gallery-slide" aria-roledescription="slide"{{ if not $first }} hidden{{ end }}>
-  <button type="button" class="gallery-zoom" aria-label="Ampliar imagem">
+  <button type="button" class="gallery-zoom" aria-label="{{ i18n "zoom_image" }}">
     {{- with $img }}
     <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}"
          alt="{{ $.Get "alt" }}"{{ if not $first }} loading="lazy"{{ end }} decoding="async">

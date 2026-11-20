@@ -16,14 +16,14 @@
   <div id="header-right" class="header-right">
     <div id="accessibility" class="header-access">
       <div class="a11y-colors">
-        <div class="theme-swatches" role="radiogroup" aria-label="Tema do site">
+        <div class="theme-swatches" role="radiogroup" aria-label="{{ i18n "site_theme" }}">
           <label class="swatch swatch-theme" style="--c: #eec35e; --tc: #1a170f">
             <input type="radio" class="theme-input" name="theme" value="default" checked>
-            <span class="name">[fosforo]</span>
+            <span class="name">{{ i18n "theme_fosforo" }}</span>
           </label>
           <label class="swatch swatch-theme" style="--c: #ffffff; --tc: #0b0b0d">
             <input type="radio" class="theme-input" name="theme" value="high-contrast">
-            <span class="name">[alto contraste]</span>
+            <span class="name">{{ i18n "theme_high_contrast" }}</span>
           </label>
           <label class="swatch swatch-theme" style="--c: #ff4b3e; --tc: #160a08">
             <input type="radio" class="theme-input" name="theme" value="zuko">
@@ -35,7 +35,7 @@
           </label>
           <label class="swatch swatch-theme" style="--c: #b07bff; --tc: #140e1c">
             <input type="radio" class="theme-input" name="theme" value="ametista">
-            <span class="name">[ametista]</span>
+            <span class="name">{{ i18n "theme_ametista" }}</span>
           </label>
           <label class="swatch swatch-theme" style="--c: #2b4cff; --tc: #ffffff">
             <input type="radio" class="theme-input" name="theme" value="bsod">
@@ -57,10 +57,10 @@
              "Ativar…" no nome geraria "Desativar fonte acessível, marcado" — dupla
              negação. A ação vive só no texto VISÍVEL (.aa-hint, aria-hidden), que
              inverte por :checked em CSS puro — o toggle é zero-JS. */ -}}
-      <label class="aa-toggle" title="Ativar ou desativar a fonte acessível">
-        <input type="checkbox" class="aa-input" aria-label="Fonte acessível">
-        <span class="aa-hint aa-hint-on" aria-hidden="true">Ativar fonte acessível</span>
-        <span class="aa-hint aa-hint-off" aria-hidden="true">Desativar fonte acessível</span>
+      <label class="aa-toggle" title="{{ i18n "aa_title" }}">
+        <input type="checkbox" class="aa-input" aria-label="{{ i18n "aa_name" }}">
+        <span class="aa-hint aa-hint-on" aria-hidden="true">{{ i18n "aa_on" }}</span>
+        <span class="aa-hint aa-hint-off" aria-hidden="true">{{ i18n "aa_off" }}</span>
         <span class="aa-ab" aria-hidden="true">Aa</span>
       </label>
     </div>
@@ -70,7 +70,7 @@
   </div>
 
   <button type="button" id="menu-btn" class="menu-btn" aria-expanded="false" aria-controls="sidebar"
-    aria-label="Abrir menu">
+    aria-label="{{ i18n "menu_open" }}">
     <span class="menu-bars" aria-hidden="true"></span>
   </button>
 </header>

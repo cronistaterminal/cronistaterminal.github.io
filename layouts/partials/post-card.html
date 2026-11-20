@@ -3,17 +3,16 @@
   Arranjo: tags no topo; linha com .post-meta à esquerda (data + época) e .post-content à
   direita (título #num + título, TL;DR curto, "ver mais" -> TL;DR longo, "ler tudo").
   - #num e o id #post-{num} vêm de .Params.num.
-  - Data exibida (.Date) em pt-BR via slices indexados (não depende de locale do Hugo).
+  - Data exibida (.Date) por chave de i18n month_N (não depende do locale do Hugo).
   - "ver mais" é CSS-only: checkbox #more-{num} + label (sem JS).
 */ -}}
 {{- $num := .Params.num -}}
-{{- $monthsFull := slice "Janeiro" "Fevereiro" "Março" "Abril" "Maio" "Junho" "Julho" "Agosto" "Setembro" "Outubro" "Novembro" "Dezembro" -}}
-{{- $monthsAbbr := slice "Jan" "Fev" "Mar" "Abr" "Mai" "Jun" "Jul" "Ago" "Set" "Out" "Nov" "Dez" -}}
-{{- $mi := sub (int .Date.Month) 1 -}}
+{{- $monthFull := i18n (printf "month_%d" (int .Date.Month)) -}}
+{{- $monthAbbr := i18n (printf "month_%d_abbr" (int .Date.Month)) -}}
 <article id="post-{{ $num }}" class="post" aria-labelledby="post-{{ $num }}-title">
 
   {{- with .Params.tags }}
-  <ul class="post-tags" aria-label="Tags do post">
+  <ul class="post-tags" aria-label="{{ i18n "post_tags" }}">
     {{- range . }}
     <li><a class="tag" href="{{ (printf "/tags/%s" (urlize .)) | relURL }}">{{ . }}</a></li>
     {{- end }}
@@ -33,22 +32,22 @@
              são navegáveis, então não há recorte para apontar. Viram <span> (as classes
              seguem p/ o CSS reusar), igual ao single.html. O <a href=".RelPermalink">
              daqui era o "fio solto" — prometia um recorte e entregava o próprio post. */ -}}
-      <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}" title="Data de publicação">
+      <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}" title="{{ i18n "publication_date" }}">
         <span class="post-date-link">
-          <span class="sr-only">Publicado em: </span>
+          <span class="sr-only">{{ i18n "published_on" }}</span>
           <span class="post-day">{{ .Date.Format "02" }}</span>
-          <span class="post-month" data-mon="{{ index $monthsAbbr $mi }}">{{ index $monthsFull $mi }}</span>
+          <span class="post-month" data-mon="{{ $monthAbbr }}">{{ $monthFull }}</span>
           <span class="post-year">{{ .Date.Format "2006" }}</span>
         </span>
       </time>
       {{- with .Params.epoca }}
-      <span class="post-era" title="Período retratado"><span class="sr-only">Época retratada: </span>{{ . }}</span>
+      <span class="post-era" title="{{ i18n "era_title" }}"><span class="sr-only">{{ i18n "era_covered" }}</span>{{ . }}</span>
       {{- end }}
     </div>
 
     <div class="post-content">
       <h2 id="post-{{ $num }}-title" class="post-title">
-        <a class="post-num" href="#post-{{ $num }}" aria-label="Post número {{ $num }}">#{{ $num }}</a>
+        <a class="post-num" href="#post-{{ $num }}" aria-label="{{ i18n "post_number" (dict "n" $num) }}">#{{ $num }}</a>
         <a class="post-headline" href="{{ .RelPermalink }}">{{ .Title }}</a>
       </h2>
 
@@ -63,9 +62,9 @@
 
       <div class="post-foot">
         {{- if .Params.tldr_long }}
-        <label for="more-{{ $num }}" class="post-more-btn brk"><span class="more-txt">ver mais</span><span class="less-txt">ver menos</span></label>
+        <label for="more-{{ $num }}" class="post-more-btn brk"><span class="more-txt">{{ i18n "see_more" }}</span><span class="less-txt">{{ i18n "see_less" }}</span></label>
         {{- end }}
-        <a class="post-read brk" href="{{ .RelPermalink }}">ler tudo</a>
+        <a class="post-read brk" href="{{ .RelPermalink }}">{{ i18n "read_all" }}</a>
       </div>
     </div>
   </div>

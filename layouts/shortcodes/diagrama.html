@@ -38,7 +38,7 @@
 {{- with findRESubmatch `<title[^>]*>([^<]+)</title>` $content 1 -}}{{- $title = index (index . 0) 1 | htmlUnescape -}}{{- end -}}
 
 <figure class="media-figure break-full diagram">
-  <div class="diagram-scroll" tabindex="0" role="region" aria-label="Diagrama: {{ $title }}">
+  <div class="diagram-scroll" tabindex="0" role="region" aria-label="{{ i18n "diagram_label" (dict "name" $title) }}">
     {{ $content | safeHTML }}
   </div>
   {{- with .Get "cap" }}

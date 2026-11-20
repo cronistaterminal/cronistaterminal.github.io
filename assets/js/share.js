@@ -64,14 +64,14 @@
             }
             // Sem Web Share: cai pra copiar o link.
             const ok = await copy(pageUrl());
-            flash(labelOf(btn), ok ? "link copiado!" : "falhou");
+            flash(labelOf(btn), tr(ok ? "js_link_copied" : "js_failed"));
         });
     });
 
     document.querySelectorAll("[data-copy-link]").forEach((btn) => {
         btn.addEventListener("click", async () => {
             const ok = await copy(pageUrl());
-            flash(labelOf(btn), ok ? "copiado!" : "falhou");
+            flash(labelOf(btn), tr(ok ? "js_copied" : "js_failed"));
         });
     });
 })();

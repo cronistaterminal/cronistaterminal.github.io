@@ -14,32 +14,32 @@
 
   <button type="button" class="sidebar-search" data-command="search" aria-haspopup="dialog">
     <span class="sidebar-search-icon" aria-hidden="true"></span>
-    buscar
+    {{ i18n "search" }}
   </button>
 
-  <nav class="sidebar-nav" aria-label="Navegação">
-    <a class="sidebar-link" href="{{ "/" | relURL }}"><span class="prompt-accent">$</span> Página Inicial</a>
-    <a class="sidebar-link" href="{{ "/cronista/" | relURL }}"><span class="prompt-accent">$</span> O Cronista</a>
-    <a class="sidebar-link" href="{{ "/transparencia-ia/" | relURL }}"><span class="prompt-accent">$</span> Uso de IA</a>
+  <nav class="sidebar-nav" aria-label="{{ i18n "navigation" }}">
+    <a class="sidebar-link" href="{{ "/" | relURL }}"><span class="prompt-accent">$</span> {{ i18n "nav_home" }}</a>
+    <a class="sidebar-link" href="{{ "/cronista/" | relURL }}"><span class="prompt-accent">$</span> {{ i18n "nav_cronista" }}</a>
+    <a class="sidebar-link" href="{{ "/transparencia-ia/" | relURL }}"><span class="prompt-accent">$</span> {{ i18n "nav_ai" }}</a>
   </nav>
 
   {{- with site.Taxonomies.tags }}
   <section aria-labelledby="sb-tags-h">
-    <h2 id="sb-tags-h" class="sidebar-heading">destaques</h2>
-    <ul class="sidebar-tags" aria-label="Tags em destaque">
+    <h2 id="sb-tags-h" class="sidebar-heading">{{ i18n "featured" }}</h2>
+    <ul class="sidebar-tags" aria-label="{{ i18n "featured_tags" }}">
       {{- /* .Name = a chave da taxonomia (lowercase, ex.: arquitetura-de-software);
              .Page.Title viria humanizado/Title-Case — não bate com os chips da listagem. */ -}}
       {{- range first 5 .ByCount }}
       <li><a class="tag" href="{{ .Page.RelPermalink }}">{{ .Name }} <span class="tag-count">({{ .Count }})</span></a></li>
       {{- end }}
     </ul>
-    <a class="tag sidebar-tags-all" href="{{ "/tags/" | relURL }}">ver todas</a>
+    <a class="tag sidebar-tags-all" href="{{ "/tags/" | relURL }}">{{ i18n "see_all" }}</a>
   </section>
   {{- end }}
 
   {{- with $recent }}
   <section aria-labelledby="sb-recent-h">
-    <h2 id="sb-recent-h" class="sidebar-heading">últimos posts</h2>
+    <h2 id="sb-recent-h" class="sidebar-heading">{{ i18n "latest_posts" }}</h2>
     <ul class="sidebar-posts">
       {{- range . }}
       <li><a class="sidebar-post" href="{{ .RelPermalink }}"><span class="sidebar-post-id">#{{ .Params.num }}</span>{{ .Title }}</a></li>

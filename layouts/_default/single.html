@@ -35,16 +35,17 @@
   Quando houver post de verdade, reavaliar se o corpo entra.
 */ -}}
 {{- $num := .Params.num -}}
-{{- $monthsFull := slice "Janeiro" "Fevereiro" "Março" "Abril" "Maio" "Junho" "Julho" "Agosto" "Setembro" "Outubro" "Novembro" "Dezembro" -}}
-{{- $monthsAbbr := slice "Jan" "Fev" "Mar" "Abr" "Mai" "Jun" "Jul" "Ago" "Set" "Out" "Nov" "Dez" -}}
-{{- $mi := sub (int .Date.Month) 1 -}}
+{{- /* Mês por chave de i18n (month_N / month_N_abbr), não pelo locale do Hugo: a
+       decisão original (não depender do locale da instalação) continua de pé. */ -}}
+{{- $monthFull := i18n (printf "month_%d" (int .Date.Month)) -}}
+{{- $monthAbbr := i18n (printf "month_%d_abbr" (int .Date.Month)) -}}
 <article id="post-{{ $num }}" class="post-single" aria-labelledby="post-{{ $num }}-title" data-pagefind-body
   data-pagefind-meta="num:{{ $num }}">
 
   <header class="post-single-head">
     {{- /* Cada tag é texto buscável E faceta (data-pagefind-filter="tag"). */ -}}
     {{- with .Params.tags }}
-    <ul class="post-tags" aria-label="Tags do post">
+    <ul class="post-tags" aria-label="{{ i18n "post_tags" }}">
       {{- range . }}
       <li><a class="tag" href="{{ (printf "/tags/%s" (urlize .)) | relURL }}" data-pagefind-filter="tag">{{ . }}</a></li>
       {{- end }}
@@ -66,22 +67,22 @@
            são texto de leitor de tela, iguais em TODO post — buscar "publicado"
            casaria com o site inteiro. */ -}}
     <div class="post-meta post-meta-single">
-      <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}" title="Data de publicação"
+      <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}" title="{{ i18n "publication_date" }}"
         data-pagefind-meta="date[datetime]">
         {{- /* Na single a data não é link (já estamos no destino): o <a> da
                listagem vira <span>, mas as classes seguem p/ o CSS reusar.
                O mês vai por extenso no DOM (o CSS mostra a abreviação via
                data-mon) -> o índice fica com "Junho", não com "Jun". */ -}}
         <span class="post-date-link">
-          <span class="sr-only" data-pagefind-ignore>Publicado em: </span>
+          <span class="sr-only" data-pagefind-ignore>{{ i18n "published_on" }}</span>
           <span class="post-day">{{ .Date.Format "02" }}</span>
-          <span class="post-month" data-mon="{{ index $monthsAbbr $mi }}">{{ index $monthsFull $mi }}</span>
+          <span class="post-month" data-mon="{{ $monthAbbr }}">{{ $monthFull }}</span>
           <span class="post-year">{{ .Date.Format "2006" }}</span>
         </span>
       </time>
       {{- with .Params.epoca }}
-      <span class="post-era" title="Período retratado" data-pagefind-meta="epoca" data-pagefind-filter="epoca">
-        <span class="sr-only" data-pagefind-ignore>Época retratada: </span>{{ . }}</span>
+      <span class="post-era" title="{{ i18n "era_title" }}" data-pagefind-meta="epoca" data-pagefind-filter="epoca">
+        <span class="sr-only" data-pagefind-ignore>{{ i18n "era_covered" }}</span>{{ . }}</span>
       {{- end }}
     </div>
 
@@ -123,7 +124,7 @@
          imprimir, por segurança. Sem o safeHTML a página cospe `<figure class=…>`
          como texto literal na tela. O conteúdo é nosso (markdown do próprio
          repositório), então reafirmar a confiança aqui é seguro. */ -}}
-  {{- $content := .Content | replaceRE `(?s)(<div class="footnotes" role="doc-endnotes">)\s*<hr\s*/?>` `${1}<h2 class="footnotes-title">Referências</h2>` | safeHTML -}}
+  {{- $content := .Content | replaceRE `(?s)(<div class="footnotes" role="doc-endnotes">)\s*<hr\s*/?>` (printf `${1}<h2 class="footnotes-title">%s</h2>` (i18n "references")) | safeHTML -}}
   <div class="post-body" data-pagefind-ignore>
     {{ $content }}
   </div>
@@ -136,11 +137,11 @@
          basta, mas uma mudança silenciosa de texto não é anunciada — sem isto,
          quem usa leitor de tela clica e não recebe confirmação nenhuma. */ -}}
   <div class="post-actions">
-    <button type="button" class="post-action" data-share aria-label="Compartilhar post">
-      <span class="post-action-ico ico-share" aria-hidden="true"></span><span class="post-action-txt" aria-live="polite">compartilhar</span>
+    <button type="button" class="post-action" data-share aria-label="{{ i18n "share_post" }}">
+      <span class="post-action-ico ico-share" aria-hidden="true"></span><span class="post-action-txt" aria-live="polite">{{ i18n "share" }}</span>
     </button>
-    <button type="button" class="post-action" data-copy-link aria-label="Copiar link do post">
-      <span class="post-action-ico ico-link" aria-hidden="true"></span><span class="post-action-txt" aria-live="polite">copiar link</span>
+    <button type="button" class="post-action" data-copy-link aria-label="{{ i18n "copy_post_link" }}">
+      <span class="post-action-ico ico-link" aria-hidden="true"></span><span class="post-action-txt" aria-live="polite">{{ i18n "copy_link" }}</span>
     </button>
   </div>
 </article>

@@ -24,8 +24,8 @@
 {{- end -}}
 
 <figure class="media-figure media-gallery {{ $pos }}"{{ with .Get "w" }} style="--media-w: {{ . }}"{{ end }}
-        data-gallery role="group" aria-roledescription="galeria de imagens"
-        aria-label="Galeria: {{ .Get "label" }}">
+        data-gallery role="group" aria-roledescription="{{ i18n "gallery_roledesc" }}"
+        aria-label="{{ i18n "gallery_label" (dict "name" (.Get "label")) }}">
   <div class="gallery-viewport">
     {{- /* aria-live=polite: trocar de slide anuncia o novo conteúdo sem roubar
            o foco de quem está navegando. */ -}}
@@ -34,17 +34,17 @@
     </ol>
   </div>
   <div class="gallery-controls">
-    <button type="button" class="gallery-btn" data-gallery-first aria-label="Primeira foto">
+    <button type="button" class="gallery-btn" data-gallery-first aria-label="{{ i18n "first_photo" }}">
       <span class="gallery-ico gallery-ico-first" aria-hidden="true"></span>
     </button>
-    <button type="button" class="gallery-btn" data-gallery-prev aria-label="Foto anterior">
+    <button type="button" class="gallery-btn" data-gallery-prev aria-label="{{ i18n "prev_photo" }}">
       <span class="gallery-ico gallery-ico-prev" aria-hidden="true"></span>
     </button>
     <span class="gallery-count" aria-hidden="true"><span data-gallery-index>1</span>/<span data-gallery-total>1</span></span>
-    <button type="button" class="gallery-btn" data-gallery-next aria-label="Próxima foto">
+    <button type="button" class="gallery-btn" data-gallery-next aria-label="{{ i18n "next_photo" }}">
       <span class="gallery-ico gallery-ico-next" aria-hidden="true"></span>
     </button>
-    <button type="button" class="gallery-btn" data-gallery-last aria-label="Última foto">
+    <button type="button" class="gallery-btn" data-gallery-last aria-label="{{ i18n "last_photo" }}">
       <span class="gallery-ico gallery-ico-last" aria-hidden="true"></span>
     </button>
   </div>
