@@ -11,7 +11,11 @@ __layout/
 
 # Estado local / sessão
 .lighthouse/
-.claude/
+# .claude/ é estado local (settings.local.json), EXCETO as skills do blog: elas são
+# ferramenta do repo (blog-proof, blog-research), como tools/. `.claude/*` (não
+# `.claude/`) é o que permite reabrir uma subpasta: o git não desce em diretório ignorado.
+.claude/*
+!.claude/skills/
 .serena/
 .remember/
 node_modules/
